@@ -10,7 +10,7 @@ permissions:
   packages: write
 
 env:
-  VERSION: 0.1.1
+  VERSION: 0.1.2
 
 jobs:
   docker:
@@ -40,6 +40,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
+            ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
             ghcr.io/yoganovvaindra/portfolio:v${{ env.VERSION }}
             ghcr.io/yoganovvaindra/portfolio:latest
-            ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
