@@ -6,6 +6,6 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine as production
-RUN mkdir /app
 COPY --from=builder /app/dist /app
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
