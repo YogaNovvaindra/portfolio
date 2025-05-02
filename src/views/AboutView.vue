@@ -24,18 +24,30 @@ export default {
         },
         {
           id: 4,
+          name: 'Ansible',
+          imageUrl: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/ansible.png',
+          status: 'Advanced'
+        },
+        {
+          id: 5,
+          name: 'Grafana',
+          imageUrl: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/grafana.png',
+          status: 'Advanced'
+        },
+        {
+          id: 6,
           name: 'ArgoCD',
           imageUrl: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/argo-cd.png',
           status: 'Advanced'
         },
         {
-          id: 5,
+          id: 7,
           name: 'Python',
           imageUrl: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/python.png',
           status: 'Advanced'
         },
         {
-          id: 6,
+          id: 8,
           name: 'GitOps',
           imageUrl: 'https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png',
           status: 'Methodology'
@@ -98,6 +110,9 @@ export default {
         </div>
         <div class="md:w-7/12">
           <p class="mb-3 md:mb-7 fadein-left fadeins-1">
+            Hello! I'm Yoga Novaindra,
+          </p>
+          <p class="mb-3 fadein-left fadeins-1">
             🛠 DevOps Engineer specializing in GitOps-driven Kubernetes deployments and cloud-native architectures.
             Passionate about automating workflows, optimizing deployments, and building resilient infrastructure.
           </p>
