@@ -1,4 +1,7 @@
-# portofolio-v2
+# portofolio website
+
+This repository contains the source code for my personal portfolio website.  
+It showcases my projects and skills as a DevOps Engineer and tech enthusiast.
 
 ## Project setup
 ```
