@@ -15,6 +15,15 @@ export default {
         },
         {
           id: 2,
+          name: 'Personal Blog',
+          imageUrl: 'ghost',
+          status: 'A personal blog about tech and lifestyle built with Ghost CMS, hosted on a homelab kubernetes cluster.',
+          tech: 'Ghost, Kubernetes, Mysql',
+          github: 'null',
+          demo: 'https://ygnv.my.id'
+        },
+        {
+          id: 3,
           name: 'Craft It',
           imageUrl: 'craftit',
           status: 'CraftIt is a mobile application that allows users to search for images of items they have lying around the house and find creative ways to repurpose them.',
@@ -23,7 +32,7 @@ export default {
           demo: 'null'
         },
         {
-          id: 3,
+          id: 4,
           name: 'Eco Guardian',
           imageUrl: 'ecoguardian',
           status: 'A platform utilizing Internet of Things to provide real-time environmental pollution monitoring through sensors and a web application',
@@ -32,7 +41,7 @@ export default {
           demo: 'https://ecoguardian.yoganova.my.id'
         },
         {
-          id: 4,
+          id: 5,
           name: 'Bimbel Linear',
           imageUrl: 'linear',
           status: 'Bimbel Linear facilitates seamless communication between tutors and students, with tutors serving as instructors. The platform offers scheduling capabilities for organizing classes.',
@@ -41,7 +50,7 @@ export default {
           demo: 'https://linear.yoganova.my.id'
         },
         {
-          id: 5,
+          id: 6,
           name: 'Tolonto Game App',
           imageUrl: 'tolonto',
           status: 'POS application for rental of playstation and computer games, this application is used to record transactions and manage stock of available playstation.',
