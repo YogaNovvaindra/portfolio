@@ -32,6 +32,12 @@ const routes = [
   //   component: () => import('../views/ArticleView.vue'),
   //   meta: { title: 'Blog' }
   // }
+  {
+    path: '/:pathMatch(.*)*', // Will match any path not matched above
+    name: 'not-found',
+    component: () => import('../views/NotFoundView.vue'),
+    meta: { title: 'Page Not Found' }
+  }
 ]
 
 const router = createRouter({
