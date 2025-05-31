@@ -24,6 +24,15 @@ export default {
         },
         {
           id: 3,
+          name: ' AaPanel Hosting',
+          imageUrl: 'aapanel',
+          status: 'A self-hosted web hosting control panel for managing websites, databases, and server configurations.',
+          tech: 'AaPanel, Docker, Proxmox',
+          github: 'null',
+          demo: 'null'
+        },
+        {
+          id: 4,
           name: 'Craft It',
           imageUrl: 'craftit',
           status: 'CraftIt is a mobile application that allows users to search for images of items they have lying around the house and find creative ways to repurpose them.',
@@ -32,7 +41,7 @@ export default {
           demo: 'null'
         },
         {
-          id: 4,
+          id: 5,
           name: 'Eco Guardian',
           imageUrl: 'ecoguardian',
           status: 'A platform utilizing Internet of Things to provide real-time environmental pollution monitoring through sensors and a web application',
@@ -41,7 +50,7 @@ export default {
           demo: 'https://ecoguardian.yoganova.my.id'
         },
         {
-          id: 5,
+          id: 6,
           name: 'Bimbel Linear',
           imageUrl: 'linear',
           status: 'Bimbel Linear facilitates seamless communication between tutors and students, with tutors serving as instructors. The platform offers scheduling capabilities for organizing classes.',
@@ -50,7 +59,7 @@ export default {
           demo: 'https://linear.yoganova.my.id'
         },
         {
-          id: 6,
+          id: 7,
           name: 'Tolonto Game App',
           imageUrl: 'tolonto',
           status: 'POS application for rental of playstation and computer games, this application is used to record transactions and manage stock of available playstation.',
@@ -80,9 +89,9 @@ export default {
           <div class="grid grid-cols-1 gap-4 pb-32 md:grid-cols-3 md:gap-3 xl:grid-cols-3 xl:gap-3 2xl:gap-5 fade-zoom-in">
             <div v-for="item in items" :key="item.id">
               <div
-                class="item-card flex flex-col items-center gap-2 rounded bg-[#1e1e1f] hover:bg-[#282828] border border-[#383838] rounded-xl text-amber-50 md:gap-3 px-5 py-5 lg:px-5 ">
-                <div class="flex h-12 w-12 items-center justify-center p-0 h-full w-full lg:p-0 zoom-in">
-                  <img alt="HTML" loading="lazy" decoding="async" data-nimg="1" class="drop-shadow-xl rounded rounded-xl"
+                class="item-card flex flex-col items-center gap-2 bg-[#1e1e1f] hover:bg-[#282828] border border-[#383838] rounded-xl text-amber-50 md:gap-3 px-5 py-5 lg:px-5 ">
+                <div class="flex items-center justify-center p-0 h-full w-full lg:p-0 zoom-in">
+                  <img alt="HTML" loading="lazy" decoding="async" data-nimg="1" class="drop-shadow-xl rounded-xl"
                     :src="'/img/portfolio-' + item.imageUrl + '.webp'">
                 </div>
                 <div class="w-full flex flex-col gap-2 items-center text-sm md:text-base lg:text-lg">

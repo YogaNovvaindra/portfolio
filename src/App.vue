@@ -7,8 +7,8 @@
     <button @click="redirectToHome" class="flex">
       <span class="self-center text-lg text-blue-300 font-semibold whitespace-nowrap fadein-bot hover:text-blue-200">Yoga Novaindra</span>
     </button>
-    <div class="flex md:order-3 fadein-bot ml-8"> 
-  <a href="https://github.com/yoganovvaindra"><img class="w-9 rounded-full" src="https://seeklogo.com/images/G/github-logo-2E3852456C-seeklogo.com.png" alt="github"></a>
+    <div class="flex md:order-3 fadein-bot ml-8">
+  <a href="https://github.com/yoganovvaindra"><img class="w-9 rounded-full" src="/img/github.png" alt="github"></a>
 </div>
     <!-- Updated menu div with justify-end and flex-grow -->
     <div class="hidden md:flex justify-end items-center flex-grow md:order-2" id="mobile-menu-3">
