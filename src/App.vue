@@ -86,7 +86,7 @@ export default {
 ::-webkit-scrollbar-button { width: 20px; }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: hsl(0, 0%, 0%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

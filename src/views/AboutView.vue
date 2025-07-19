@@ -91,13 +91,13 @@ export default {
 </script>
 <template>
   <div
-    class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-12 mb-5">
+    class="bg-transparent px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-gray-300 mx-12 mb-5">
     <article data-page="about">
 
       <header>
         <div class="text-2xl font-bold text-white mb-5 fadein-bot title-section flex items-center">
           About Me &nbsp;
-          <div class="h-[1px] w-32 bg-blue-300 md:w-96 aos-init aos-animate" data-aos="zoom-in-left"
+          <div class="h-[1px] w-32 bg-gray-300 md:w-96 aos-init aos-animate" data-aos="zoom-in-left"
             data-aos-duration="600"></div>
         </div>
       </header>
@@ -127,11 +127,11 @@ export default {
     </article>
   </div>
 
-  <div class="px-5 py-5 md:px-12 md:py-10 text-left text-amber-50 mx-3">
+  <div class="px-5 py-5 md:px-12 md:py-10 text-left text-gray-300 mx-3">
     <article data-page="about">
       <header>
         <div class="text-2xl font-bold text-white mb-5 fadein-bot title-section flex items-center">
-          <div class="h-[1px] w-10 bg-blue-300 md:w-20 aos-init aos-animate" data-aos="zoom-in-left"
+          <div class="h-[1px] w-10 bg-gray-300 md:w-20 aos-init aos-animate" data-aos="zoom-in-left"
             data-aos-duration="600"></div>
           &nbsp; Skills
         </div>
@@ -141,12 +141,12 @@ export default {
           <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 mb-5">
             <li class="mr-2">
               <button class="inline-block px-4 py-3 rounded-lg hover:text-white"
-                :class="{ 'text-blue-300 bg-blue-300 bg-opacity-10': activeTab === 1 }" @click="activeTab = 1">Core
+                :class="{ 'text-gray-300 bg-gray-300 bg-opacity-10': activeTab === 1 }" @click="activeTab = 1">Core
                 Tech</button>
             </li>
             <li class="mr-2">
               <button class="inline-block px-4 py-3 rounded-lg hover:text-white"
-                :class="{ 'text-blue-300 bg-blue-300 bg-opacity-10': activeTab === 2 }" @click="activeTab = 2">Cloud &
+                :class="{ 'text-gray-300 bg-gray-300 bg-opacity-10': activeTab === 2 }" @click="activeTab = 2">Cloud &
                 platform</button>
             </li>
           </ul>
@@ -155,7 +155,7 @@ export default {
           <div class="grid grid-cols-2 gap-4 pb-32 md:grid-cols-3 md:gap-8 xl:grid-cols-4 xl:gap-10 2xl:gap-12">
             <div v-for="item in tech" :key="item.id">
               <div
-                class="item-tech flex cursor-pointer items-center gap-2 rounded border border-blue-300 px-2 py-2 hover:bg-blue-300 hover:bg-opacity-10 md:gap-3 lg:px-3">
+                class="item-tech flex cursor-pointer items-center gap-2 rounded border border-gray-300 px-2 py-2 hover:bg-gray-300 hover:bg-opacity-10 md:gap-3 lg:px-3">
                 <div
                   class="flex h-12 w-12 items-center justify-center p-0 lg:h-16 lg:w-16 lg:p-2 zoom-in aspect-square">
                   <img alt="Tech icon"
@@ -167,7 +167,7 @@ export default {
                   }}
                   </div>
                   <div
-                    class="status-tech opacity-0 absolute mt-5 text-[10px] text-blue-300 transition-all duration-300 md:text-xs lg:text-sm">
+                    class="status-tech opacity-0 absolute mt-5 text-[10px] text-gray-300 transition-all duration-300 md:text-xs lg:text-sm">
                     {{ item.status }}</div>
                 </div>
               </div>
@@ -178,7 +178,7 @@ export default {
           <div class="grid grid-cols-2 gap-4 pb-32 md:grid-cols-3 md:gap-8 xl:grid-cols-4 xl:gap-10 2xl:gap-12">
             <div v-for="item in tools" :key="item.id">
               <div
-                class="item-tech flex cursor-pointer items-center gap-2 rounded border border-blue-300 px-2 py-2 hover:bg-blue-300 hover:bg-opacity-10 md:gap-3 lg:px-3">
+                class="item-tech flex cursor-pointer items-center gap-2 rounded border border-gray-300 px-2 py-2 hover:bg-gray-300 hover:bg-opacity-10 md:gap-3 lg:px-3">
                 <div
                   class="flex h-12 w-12 items-center justify-center p-0 lg:h-16 lg:w-16 lg:p-2 zoom-in aspect-square">
                   <img alt="Tech icon"
@@ -190,7 +190,7 @@ export default {
                   }}
                   </div>
                   <div
-                    class="status-tech opacity-0 absolute mt-5 text-[10px] text-blue-300 transition-all duration-300 md:text-xs lg:text-sm">
+                    class="status-tech opacity-0 absolute mt-5 text-[10px] text-gray-300 transition-all duration-300 md:text-xs lg:text-sm">
                     {{ item.status }}</div>
                 </div>
               </div>
