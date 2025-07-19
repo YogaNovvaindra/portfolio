@@ -1,9 +1,9 @@
 <template>
   <main
-    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-16 md:justify-center min-h-[65vh] md:min-h-[80vh]">
-    <div class="flex flex-col flex-1 space-y-2 text-center md:text-left px-10">
+    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-16 md:justify-center min-h-screen md:min-h-[80vh]">
+    <div class="flex flex-col flex-1 space-y-4 text-center md:text-left px-10">
       <div>
-        <p class="text-blue-300">Hello World, I'm</p>
+        <p class="text-gray-300">Hello World, I'm</p>
         <h1 class="text-4xl font-bold md:text-5xl text-white fadein-up">Yoga Novaindra</h1>
         <div class="py-2">
           <h1
@@ -19,7 +19,7 @@
       <div class="mt-auto pt-8 fade-in-links">
         <div class="flex space-x-4 justify-center md:justify-start">
           <a href="mailto:yoganovaindra@gmail.com" target="_blank" rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors">
+            class="text-white hover:text-gray-300 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -27,7 +27,7 @@
             </svg>
           </a>
           <a href="https://linkedin.com/in/yoga-novaindra" target="_blank" rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors">
+            class="text-white hover:text-gray-300 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
               class="w-6 h-6">
               <path
@@ -35,7 +35,7 @@
             </svg>
           </a>
           <a href="https://github.com/yoganovvaindra" target="_blank" rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors">
+            class="text-white hover:text-gray-300 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
               class="w-6 h-6">
               <path
@@ -48,7 +48,7 @@
 
     <div class="flex justify-center md:justify-start fadein-right">
       <img alt="avatar" fetchpriority="high" width="300" height="300" decoding="async" data-nimg="1"
-        class="w-10/12 md:h-auto rounded-full border-4 border-blue-300 pict" src="/img/avatar.webp" />
+        class="w-10/12 md:h-auto rounded-full border-4 border-gray-300 pict" src="/img/avatar.webp" />
     </div>
   </main>
 </template>

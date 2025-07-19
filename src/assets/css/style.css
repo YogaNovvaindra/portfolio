@@ -4,6 +4,6 @@
     box-sizing: border-box;
   }
 
-h1 {
-  color: blue;
+body {
+  background: radial-gradient(circle at top, #1a2a6c, #000000);
 }

@@ -1,11 +1,11 @@
 <template>
-  <!-- Blue themed component -->
+  <!-- Component with a modern, visually appealing gradient -->
   <div class="max-w-7xl mx-auto flex flex-col relative">
 
-<nav class="max-w-7xl px-5 md:fixed top-0 z-[98] w-screen backdrop-blur-md bg-[#121212] bg-opacity-10">
+<nav class="max-w-7xl px-5 md:fixed top-0 z-[98] w-full backdrop-blur-md bg-transparent">
   <div class="container mx-auto flex flex-wrap items-center justify-between">
     <button @click="redirectToHome" class="flex">
-      <span class="self-center text-lg text-blue-300 font-semibold whitespace-nowrap fadein-bot hover:text-blue-200">Yoga Novaindra</span>
+      <span class="self-center text-lg text-gray-300 font-semibold whitespace-nowrap fadein-bot hover:text-white">Yoga Novaindra</span>
     </button>
     <div class="flex md:order-3 fadein-bot ml-8">
   <a href="https://github.com/yoganovvaindra"><img class="w-9 rounded-full" src="/img/github.png" alt="github"></a>
@@ -15,16 +15,16 @@
       <ul class="flex-col md:flex-row flex md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium">
         <li>
           <router-link to="/"
-            class="fadein-bot text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-gray-500 md:p-0"
+            class="fadein-bot text-gray-300 hover:bg-gray-700 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-white md:p-0"
             aria-current="page">Home</router-link>
         </li>
         <li>
           <router-link to="/about"
-            class="fadein-bot fadein-1 text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-gray-500 md:p-0">About</router-link>
+            class="fadein-bot fadein-1 text-gray-300 hover:bg-gray-700 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-white md:p-0">About</router-link>
         </li>
         <li>
           <router-link to="/portfolio"
-            class="fadein-bot fadein-2 text-gray-700 hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-gray-500 md:p-0">Portfolio</router-link>
+            class="fadein-bot fadein-2 text-gray-300 hover:bg-gray-700 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-white md:p-0">Portfolio</router-link>
         </li>
         <!-- <li>
           <router-link to="/blog"
@@ -39,7 +39,7 @@
       <router-view />
     </div>
   </div>
-  <footer class="block md:hidden fixed bottom-0 left-0 right-0 rounded-t-3xl border border-[#383838] bg-[#121212] bg-opacity-80 backdrop-blur-md backdrop-opacity-90">
+  <footer class="block md:hidden fixed bottom-0 left-0 right-0 rounded-t-3xl border border-[#383838] bg-transparent backdrop-blur-md backdrop-opacity-90">
     <nav class="flex justify-around py-4 text-xs">
       <router-link to="/" class="text-gray-300 hover:text-white">Home</router-link>
       <router-link to="/about" class="text-gray-300 hover:text-white">About</router-link>
@@ -86,7 +86,7 @@ export default {
 ::-webkit-scrollbar-button { width: 20px; }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background: hsl(0, 0%, 0%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
