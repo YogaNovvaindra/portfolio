@@ -72,7 +72,7 @@ export default {
           id: "kld5ojnb492gxg22k2i6pvk6",
           name: "System Administration and IT Infrastructure Services",
           issuer: "Coursera",
-          date: "February 2024",
+          date: "February 2024- No Expiration Date",
           summary: "",
           url: "https://coursera.org/verify/LTXMV8GMHVC4",
         },
