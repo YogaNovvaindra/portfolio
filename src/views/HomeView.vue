@@ -1,6 +1,6 @@
 <template>
   <main
-    class="mt-10 md:mt-1 flex flex-col-reverse gap-12 items-center md:flex-row md:gap-16 md:justify-center min-h-[70vh] md:min-h-[85vh] pb-20 px-4 md:px-0"
+    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-16 md:justify-center min-h-[70vh] md:min-h-[85vh] pb-32 md:pb-20 px-4 md:px-0"
   >
     <div
       class="flex flex-col flex-1 space-y-8 text-center md:text-left px-6 md:px-0 max-w-2xl"
@@ -10,20 +10,20 @@
           Hello World, I'm
         </p>
         <h1
-          class="text-5xl md:text-6xl lg:text-7xl font-bold text-white fadein-up leading-tight"
+          class="text-4xl md:text-6xl lg:text-7xl font-bold text-white fadein-up leading-tight"
         >
           Yoga Novaindra
         </h1>
         <div class="py-2">
           <h2
-            class="typewrite text-xl md:text-2xl lg:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 fadein-up min-h-[2.5rem]"
+            class="typewrite text-lg md:text-2xl lg:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 fadein-up min-h-[2rem] md:min-h-[2.5rem]"
             ref="typewriter"
           >
             <span class="wrap">{{ txt }}</span>
           </h2>
         </div>
         <p
-          class="text-gray-300 leading-relaxed text-base md:text-lg fade-in-from-left"
+          class="text-gray-300 leading-relaxed text-sm md:text-lg fade-in-from-left"
         >
           DevSecOps Engineer with hands-on experience building automated,
           secure, and observable infrastructure across on-premise and cloud
@@ -57,7 +57,7 @@
       >
         <div class="grid grid-cols-3 gap-8">
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-blue-400">8+</div>
+            <div class="text-2xl md:text-4xl font-bold text-blue-400">8+</div>
             <div
               class="mt-1 text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
             >
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-blue-400">4+</div>
+            <div class="text-2xl md:text-4xl font-bold text-blue-400">4+</div>
             <div
               class="mt-1 text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
             >
@@ -73,7 +73,7 @@
             </div>
           </div>
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-blue-400">6</div>
+            <div class="text-2xl md:text-4xl font-bold text-blue-400">6</div>
             <div
               class="mt-1 text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
             >
@@ -203,7 +203,7 @@
           height="350"
           decoding="async"
           data-nimg="1"
-          class="w-full h-auto rounded-full border-4 border-blue-300/80 pict relative z-10"
+          class="w-56 h-56 md:w-80 md:h-80 lg:w-full lg:h-auto rounded-full border-4 border-blue-300/80 pict relative z-10 object-cover"
           src="/img/avatar.webp"
         />
       </div>
@@ -277,6 +277,8 @@ export default {
 body {
   overflow-y: scroll;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .typewrite > .wrap {

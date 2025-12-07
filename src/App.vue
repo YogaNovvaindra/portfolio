@@ -1,6 +1,8 @@
 <template>
   <!-- Blue themed component -->
-  <div class="max-w-7xl mx-auto flex flex-col relative">
+  <div
+    class="max-w-7xl mx-auto flex flex-col relative pb-20 md:pb-0 overflow-x-hidden"
+  >
     <nav
       class="max-w-7xl px-5 md:fixed top-0 z-[98] w-screen backdrop-blur-md bg-[#121212] bg-opacity-10"
     >
@@ -65,7 +67,7 @@
     <button
       v-show="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-20 right-6 z-[99] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 md:bottom-8 md:right-8 md:z-50"
+      class="fixed bottom-24 right-6 z-[99] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 md:bottom-8 md:right-8"
       title="Back to top"
     >
       <svg
@@ -85,16 +87,22 @@
     </button>
   </div>
   <footer
-    class="block md:hidden fixed bottom-0 left-0 right-0 rounded-t-3xl border border-[#383838] bg-[#121212] bg-opacity-80 backdrop-blur-md backdrop-opacity-90"
+    class="block md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-700/50 bg-[#121212] bg-opacity-80 backdrop-blur-md"
   >
     <nav class="flex justify-around py-4 text-xs">
-      <router-link to="/" class="text-gray-300 hover:text-white"
+      <router-link
+        to="/"
+        class="text-gray-300 hover:text-white transition-colors"
         >Home</router-link
       >
-      <router-link to="/about" class="text-gray-300 hover:text-white"
+      <router-link
+        to="/about"
+        class="text-gray-300 hover:text-white transition-colors"
         >About</router-link
       >
-      <router-link to="/portfolio" class="text-gray-300 hover:text-white"
+      <router-link
+        to="/portfolio"
+        class="text-gray-300 hover:text-white transition-colors"
         >Portfolio</router-link
       >
       <!-- <router-link to="/blog" class="text-gray-300 hover:text-white">Blog</router-link> -->
@@ -168,6 +176,11 @@ body {
   text-align: center;
   color: #2c3e50;
   height: 100vh;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 nav {
@@ -199,6 +212,23 @@ nav a.router-link-exact-active::after {
 
 nav a.router-link-exact-active:hover {
   color: white;
+}
+
+footer nav a.router-link-exact-active {
+  color: #70c6ff;
+  position: relative;
+}
+
+footer nav a.router-link-exact-active::after {
+  display: block;
+  content: "";
+  width: 100%;
+  height: 3px;
+  background-color: #70c6ff;
+  border-radius: 2px;
+  position: absolute;
+  bottom: -12px;
+  left: 0;
 }
 
 @keyframes fadeInLeft {
