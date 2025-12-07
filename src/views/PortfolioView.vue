@@ -6,15 +6,24 @@ export default {
       items: [
         {
           id: 1,
-          name: 'Homelab Cluster',
+          name: 'Kubernetes Homelab Platform',
           imageUrl: 'kube',
-          status: 'A self-hosted, GitOps-driven Kubernetes cluster for homelab experiments.',
-          tech: 'Kubernetes, Docker, Proxmox, Ceph, Grafana, ArgoCD',
+          status: 'A production-like, self-hosted Kubernetes environment for automation, observability, and security experimentation.',
+          tech: 'Kubernetes, Docker, Ansible, GitOps, Prometheus, Grafana, Loki, Wazuh SIEM, Authentik, Traefik, Nginx',
           github: 'https://github.com/YogaNovvaindra/kube',
           demo: 'null'
         },
         {
           id: 2,
+          name: 'Virtualization & Distributed Storage Platform',
+          imageUrl: 'proxmox',
+          status: 'A high-availability on-prem virtualization and distributed storage environment powering multiple clusters and lab workloads.',
+          tech: 'Proxmox VE, Ceph, Virtualization, Networking, VLANs, Firewalls',
+          github: 'null',
+          demo: 'null'
+        },
+        {
+          id: 3,
           name: 'Personal Blog',
           imageUrl: 'ghost',
           status: 'A personal blog about tech and lifestyle built with Ghost CMS, hosted on a homelab kubernetes cluster.',
@@ -23,7 +32,7 @@ export default {
           demo: 'https://ygnv.my.id'
         },
         {
-          id: 3,
+          id: 4,
           name: ' AaPanel Hosting',
           imageUrl: 'aapanel',
           status: 'A self-hosted web hosting control panel for managing websites, databases, and server configurations.',
@@ -32,7 +41,7 @@ export default {
           demo: 'null'
         },
         {
-          id: 4,
+          id: 5,
           name: 'Craft It',
           imageUrl: 'craftit',
           status: 'CraftIt is a mobile application that allows users to search for images of items they have lying around the house and find creative ways to repurpose them.',
@@ -41,7 +50,7 @@ export default {
           demo: 'null'
         },
         {
-          id: 5,
+          id: 6,
           name: 'Eco Guardian',
           imageUrl: 'ecoguardian',
           status: 'A platform utilizing Internet of Things to provide real-time environmental pollution monitoring through sensors and a web application',
@@ -50,7 +59,7 @@ export default {
           demo: 'https://ecoguardian.yoganova.my.id'
         },
         {
-          id: 6,
+          id: 7,
           name: 'Bimbel Linear',
           imageUrl: 'linear',
           status: 'Bimbel Linear facilitates seamless communication between tutors and students, with tutors serving as instructors. The platform offers scheduling capabilities for organizing classes.',
@@ -59,7 +68,7 @@ export default {
           demo: 'https://linear.yoganova.my.id'
         },
         {
-          id: 7,
+          id: 8,
           name: 'Tolonto Game App',
           imageUrl: 'tolonto',
           status: 'POS application for rental of playstation and computer games, this application is used to record transactions and manage stock of available playstation.',
@@ -73,12 +82,13 @@ export default {
 }
 </script>
 <template>
-  <div class="px-5 py-5 md:px-12 md:py-10 text-left text-amber-50 mx-3">
+  <div
+    class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-3 md:mx-12 mb-5"
+  >
     <article data-page="about">
       <header>
         <div
           class="text-2xl font-bold text-white mb-10 fadein-bot title-section flex items-center justify-center flex-col">
-          <!-- <div class="h-[1px] w-10 bg-amber-200 md:w-20 aos-init aos-animate"></div> -->
           <h4>Past Project Experience</h4>
           <h4 class="text-base font-normal text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-blue-500">
             Explore the projects I've worked on so far</h4>
@@ -87,22 +97,22 @@ export default {
       <section>
         <div>
           <div class="grid grid-cols-1 gap-4 pb-32 md:grid-cols-3 md:gap-3 xl:grid-cols-3 xl:gap-3 2xl:gap-5 fade-zoom-in">
-            <div v-for="item in items" :key="item.id">
+            <div v-for="item in items" :key="item.id" class="h-full">
               <div
-                class="item-card flex flex-col items-center gap-2 bg-[#1e1e1f] hover:bg-[#282828] border border-[#383838] rounded-xl text-amber-50 md:gap-3 px-5 py-5 lg:px-5 ">
-                <div class="flex items-center justify-center p-0 h-full w-full lg:p-0 zoom-in">
-                  <img alt="HTML" loading="lazy" decoding="async" data-nimg="1" class="drop-shadow-xl rounded-xl"
+                class="item-card flex flex-col items-center gap-2 bg-[#1e1e1f] hover:bg-[#282828] border border-[#383838] rounded-xl text-amber-50 md:gap-3 px-5 py-5 lg:px-5 h-full">
+                <div class="flex items-center justify-center p-0 w-full lg:p-0 zoom-in h-48">
+                  <img alt="HTML" loading="lazy" decoding="async" data-nimg="1" class="drop-shadow-xl rounded-xl w-full h-full object-cover"
                     :src="'/img/portfolio-' + item.imageUrl + '.webp'">
                 </div>
-                <div class="w-full flex flex-col gap-2 items-center text-sm md:text-base lg:text-lg">
+                <div class="w-full flex flex-col gap-2 items-center text-sm md:text-base lg:text-lg flex-grow">
                   <div class="title-text font-medium text-secondary">{{ item.name }}
                   </div>
-                  <div class="w-full text-left text-[10px] text-[#c1c1c1] md:text-xs lg:text-sm">
+                  <div class="w-full text-left text-[10px] text-[#c1c1c1] md:text-xs lg:text-sm flex-grow">
                     {{ item.status }}</div>
                   <div class="w-full mt-4 text-normal text-sm text-left text-blue-300">
                     {{ item.tech }}
                   </div>
-                  <div class="w-full flex justify-end">
+                  <div class="w-full flex justify-end mt-auto">
                     <div class="flex cursor-pointer items-end gap-2 text-primary">
                       <a v-if="item.github !== 'null'"
                         :href="item.github" target="_blank" rel="noreferrer"
