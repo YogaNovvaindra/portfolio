@@ -1,22 +1,24 @@
 <template>
   <main
-    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-16 md:justify-center min-h-[65vh] md:min-h-[80vh]"
+    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-16 md:justify-center min-h-[70vh] md:min-h-[85vh] pb-20"
   >
     <div class="flex flex-col flex-1 space-y-2 text-center md:text-left px-10">
       <div>
         <p class="text-blue-300">Hello World, I'm</p>
-        <h1 class="text-4xl font-bold md:text-5xl text-white fadein-up">
+        <h1 class="text-4xl md:text-6xl font-bold text-white fadein-up">
           Yoga Novaindra
         </h1>
         <div class="py-2">
           <h1
-            class="typewrite text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-blue-500 md:text-2xl fadein-up"
+            class="typewrite text-xl md:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-blue-500 fadein-up"
             ref="typewriter"
           >
             <span class="wrap">{{ txt }}</span>
           </h1>
         </div>
-        <p class="text-white pr-4 fade-in-from-left">
+        <p
+          class="text-white pr-4 md:pr-8 text-sm md:text-base fade-in-from-left"
+        >
           DevSecOps Engineer with hands-on experience building automated,
           secure, and observable infrastructure across on-premise and cloud
           environments. <span class="wave">👋🏼</span>
@@ -24,34 +26,64 @@
       </div>
 
       <!-- CTA Buttons -->
-      <div class="mt-6 flex flex-col sm:flex-row gap-4 fade-in-from-left" style="animation-delay: 700ms;">
+      <div
+        class="mt-6 flex flex-col sm:flex-row gap-4 fade-in-from-left"
+        style="animation-delay: 700ms"
+      >
         <router-link
           to="/portfolio"
-          class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-all transform hover:scale-105 text-center"
+          class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-xl"
         >
           View Portfolio
         </router-link>
         <router-link
           to="/about"
-          class="px-6 py-3 border-2 border-blue-300 text-blue-300 hover:bg-blue-300 hover:text-black font-medium rounded-lg transition-all transform hover:scale-105 text-center"
+          class="px-6 py-3 border-2 border-blue-300 text-blue-300 hover:bg-blue-300 hover:text-black font-semibold rounded-lg transition-all transform hover:scale-105 text-center"
         >
           About Me
         </router-link>
       </div>
 
       <!-- Quick Stats -->
-      <div class="mt-8 grid grid-cols-3 gap-4 fade-in-from-left" style="animation-delay: 900ms;">
-        <div class="text-center">
-          <div class="text-2xl md:text-3xl font-bold text-blue-300">8+</div>
-          <div class="text-xs md:text-sm text-gray-400">Projects</div>
+      <div
+        class="mt-8 grid grid-cols-3 gap-4 fade-in-from-left"
+        style="animation-delay: 900ms"
+      >
+        <div class="text-center group">
+          <div
+            class="text-2xl md:text-4xl font-bold text-blue-300 group-hover:text-blue-400 transition-colors"
+          >
+            8+
+          </div>
+          <div
+            class="text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
+          >
+            Projects
+          </div>
         </div>
-        <div class="text-center">
-          <div class="text-2xl md:text-3xl font-bold text-blue-300">4+</div>
-          <div class="text-xs md:text-sm text-gray-400">Years Exp</div>
+        <div class="text-center group">
+          <div
+            class="text-2xl md:text-4xl font-bold text-blue-300 group-hover:text-blue-400 transition-colors"
+          >
+            4+
+          </div>
+          <div
+            class="text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
+          >
+            Years Exp
+          </div>
         </div>
-        <div class="text-center">
-          <div class="text-2xl md:text-3xl font-bold text-blue-300">6</div>
-          <div class="text-xs md:text-sm text-gray-400">Skills</div>
+        <div class="text-center group">
+          <div
+            class="text-2xl md:text-4xl font-bold text-blue-300 group-hover:text-blue-400 transition-colors"
+          >
+            6
+          </div>
+          <div
+            class="text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
+          >
+            Skills
+          </div>
         </div>
       </div>
 
@@ -62,7 +94,7 @@
             href="mailto:yoganovaindra@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors"
+            class="text-white hover:text-blue-300 transition-all transform hover:scale-110"
             title="Email: yoganovaindra@gmail.com"
           >
             <svg
@@ -84,7 +116,7 @@
             href="https://www.linkedin.com/in/yoga-novaindra/"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors"
+            class="text-white hover:text-blue-300 transition-all transform hover:scale-110"
             title="LinkedIn"
           >
             <svg
@@ -104,7 +136,7 @@
             href="https://github.com/YogaNovvaindra"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors"
+            class="text-white hover:text-blue-300 transition-all transform hover:scale-110"
             title="GitHub"
           >
             <svg
@@ -124,7 +156,7 @@
             href="https://yoganova.my.id"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-white hover:text-blue-300 transition-colors"
+            class="text-white hover:text-blue-300 transition-all transform hover:scale-110"
             title="Personal Website"
           >
             <svg
@@ -147,16 +179,21 @@
     </div>
 
     <div class="flex justify-center md:justify-start fadein-right">
-      <img
-        alt="avatar"
-        fetchpriority="high"
-        width="300"
-        height="300"
-        decoding="async"
-        data-nimg="1"
-        class="w-10/12 md:h-auto rounded-full border-4 border-blue-300 pict"
-        src="/img/avatar.webp"
-      />
+      <div class="relative">
+        <div
+          class="absolute -inset-4 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-xl"
+        ></div>
+        <img
+          alt="avatar"
+          fetchpriority="high"
+          width="350"
+          height="350"
+          decoding="async"
+          data-nimg="1"
+          class="w-full h-auto rounded-full border-4 border-blue-300/80 pict relative z-10"
+          src="/img/avatar.webp"
+        />
+      </div>
     </div>
   </main>
 </template>

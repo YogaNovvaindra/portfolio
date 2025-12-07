@@ -65,7 +65,7 @@
     <button
       v-show="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-8 right-8 z-50 bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110"
+      class="fixed bottom-20 right-6 z-[99] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 md:bottom-8 md:right-8 md:z-50"
       title="Back to top"
     >
       <svg
