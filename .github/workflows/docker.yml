@@ -9,15 +9,16 @@ permissions:
   contents: read
   packages: write
 
-env:
-  VERSION: 0.2.0
-
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - name: Get version from package.json
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
       
       - name: Get short SHA
         id: sha
@@ -41,5 +42,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
-            ghcr.io/yoganovvaindra/portfolio:v${{ env.VERSION }}
+            ghcr.io/yoganovvaindra/portfolio:v${{ steps.version.outputs.version }}
             ghcr.io/yoganovvaindra/portfolio:latest
