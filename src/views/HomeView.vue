@@ -170,7 +170,7 @@ export default {
         "DevSecOps Engineer",
         "Cloud Engineer",
         "Platform Engineer",
-        "Security Specialist",
+        "Passionate Homelabber",
       ],
       period: 2000,
       txt: "",
