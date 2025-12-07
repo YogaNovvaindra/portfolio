@@ -30,7 +30,7 @@ export default {
           company:
             "Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka",
           position: "Cloud Computing Cohort 2024 Batch 1",
-          location: "",
+          location: "Online",
           date: "February 2024 - June 2024",
           summary:
             "<ul><li><p>Graduated from Bangkit with distinction (top 10% in Cloud Computing)</p></li><li><p>Developed backend services for an AI-powered Android app using Express.js, Docker, and GCP. Built Python inference endpoint, deployed APIs on VM, integrated Cloud Storage, and implemented automated CI/CD via GitHub Actions.</p></li></ul>",
