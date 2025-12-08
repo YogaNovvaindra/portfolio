@@ -1,29 +1,29 @@
 <template>
   <main
-    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-16 md:justify-center min-h-[70vh] md:min-h-[85vh] pb-32 md:pb-20 px-4 md:px-0"
+    class="mt-10 md:mt-1 flex flex-col-reverse gap-8 items-center md:flex-row md:gap-8 lg:gap-12 xl:gap-16 md:justify-center min-h-[70vh] md:min-h-[85vh] pb-32 md:pb-20 px-4 md:px-8 lg:px-12 xl:px-16 max-w-[1400px] mx-auto"
   >
     <div
-      class="flex flex-col flex-1 space-y-8 text-center md:text-left px-6 md:px-0 max-w-2xl"
+      class="flex flex-col flex-1 space-y-6 md:space-y-8 text-center md:text-left max-w-2xl"
     >
-      <div class="space-y-5">
+      <div class="space-y-4 md:space-y-5">
         <p class="text-blue-400 text-sm md:text-base font-medium tracking-wide">
           Hello World, I'm
         </p>
         <h1
-          class="text-4xl md:text-6xl lg:text-7xl font-bold text-white fadein-up leading-tight"
+          class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white fadein-up leading-tight"
         >
           Yoga Novaindra
         </h1>
         <div class="py-2">
           <h2
-            class="typewrite text-lg md:text-2xl lg:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 fadein-up min-h-[2rem] md:min-h-[2.5rem]"
+            class="typewrite text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 fadein-up min-h-[2rem] md:min-h-[2.5rem]"
             ref="typewriter"
           >
             <span class="wrap">{{ txt }}</span>
           </h2>
         </div>
         <p
-          class="text-gray-300 leading-relaxed text-sm md:text-lg fade-in-from-left"
+          class="text-gray-300 leading-relaxed text-sm md:text-base lg:text-lg fade-in-from-left"
         >
           DevSecOps Engineer with hands-on experience building automated,
           secure, and observable infrastructure across on-premise and cloud
@@ -52,12 +52,16 @@
 
       <!-- Quick Stats -->
       <div
-        class="pt-8 mt-4 border-t border-gray-700/50 fade-in-from-left"
+        class="pt-6 md:pt-8 mt-4 border-t border-gray-700/50 fade-in-from-left"
         style="animation-delay: 900ms"
       >
-        <div class="grid grid-cols-3 gap-8">
+        <div class="grid grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           <div class="text-center">
-            <div class="text-2xl md:text-4xl font-bold text-blue-400">8+</div>
+            <div
+              class="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-400"
+            >
+              8+
+            </div>
             <div
               class="mt-1 text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
             >
@@ -65,7 +69,11 @@
             </div>
           </div>
           <div class="text-center">
-            <div class="text-2xl md:text-4xl font-bold text-blue-400">4+</div>
+            <div
+              class="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-400"
+            >
+              4+
+            </div>
             <div
               class="mt-1 text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
             >
@@ -73,7 +81,11 @@
             </div>
           </div>
           <div class="text-center">
-            <div class="text-2xl md:text-4xl font-bold text-blue-400">6</div>
+            <div
+              class="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-400"
+            >
+              6
+            </div>
             <div
               class="mt-1 text-xs md:text-sm text-gray-400 uppercase tracking-wide font-medium"
             >
@@ -191,7 +203,9 @@
       </div>
     </div>
 
-    <div class="flex justify-center md:justify-start fadein-right">
+    <div
+      class="flex justify-center md:justify-start fadein-right md:flex-shrink-0"
+    >
       <div class="relative">
         <div
           class="absolute -inset-4 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-xl"
@@ -203,7 +217,7 @@
           height="350"
           decoding="async"
           data-nimg="1"
-          class="w-56 h-56 md:w-80 md:h-80 lg:w-full lg:h-auto rounded-full border-4 border-blue-300/80 pict relative z-10 object-cover"
+          class="w-56 h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96 rounded-full border-4 border-blue-300/80 pict relative z-10 object-cover"
           src="/img/avatar.webp"
         />
       </div>
