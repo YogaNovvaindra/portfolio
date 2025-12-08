@@ -183,11 +183,11 @@
           <section
             class="text-sm md:text-lg text-justify flex flex-col gap-6 md:flex-row md:gap-12 md:justify-left md:items-center"
           >
-            <div class="flex justify-center md:w-5/12">
-              <div class="relative group/avatar">
+            <div class="flex justify-center items-center md:w-5/12 w-full">
+              <div class="relative group/avatar w-9/12 md:w-full">
                 <div class="absolute inset-0 bg-blue-300/20 rounded-full blur-2xl group-hover/avatar:bg-blue-300/30 transition-all duration-500"></div>
                 <img
-                  class="relative w-9/12 md:w-full rounded-full mb-3 fadein-up border-2 border-blue-300/30 group-hover/avatar:border-blue-300 transition-all duration-500 shadow-2xl"
+                  class="relative w-full rounded-full mb-3 fadein-up border-2 border-blue-300/30 group-hover/avatar:border-blue-300 transition-all duration-500 shadow-2xl"
                   src="/img/avatar2.webp"
                   alt="Profile Photo"
                 />
