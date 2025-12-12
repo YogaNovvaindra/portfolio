@@ -1,97 +1,9 @@
 <script>
+  import data from '@/assets/data.json';
   export default {
     data() {
       return {
-        items: [
-          {
-            id: 1,
-            name: "Kubernetes Homelab Platform",
-            imageUrl: "kube",
-            status:
-              "A production-like, self-hosted Kubernetes environment for automation, observability, and security experimentation.",
-            tech: "Kubernetes, Docker, Ansible, GitOps, Prometheus, Grafana, Loki, Wazuh SIEM, Authentik, Traefik, Nginx",
-            github: "https://github.com/YogaNovvaindra/kube",
-            demo: "null",
-            featured: true,
-          },
-          {
-            id: 2,
-            name: "Virtualization & Distributed Storage Platform",
-            imageUrl: "proxmox",
-            status:
-              "A high-availability on-prem virtualization and distributed storage environment powering multiple clusters and lab workloads.",
-            tech: "Proxmox VE, Ceph, Virtualization, Networking, VLANs, Firewalls",
-            github: "null",
-            demo: "null",
-            featured: false,
-          },
-          {
-            id: 3,
-            name: "Personal Blog",
-            imageUrl: "ghost",
-            status:
-              "A personal blog about tech and lifestyle built with Ghost CMS, hosted on a homelab kubernetes cluster.",
-            tech: "Ghost, Kubernetes, Mysql",
-            github: "null",
-            demo: "https://ygnv.my.id",
-            featured: false,
-          },
-          {
-            id: 4,
-            name: "AaPanel Hosting",
-            imageUrl: "aapanel",
-            status:
-              "A self-hosted web hosting control panel for managing websites, databases, and server configurations.",
-            tech: "AaPanel, Docker, Proxmox",
-            github: "null",
-            demo: "null",
-            featured: false,
-          },
-          {
-            id: 5,
-            name: "Craft It",
-            imageUrl: "craftit",
-            status:
-              "CraftIt is a mobile application that allows users to search for images of items they have lying around the house and find creative ways to repurpose them.",
-            tech: "Express, Kotlin, openCV, Python",
-            github: "https://github.com/YogaNovvaindra/craft_backend",
-            demo: "null",
-            featured: false,
-          },
-          {
-            id: 6,
-            name: "Eco Guardian",
-            imageUrl: "ecoguardian",
-            status:
-              "A platform utilizing Internet of Things to provide real-time environmental pollution monitoring through sensors and a web application",
-            tech: "Next.js, Tailwind, Prisma, Python, Arduino",
-            github: "https://github.com/YogaNovvaindra/EcoGuardian-web",
-            demo: "https://ecoguardian.yoganova.my.id",
-            featured: false,
-          },
-          {
-            id: 7,
-            name: "Bimbel Linear",
-            imageUrl: "linear",
-            status:
-              "Bimbel Linear facilitates seamless communication between tutors and students, with tutors serving as instructors. The platform offers scheduling capabilities for organizing classes.",
-            tech: "Next.js, Tailwind, Prisma",
-            github: "https://github.com/YogaNovvaindra/bimbel_next13",
-            demo: "https://linear.yoganova.my.id",
-            featured: false,
-          },
-          {
-            id: 8,
-            name: "Tolonto Game App",
-            imageUrl: "tolonto",
-            status:
-              "POS application for rental of playstation and computer games, this application is used to record transactions and manage stock of available playstation.",
-            tech: "PHP, Tailwind",
-            github: "https://github.com/YogaNovvaindra/Tolonto-TA",
-            demo: "https://tolonto.yoganova.my.id",
-            featured: false,
-          },
-        ],
+        items: data.portfolio,
       };
     },
   };
@@ -122,13 +34,13 @@
               <div
                 v-for="(item, index) in items"
                 :key="item.id"
-                class="project-card bg-[#1e1e1f] border border-[#383838] rounded-xl overflow-hidden group hover:border-blue-300/50 transition-all duration-300 flex flex-col"
+                class="project-card bg-[#1e1e1f] border border-[#383838] rounded-xl overflow-hidden group hover:border-custom-blue-300/50 transition-all duration-300 flex flex-col"
                 :style="{ animationDelay: `${index * 0.1}s` }"
               >
                 <!-- Featured badge -->
                 <div v-if="item.featured" class="absolute top-3 right-3 z-10">
                   <span
-                    class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-300 text-[#1e1e1f]"
+                    class="px-3 py-1 text-xs font-semibold rounded-full bg-custom-blue-300 text-[#1e1e1f]"
                   >
                     Featured
                   </span>
@@ -150,7 +62,7 @@
   
                 <!-- Content -->
                 <div class="p-5 flex flex-col h-full">
-                  <h3 class="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
+                  <h3 class="text-lg font-semibold text-white group-hover:text-custom-blue-300 transition-colors">
                     {{ item.name }}
                   </h3>
   
@@ -158,7 +70,7 @@
                     {{ item.status }}
                   </p>
   
-                  <div class="text-xs text-blue-300 mt-4">
+                  <div class="text-xs text-custom-blue-300 mt-4">
                     {{ item.tech }}
                   </div>
   
@@ -170,7 +82,7 @@
                       target="_blank"
                       rel="noreferrer"
                       title="View github repository"
-                      class="flex items-center gap-2 text-sm text-gray-400 hover:text-blue-300 transition-colors group/link"
+                      class="flex items-center gap-2 text-sm text-gray-400 hover:text-custom-blue-300 transition-colors group/link"
                     >
                       <svg
                         stroke="currentColor"
@@ -195,7 +107,7 @@
                       target="_blank"
                       rel="noreferrer"
                       title="View live demo"
-                      class="flex items-center gap-2 text-sm text-gray-400 hover:text-blue-300 transition-colors group/link"
+                      class="flex items-center gap-2 text-sm text-gray-400 hover:text-custom-blue-300 transition-colors group/link"
                     >
                       <svg
                         stroke="currentColor"
@@ -226,22 +138,6 @@
   </template>
   
   <style scoped>
-  .fadein-bot {
-    opacity: 0;
-    animation: fadeInBot 0.5s ease-out forwards;
-  }
-  
-  @keyframes fadeInBot {
-    0% {
-      opacity: 0;
-      transform: translateY(-30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
   .project-card {
     position: relative;
     transition: all 0.3s ease;
@@ -250,8 +146,8 @@
   
   .project-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(112, 198, 255, 0.15);
-    border-color: #70c6ff;
+    box-shadow: 0 20px 40px rgba(138, 191, 255, 0.15);
+    border-color: #8ABFFF;
   }
   
   @keyframes fadeZoomIn {
