@@ -11,7 +11,7 @@
       >
         <button @click="redirectToHome" class="flex">
           <span
-            class="self-center text-lg text-blue-300 font-semibold whitespace-nowrap fadein-bot hover:text-blue-200"
+            class="self-center text-lg text-custom-blue-300 font-semibold whitespace-nowrap fadein-bot hover:text-custom-blue-200"
             >Yoga Novaindra</span
           >
         </button>
@@ -67,7 +67,7 @@
     <button
       v-show="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-24 right-6 z-[99] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 md:bottom-8 md:right-8"
+      class="fixed bottom-24 right-6 z-[99] bg-custom-blue-500 hover:bg-custom-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 md:bottom-8 md:right-8"
       title="Back to top"
     >
       <svg
@@ -141,6 +141,7 @@ export default {
 </script>
 
 <style>
+@import url('@/assets/css/animations.css');
 *,
 *::before,
 *::after {
@@ -160,7 +161,7 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #70c6ff;
+  background: #8ABFFF;
   border-radius: 5px;
 }
 
@@ -207,7 +208,7 @@ nav a.router-link-exact-active::after {
   width: 100%;
   height: 4px;
   border-radius: 2px;
-  background-color: #70c6ff;
+  background-color: #8ABFFF;
 }
 
 nav a.router-link-exact-active:hover {
@@ -215,7 +216,7 @@ nav a.router-link-exact-active:hover {
 }
 
 footer nav a.router-link-exact-active {
-  color: #70c6ff;
+  color: #8ABFFF;
   position: relative;
 }
 
@@ -224,34 +225,10 @@ footer nav a.router-link-exact-active::after {
   content: "";
   width: 100%;
   height: 3px;
-  background-color: #70c6ff;
+  background-color: #8ABFFF;
   border-radius: 2px;
   position: absolute;
   bottom: -12px;
   left: 0;
-}
-
-@keyframes fadeInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 </style>

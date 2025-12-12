@@ -10,7 +10,18 @@ module.exports = {
     }),
     extend: {
       colors: {
-        'yellow-crayola': 'hsl(45, 100%, 72%)'
+        'yellow-crayola': 'hsl(45, 100%, 72%)',
+        'custom-blue': {
+          '100': '#E6F0FF',
+          '200': '#B8D8FF',
+          '300': '#8ABFFF',
+          '400': '#5CA7FF',
+          '500': '#2E8FFF',
+          '600': '#0077FF',
+          '700': '#005ECC',
+          '800': '#004499',
+          '900': '#002B66',
+        },
       }
     },
     animation: {

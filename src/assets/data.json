@@ -1,0 +1,220 @@
+{
+  "summary": "DevSecOps Engineer with hands-on experience building automated, secure, and observable infrastructure across on-premise and cloud environments. Skilled in Kubernetes, Docker, Ansible, GCP, and observability stacks (Grafana, Loki, Prometheus). Experienced with Wazuh SIEM, Zero Trust (Authentik), and ISO 27001 readiness. Strong foundation in virtualization (Proxmox, Ceph), Linux administration, and modern platform engineering practices.",
+  "experience": [
+    {
+      "id": "kjlxqzisi4yyc10t0mufdivx",
+      "company": "Run System",
+      "position": "DevSecOps Engineer",
+      "location": "Yogyakarta",
+      "date": "April 2025 - Present",
+      "summary": "<ul><li><p>Optimized production infrastructure through container workload tuning, automated provisioning with Ansible, and consistent configuration enforcement.</p></li><li><p>Enhanced observability using Prometheus, Grafana, and Loki, cutting troubleshooting time significantly through refined dashboards and alerts.</p></li><li><p>Strengthened security operations by deploying Wazuh SIEM, integrating threat detection workflows, and supporting ISO 27001 audit evidence preparation.</p></li><li><p>Implemented platform capabilities including secure network access, Zero Trust/SSO with Authentik, and internal developer self-service tools.</p></li><li><p>Achieved improved deployment reliability and supported compliance readiness across multiple environments.</p></li></ul>",
+      "url": "https://runsystem.id/"
+    },
+    {
+      "id": "kn0j6wkk55uxi3go8mo3ymb0",
+      "company": "Run System",
+      "position": "DevSecOps Intern",
+      "location": "Yogyakarta",
+      "date": "August 2024 - December 2024",
+      "summary": "<ul><li><p>Supported infrastructure automation by writing basic Ansible playbooks and assisting in early Kubernetes environment testing.</p></li><li><p>Helped build initial observability components using Prometheus/Grafana/Loki for internal service monitoring.</p></li><li><p>Assisted in ISO 27001 preparation through documentation collection, Wazuh agent deployment, and vulnerability tracking.</p></li><li><p>Performed network support tasks including firewall adjustments, bandwidth checks, and evaluating VPN options.</p></li></ul>",
+      "url": "https://runsystem.id/"
+    },
+    {
+      "id": "o0c1uon7ss2qifvhgygvnpi5",
+      "company": "Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka",
+      "position": "Cloud Computing Cohort 2024 Batch 1",
+      "location": "Online",
+      "date": "February 2024 - June 2024",
+      "summary": "<ul><li><p>Graduated from Bangkit with distinction (top 10% in Cloud Computing)</p></li><li><p>Developed backend services for an AI-powered Android app using Express.js, Docker, and GCP. Built Python inference endpoint, deployed APIs on VM, integrated Cloud Storage, and implemented automated CI/CD via GitHub Actions.</p></li></ul>",
+      "url": ""
+    }
+  ],
+  "education": [
+    {
+      "id": "lj9x9gupqwhqqpf97cn1u07t",
+      "institution": "Politeknik Negeri Jember",
+      "studyType": "Informatics Engineering",
+      "area": "",
+      "score": "3.93/4",
+      "date": "July 2021 - June 2025",
+      "summary": "",
+      "url": ""
+    },
+    {
+      "id": "m0y4n2girg5rzje89ryq8tmh",
+      "institution": "SMKN 1 Nganjuk",
+      "studyType": "Network and Computer Engineering",
+      "area": "",
+      "score": "",
+      "date": "July 2016 - June 2019",
+      "summary": "",
+      "url": ""
+    }
+  ],
+  "certifications": [
+    {
+      "id": "nd1qt82ojatws2lvuphkb38z",
+      "name": "Associate Cloud Engineer Certification",
+      "issuer": "Google",
+      "date": "October 2024 - October 2027",
+      "summary": "",
+      "url": "https://www.credly.com/badges/59776b45-4faf-4e4e-a4a2-ba4308993c61/linked_in_profile"
+    },
+    {
+      "id": "kld5ojnb492gxg22k2i6pvk6",
+      "name": "System Administration and IT Infrastructure Services",
+      "issuer": "Coursera",
+      "date": "February 2024 - No Expiration Date",
+      "summary": "",
+      "url": "https://coursera.org/verify/LTXMV8GMHVC4"
+    },
+    {
+      "id": "ebz6rg4a0go05jmrdx0qz834",
+      "name": "Applied Machine Learning for Cloud Engineer",
+      "issuer": "Dicoding Indonesia",
+      "date": "May 2024 - May 2027",
+      "summary": "",
+      "url": "https://www.dicoding.com/certificates/1OP8WN4OVXQK"
+    },
+    {
+      "id": "j51bliltby79is9prfpgrm6m",
+      "name": "Becoming a Google Cloud Engineer",
+      "issuer": "Dicoding Indonesia",
+      "date": "May 2024 - May 2027",
+      "summary": "",
+      "url": "https://www.dicoding.com/certificates/QLZ972GKEP5D"
+    }
+  ],
+  "skills": [
+    {
+      "id": "kzx6mogfypx10twuqrpdqs29",
+      "name": "Containers & Orchestration",
+      "description": "Kubernetes, Docker",
+      "level": 4,
+      "keywords": [],
+      "icon": "kubernetes"
+    },
+    {
+      "id": "xj99jz2zkktw6c03gmu3vo70",
+      "name": "Automation",
+      "description": "CI/CD, ArgoCD, Ansible, GitHub Actions, Gitlab CI, Terraform",
+      "level": 4,
+      "keywords": [],
+      "icon": "ansible"
+    },
+    {
+      "id": "cjajcr7se30at0b826hmvavq",
+      "name": "Cloud & Infrastructure",
+      "description": "GCP, AWS, Linode, Proxmox, Ceph",
+      "level": 3,
+      "keywords": [],
+      "icon": "googlecloud"
+    },
+    {
+      "id": "cg0zgu39hpl6mwt3zk9aigfe",
+      "name": "Security & Observability",
+      "description": "Wazuh SIEM, Zero Trust, SSO, Prometheus, Grafana, Loki",
+      "level": 4,
+      "keywords": [],
+      "icon": "grafana"
+    },
+    {
+      "id": "hcfoseskc6x599bixuiwlge6",
+      "name": "Networking",
+      "description": "Firewalls, VPN, MikroTik",
+      "level": 3,
+      "keywords": [],
+      "icon": "cisco"
+    },
+    {
+      "id": "qosu7acs1q5gxjyllm7djb6l",
+      "name": "Core",
+      "description": "Linux (Ubuntu, Debian), Windows Server, Bash, Python",
+      "level": 4,
+      "keywords": [],
+      "icon": "linux"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": 1,
+      "name": "Kubernetes Homelab Platform",
+      "imageUrl": "kube",
+      "status": "A production-like, self-hosted Kubernetes environment for automation, observability, and security experimentation.",
+      "tech": "Kubernetes, Docker, Ansible, GitOps, Prometheus, Grafana, Loki, Wazuh SIEM, Authentik, Traefik, Nginx",
+      "github": "https://github.com/YogaNovvaindra/kube",
+      "demo": "null",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "name": "Virtualization & Distributed Storage Platform",
+      "imageUrl": "proxmox",
+      "status": "A high-availability on-prem virtualization and distributed storage environment powering multiple clusters and lab workloads.",
+      "tech": "Proxmox VE, Ceph, Virtualization, Networking, VLANs, Firewalls",
+      "github": "null",
+      "demo": "null",
+      "featured": false
+    },
+    {
+      "id": 3,
+      "name": "Personal Blog",
+      "imageUrl": "ghost",
+      "status": "A personal blog about tech and lifestyle built with Ghost CMS, hosted on a homelab kubernetes cluster.",
+      "tech": "Ghost, Kubernetes, Mysql",
+      "github": "null",
+      "demo": "https://ygnv.my.id",
+      "featured": false
+    },
+    {
+      "id": 4,
+      "name": "AaPanel Hosting",
+      "imageUrl": "aapanel",
+      "status": "A self-hosted web hosting control panel for managing websites, databases, and server configurations.",
+      "tech": "AaPanel, Docker, Proxmox",
+      "github": "null",
+      "demo": "null",
+      "featured": false
+    },
+    {
+      "id": 5,
+      "name": "Craft It",
+      "imageUrl": "craftit",
+      "status": "CraftIt is a mobile application that allows users to search for images of items they have lying around the house and find creative ways to repurpose them.",
+      "tech": "Express, Kotlin, openCV, Python",
+      "github": "https://github.com/YogaNovvaindra/craft_backend",
+      "demo": "null",
+      "featured": false
+    },
+    {
+      "id": 6,
+      "name": "Eco Guardian",
+      "imageUrl": "ecoguardian",
+      "status": "A platform utilizing Internet of Things to provide real-time environmental pollution monitoring through sensors and a web application",
+      "tech": "Next.js, Tailwind, Prisma, Python, Arduino",
+      "github": "https://github.com/YogaNovvaindra/EcoGuardian-web",
+      "demo": "https://ecoguardian.yoganova.my.id",
+      "featured": false
+    },
+    {
+      "id": 7,
+      "name": "Bimbel Linear",
+      "imageUrl": "linear",
+      "status": "Bimbel Linear facilitates seamless communication between tutors and students, with tutors serving as instructors. The platform offers scheduling capabilities for organizing classes.",
+      "tech": "Next.js, Tailwind, Prisma",
+      "github": "https://github.com/YogaNovvaindra/bimbel_next13",
+      "demo": "https://linear.yoganova.my.id",
+      "featured": false
+    },
+    {
+      "id": 8,
+      "name": "Tolonto Game App",
+      "imageUrl": "tolonto",
+      "status": "POS application for rental of playstation and computer games, this application is used to record transactions and manage stock of available playstation.",
+      "tech": "PHP, Tailwind",
+      "github": "https://github.com/YogaNovvaindra/Tolonto-TA",
+      "demo": "https://tolonto.yoganova.my.id",
+      "featured": false
+    }
+  ]
+}
