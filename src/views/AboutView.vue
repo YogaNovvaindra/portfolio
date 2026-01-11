@@ -50,7 +50,7 @@ export default {
                 </h1>
                 <div class="flex flex-wrap justify-start gap-3 text-sm font-mono text-custom-blue-200/80 mb-2">
                     <span class="px-3 py-1 rounded-full bg-custom-blue-500/10 border border-custom-blue-500/20 text-custom-blue-300/90 font-bold hover:bg-custom-blue-500/20 transition-colors cursor-default">DevSecOps Engineer</span>
-                    <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300/90 font-bold hover:bg-purple-500/20 transition-colors cursor-default">Cloud Efficiency Expert</span>
+                    <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300/90 font-bold hover:bg-purple-500/20 transition-colors cursor-default">Cloud Enthusiast</span>
                 </div>
                 <p class="text-gray-400 leading-relaxed text-base md:text-lg">
                     {{ summary }}
