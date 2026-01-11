@@ -22,6 +22,24 @@ module.exports = {
           '800': '#004499',
           '900': '#002B66',
         },
+        glass: {
+          100: 'rgba(255, 255, 255, 0.03)', // Much more subtle for skills
+          200: 'rgba(255, 255, 255, 0.05)',
+          300: 'rgba(255, 255, 255, 0.1)',
+          400: 'rgba(255, 255, 255, 0.2)',
+          DEFAULT: 'rgba(255, 255, 255, 0.1)',
+          dark: 'rgba(0, 0, 0, 0.3)', // Darker base
+          darker: 'rgba(0, 0, 0, 0.5)',
+        },
+      },
+      fontFamily: {
+        mono: ['"JetBrains Mono"', 'monospace'],
+        display: ['Poppins', 'sans-serif'],
+        body: ['Poppins', 'sans-serif'],
+      },
+      backgroundImage: {
+        'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+        'dark-gradient': 'linear-gradient(to bottom right, #0a0a0a, #1a1a1a)',
       }
     },
     animation: {
@@ -30,6 +48,8 @@ module.exports = {
       ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
+      'blob': 'blob 7s infinite',
+      'pulse-slow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
     },
     aria: {
       checked: 'checked="true"',
@@ -585,6 +605,30 @@ module.exports = {
         '50%': {
           transform: 'none',
           animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+        },
+      },
+      blob: {
+        '0%': {
+          transform: 'translate(0px, 0px) scale(1)',
+        },
+        '33%': {
+          transform: 'translate(30px, -50px) scale(1.1)',
+        },
+        '66%': {
+          transform: 'translate(-20px, 20px) scale(0.9)',
+        },
+        '100%': {
+          transform: 'translate(0px, 0px) scale(1)',
+        },
+      },
+      'pulse-glow': {
+        '0%, 100%': {
+          opacity: '0.1',
+          transform: 'scale(1)',
+        },
+        '50%': {
+          opacity: '0.2',
+          transform: 'scale(1.05)',
         },
       },
     },

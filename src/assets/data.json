@@ -129,7 +129,7 @@
     {
       "id": "qosu7acs1q5gxjyllm7djb6l",
       "name": "Core",
-      "description": "Linux (Ubuntu, Debian), Windows Server, Bash, Python",
+      "description": "Linux, Ubuntu, Debian, Windows Server, Bash, Python",
       "level": 4,
       "keywords": [],
       "icon": "linux"
@@ -144,7 +144,8 @@
       "tech": "Kubernetes, Docker, Ansible, GitOps, Prometheus, Grafana, Loki, Wazuh SIEM, Authentik, Traefik, Nginx",
       "github": "https://github.com/YogaNovvaindra/kube",
       "demo": "null",
-      "featured": true
+      "featured": true,
+      "key_feature": "GitOps-driven infrastructure with full observability stack (Prometheus/Grafana) and Zero Trust security."
     },
     {
       "id": 2,
@@ -154,7 +155,8 @@
       "tech": "Proxmox VE, Ceph, Virtualization, Networking, VLANs, Firewalls",
       "github": "null",
       "demo": "null",
-      "featured": false
+      "featured": false,
+      "key_feature": "High-Availability Proxmox cluster backed by Ceph distributed storage for enterprise-grade resilience."
     },
     {
       "id": 3,
@@ -164,7 +166,8 @@
       "tech": "Ghost, Kubernetes, Mysql",
       "github": "null",
       "demo": "https://ygnv.my.id",
-      "featured": false
+      "featured": false,
+      "key_feature": "Self-hosted Ghost CMS utilizing Kubernetes ingress, SSL management, and automated backup workflows."
     },
     {
       "id": 4,
@@ -174,7 +177,8 @@
       "tech": "AaPanel, Docker, Proxmox",
       "github": "null",
       "demo": "null",
-      "featured": false
+      "featured": false,
+      "key_feature": "Centralized web hosting management with Docker integration and simplified server configuration."
     },
     {
       "id": 5,
@@ -184,7 +188,8 @@
       "tech": "Express, Kotlin, openCV, Python",
       "github": "https://github.com/YogaNovvaindra/craft_backend",
       "demo": "null",
-      "featured": false
+      "featured": false,
+      "key_feature": "AI-powered image recognition (OpenCV) to suggest creative upcycling ideas for household items."
     },
     {
       "id": 6,
@@ -194,7 +199,8 @@
       "tech": "Next.js, Tailwind, Prisma, Python, Arduino",
       "github": "https://github.com/YogaNovvaindra/EcoGuardian-web",
       "demo": "https://ecoguardian.yoganova.my.id",
-      "featured": false
+      "featured": false,
+      "key_feature": "Real-time environmental data visualization with IoT sensor integration and instant alert systems."
     },
     {
       "id": 7,
@@ -204,7 +210,8 @@
       "tech": "Next.js, Tailwind, Prisma",
       "github": "https://github.com/YogaNovvaindra/bimbel_next13",
       "demo": "https://linear.yoganova.my.id",
-      "featured": false
+      "featured": false,
+      "key_feature": "Seamless class scheduling and real-time tutor-student matching system built with modern Next.js."
     },
     {
       "id": 8,
@@ -214,7 +221,8 @@
       "tech": "PHP, Tailwind",
       "github": "https://github.com/YogaNovvaindra/Tolonto-TA",
       "demo": "https://tolonto.yoganova.my.id",
-      "featured": false
+      "featured": false,
+      "key_feature": "Inventory management and automated point-of-sale tracking optimized for game rental operations."
     }
   ]
 }

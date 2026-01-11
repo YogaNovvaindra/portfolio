@@ -1,346 +1,264 @@
 <script>
-  import data from '@/assets/data.json';
-  export default {
-    data() {
-      return {
-        summary: data.summary,
-        experience: data.experience,
-        education: data.education,
-        certifications: data.certifications,
-        skills: data.skills,
-      };
+import data from '@/assets/data.json';
+
+export default {
+  name: 'AboutView',
+  data() {
+    return {
+      summary: data.summary,
+      experience: data.experience,
+      education: data.education,
+      certifications: data.certifications,
+      skills: data.skills,
+    };
+  },
+  methods: {
+    handleImageError(event) {
+      event.target.style.display = "none";
+      const parent = event.target.parentElement;
+      if (parent) {
+        parent.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-custom-blue-300">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+          </svg>
+        `;
+      }
     },
-    methods: {
-      handleImageError(event) {
-        event.target.style.display = "none";
-        const parent = event.target.parentElement;
-        if (parent) {
-          parent.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-custom-blue-300">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-            </svg>
-          `;
-        }
-      },
-    },
-  };
-  </script>
-  
-  <template>
-    <div class="space-y-5">
-      <!-- About Me Section -->
-      <div
-        class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-3 md:mx-12 relative overflow-hidden group hover:border-custom-blue-300/50 transition-all duration-500"
-      >
-        <div class="absolute inset-0 bg-gradient-to-br from-custom-blue-300/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+  },
+};
+</script>
+
+<template>
+  <div class="min-h-screen py-24 px-4 md:px-8 text-left">
+
+    <div class="max-w-5xl mx-auto space-y-20">
+      
+      <!-- Glass Profile Header -->
+      <section class="animate-fade-up" style="animation-delay: 0.1s">
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-10 bg-white/[0.03] border border-white/[0.08] hover:border-white/20 p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-xl transition-all duration-300">
+             <!-- Avatar with Glow -->
+            <div class="relative shrink-0 group">
+               <div class="absolute inset-0 bg-gradient-to-tr from-custom-blue-500 to-purple-500 rounded-full blur-[20px] opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+               <div class="w-40 h-40 md:w-48 md:h-48 rounded-full p-1 bg-white/5 border border-white/10 relative z-10 overflow-hidden">
+                   <img src="/img/avatar2.webp" alt="Profile" class="w-full h-full object-cover rounded-full transition-all duration-500 group-hover:scale-110" />
+               </div>
+            </div>
+            <!-- Intro Text -->
+            <div class="text-left space-y-4 max-w-2xl">
+                <h1 class="text-3xl md:text-5xl font-bold font-display text-white">
+                    Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-custom-blue-300 to-purple-300">Yoga Novaindra</span>
+                </h1>
+                <div class="flex flex-wrap justify-start gap-3 text-sm font-mono text-custom-blue-200/80 mb-2">
+                    <span class="px-3 py-1 rounded-full bg-custom-blue-500/10 border border-custom-blue-500/20 text-custom-blue-300/90 font-bold hover:bg-custom-blue-500/20 transition-colors cursor-default">DevSecOps Engineer</span>
+                    <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300/90 font-bold hover:bg-purple-500/20 transition-colors cursor-default">Cloud Efficiency Expert</span>
+                </div>
+                <p class="text-gray-400 leading-relaxed text-base md:text-lg">
+                    {{ summary }}
+                </p>
+            </div>
+        </div>
+      </section>
+
+      <!-- Experience Section (Enhanced Timeline) -->
+      <section class="animate-fade-up" style="animation-delay: 0.2s">
+        <div class="flex items-center gap-6 mb-12">
+            <h2 class="text-3xl font-bold text-white font-display">Experience</h2>
+            <div class="h-px bg-white/10 flex-1"></div>
+        </div>
         
-        <article data-page="about" class="relative z-10">
-          <header>
-            <div
-              class="text-2xl font-bold text-white mb-8 fadein-bot title-section flex items-center"
-            >
-              About Me &nbsp;
-              <div class="h-[2px] w-32 bg-custom-blue-300 md:w-96"></div>
-            </div>
-          </header>
-  
-          <section
-            class="text-sm md:text-lg text-justify flex flex-col gap-6 md:flex-row md:gap-12 md:justify-left md:items-center"
-          >
-            <div class="flex justify-center items-center md:w-5/12 w-full">
-              <div class="relative group/avatar w-9/12 md:w-full">
-                <div class="absolute inset-0 bg-custom-blue-300/20 rounded-full blur-2xl group-hover/avatar:bg-custom-blue-300/30 transition-all duration-500"></div>
-                <img
-                  class="relative w-full rounded-full mb-3 fadein-up border-2 border-custom-blue-300/30 group-hover/avatar:border-custom-blue-300 transition-all duration-500 shadow-2xl"
-                  src="/img/avatar2.webp"
-                  alt="Profile Photo"
-                />
-              </div>
-            </div>
-            <div class="md:w-7/12">
-              <p class="mb-3 md:mb-7 fadein-left fadeins-1 leading-relaxed text-gray-300">
-                {{ summary }}
-              </p>
-            </div>
-          </section>
-        </article>
-      </div>
-  
-      <!-- Experience Section -->
-      <div
-        class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-3 md:mx-12 hover:border-custom-blue-300/50 transition-all duration-500"
-      >
-        <article data-page="about">
-          <header>
-            <div
-              class="text-2xl font-bold text-white mb-8 fadein-bot title-section flex items-center"
-            >
-              <div class="h-[2px] w-10 bg-custom-blue-300 md:w-20"></div>
-              &nbsp; Experience
-            </div>
-          </header>
-          <section>
-            <div class="space-y-8">
-              <div
-                v-for="exp in experience"
-                :key="exp.id"
-                class="relative border-l-2 border-custom-blue-300/50 pl-6 pb-8 last:pb-0 hover:border-custom-blue-300 transition-colors duration-300 group/exp"
-              >
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-custom-blue-300 rounded-full ring-4 ring-[#202122] group-hover/exp:scale-125 group-hover/exp:ring-custom-blue-300/20 transition-all duration-300"></div>
-                
-                <div class="bg-[#1e1e1f] border border-[#383838] rounded-xl p-5 group-hover/exp:border-custom-blue-300/50 group-hover/exp:shadow-lg group-hover/exp:shadow-custom-blue-300/10 transition-all duration-300">
-                  <div
-                    class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-4"
-                  >
-                    <div>
-                      <h3 class="text-xl font-semibold text-white mb-1">{{ exp.position }}</h3>
-                      <p class="text-custom-blue-300 font-medium">
-                        {{ exp.company }} <span class="text-gray-500">|</span> <span class="text-gray-400">{{ exp.location }}</span>
-                      </p>
+        <div class="space-y-12 relative">
+            <div v-for="(exp, index) in experience" :key="exp.id" class="relative pl-12 group">
+                 <!-- Timeline Dot with Glow - Perfectly Centered -->
+                 <div class="absolute left-0 top-0 w-5 h-5 rounded-full bg-custom-blue-500 border-4 border-black shadow-[0_0_20px_rgba(59,130,246,0.8)] transition-all duration-300 z-10"
+                      :class="{ 'animate-pulse-slow shadow-[0_0_25px_rgba(59,130,246,1)]': exp.date.toLowerCase().includes('present') }"></div>
+                 
+                 <!-- Connecting Line to Next Item (except for last item) - Centered on dot -->
+                 <div v-if="index < experience.length - 1" class="absolute left-[9px] top-5 w-[2px] h-[calc(100%+3rem)] bg-gradient-to-b from-custom-blue-500/40 to-custom-blue-500/10"></div>
+
+                 <!-- Glass Content Card -->
+                 <div class="bg-white/[0.03] border border-white/[0.08] p-6 rounded-2xl hover:bg-white/[0.05] hover:border-custom-blue-500/30 transition-all duration-300 backdrop-blur-xl group shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:shadow-[0_12px_48px_0_rgba(59,130,246,0.15)] hover:translate-x-1">
+                    <!-- Date and Location Row -->
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                       <div class="flex items-center gap-3">
+                           <span class="inline-block text-custom-blue-300 font-mono text-sm font-bold bg-custom-blue-500/10 border border-custom-blue-500/30 px-4 py-1.5 rounded-full shadow-lg">
+                               {{ exp.date }}
+                           </span>
+                           <span v-if="exp.date.toLowerCase().includes('present')" class="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" title="Active"></span>
+                       </div>
+                       <span class="text-xs text-gray-500 font-mono border border-white/10 bg-white/5 px-3 py-1.5 rounded backdrop-blur-sm">{{ exp.location }}</span>
                     </div>
-                    <span class="text-sm text-gray-400 whitespace-nowrap">{{ exp.date }}</span>
-                  </div>
-                  <div class="mt-3 text-sm text-gray-300 experience-content" v-html="exp.summary"></div>
-                  <a
-                    v-if="exp.url"
-                    :href="exp.url"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-custom-blue-300 hover:text-custom-blue-200 text-sm mt-4 inline-flex items-center gap-2 group/link"
-                  >
-                    <span>Visit company website</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
-        </article>
-      </div>
-  
-      <!-- Education Section -->
-      <div
-        class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-3 md:mx-12 hover:border-custom-blue-300/50 transition-all duration-500"
-      >
-        <article data-page="about">
-          <header>
-            <div
-              class="text-2xl font-bold text-white mb-8 fadein-bot title-section flex items-center"
-            >
-              <div class="h-[2px] w-10 bg-custom-blue-300 md:w-20"></div>
-              &nbsp; Education
-            </div>
-          </header>
-          <section>
-            <div class="space-y-8">
-              <div
-                v-for="edu in education"
-                :key="edu.id"
-                class="relative border-l-2 border-custom-blue-300/50 pl-6 pb-8 last:pb-0 hover:border-custom-blue-300 transition-colors duration-300 group/edu"
-              >
-                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-custom-blue-300 rounded-full ring-4 ring-[#202122] group-hover/edu:scale-125 group-hover/edu:ring-custom-blue-300/20 transition-all duration-300"></div>
-                
-                <div class="bg-[#1e1e1f] border border-[#383838] rounded-xl p-5 group-hover/edu:border-custom-blue-300/50 group-hover/edu:shadow-lg group-hover/edu:shadow-custom-blue-300/10 transition-all duration-300">
-                  <div
-                    class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-4"
-                  >
-                    <div>
-                      <h3 class="text-xl font-semibold text-white mb-1">{{ edu.institution }}</h3>
-                      <p class="text-custom-blue-300 font-medium">
-                        {{ edu.studyType }}{{ edu.area ? " - " + edu.area : "" }}
-                      </p>
+                    
+                    <!-- Position and Company -->
+                    <div class="mb-5">
+                       <div class="space-y-1">
+                           <h3 class="text-2xl font-bold text-white group-hover:text-custom-blue-300 transition-colors">{{ exp.position }}</h3>
+                           <a v-if="exp.url" :href="exp.url" target="_blank" class="inline-flex items-center gap-1.5 text-custom-blue-200/70 hover:text-custom-blue-300 transition-colors font-medium hover:underline decoration-custom-blue-500/30 underline-offset-4">
+                               {{ exp.company }}
+                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-hover:opacity-100 transition-opacity"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                           </a>
+                           <div v-else class="text-custom-blue-200/70 font-medium">{{ exp.company }}</div>
+                       </div>
                     </div>
-                    <span class="text-sm text-gray-400 whitespace-nowrap">{{ edu.date }}</span>
-                  </div>
-                  <div v-if="edu.score" class="flex items-center gap-3">
-                    <span class="text-sm text-gray-400">GPA:</span>
-                    <span class="text-sm text-custom-blue-300 font-semibold">{{ edu.score }}</span>
-                  </div>
-                </div>
-              </div>
+                    
+                    <!-- Description -->
+                    <div class="text-gray-400 text-sm leading-relaxed space-y-3 experience-content" v-html="exp.summary"></div>
+                 </div>
             </div>
-          </section>
-        </article>
-      </div>
-  
-      <!-- Certifications Section -->
-      <div
-        class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-3 md:mx-12 hover:border-custom-blue-300/50 transition-all duration-500"
-      >
-        <article data-page="about">
-          <header>
-            <div
-              class="text-2xl font-bold text-white mb-8 fadein-bot title-section flex items-center"
-            >
-              <div class="h-[2px] w-10 bg-custom-blue-300 md:w-20"></div>
-              &nbsp; Certifications
-            </div>
-          </header>
-          <section>
-            <div class="grid grid-cols-1 gap-6 pb-10 md:grid-cols-2">
-              <div
-                v-for="cert in certifications"
-                :key="cert.id"
-                class="bg-[#1e1e1f] border border-[#383838] rounded-xl p-6 hover:border-custom-blue-300 transition-all duration-300 cert-card group/cert"
-              >
+        </div>
+      </section>
+
+      <!-- Skills Section (Badge Grid) -->
+      <section class="animate-fade-up" style="animation-delay: 0.3s">
+        <div class="flex items-center gap-6 mb-12">
+            <h2 class="text-3xl font-bold text-white font-display">Technical Arsenal</h2>
+            <div class="h-px bg-white/10 flex-1"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div v-for="skill in skills" :key="skill.id" class="bg-white/[0.03] border border-white/[0.08] p-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.05] hover:border-custom-blue-500/30 backdrop-blur-xl group shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:shadow-[0_12px_48px_0_rgba(59,130,246,0.15)] hover:translate-y-1">
                 <div class="flex items-center gap-4 mb-4">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 bg-[#282828] rounded-xl flex items-center justify-center group-hover/cert:bg-custom-blue-300/10 group-hover/cert:scale-110 transition-all duration-300"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-custom-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-white">
-                      {{ cert.name }}
-                    </h3>
-                  </div>
+                     <div class="p-3 rounded-xl bg-white/5 border border-white/5 group-hover:border-custom-blue-500/30 group-hover:bg-custom-blue-500/10 transition-all duration-300">
+                        <img v-if="skill.icon" :src="`https://cdn.simpleicons.org/${skill.icon}/70c6ff`" class="w-6 h-6 group-hover:scale-110 transition-transform" @error="handleImageError" />
+                     </div>
+                     <h3 class="font-bold text-lg text-white font-display">{{ skill.name }}</h3>
                 </div>
-                <p class="text-sm text-custom-blue-300 font-medium mb-3">{{ cert.issuer }}</p>
-                <p class="text-xs text-gray-400 mb-4">{{ cert.date }}</p>
-                <a
-                  v-if="cert.url"
-                  :href="cert.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-custom-blue-300 hover:text-custom-blue-200 text-sm inline-flex items-center gap-2 group/link"
-                >
-                  <span>View credential</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </section>
-        </article>
-      </div>
-  
-      <!-- Skills Section -->
-      <div
-        class="bg-[#202122] px-5 py-5 md:px-12 md:py-10 text-left border border-[#383838] rounded-3xl text-amber-50 mx-3 md:mx-12 mb-5 hover:border-custom-blue-300/50 transition-all duration-500"
-      >
-        <article data-page="about">
-          <header>
-            <div
-              class="text-2xl font-bold text-white mb-8 fadein-bot title-section flex items-center"
-            >
-              <div class="h-[2px] w-10 bg-custom-blue-300 md:w-20"></div>
-              &nbsp; Skills
-            </div>
-          </header>
-          <section>
-            <div class="grid grid-cols-1 gap-6 pb-10 md:grid-cols-2 lg:grid-cols-3">
-              <div
-                v-for="skill in skills"
-                :key="skill.id"
-                class="bg-[#1e1e1f] border border-[#383838] rounded-xl p-6 hover:border-custom-blue-300 transition-all duration-300 skill-card group/skill"
-              >
-                <div class="flex items-center gap-4 mb-4">
-                  <div
-                    class="flex-shrink-0 w-14 h-14 bg-[#282828] rounded-xl flex items-center justify-center group-hover/skill:bg-custom-blue-300/10 group-hover/skill:scale-110 transition-all duration-300"
-                  >
-                    <img
-                      v-if="skill.icon"
-                      :src="`https://cdn.simpleicons.org/${skill.icon}/70c6ff`"
-                      :alt="skill.name"
-                      class="w-8 h-8"
-                      @error="handleImageError"
-                    />
-                    <svg
-                      v-else
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-8 h-8 text-custom-blue-300"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 class="text-lg font-semibold text-white">
-                    {{ skill.name }}
-                  </h3>
+                <!-- Clean Badge List -->
+                <div class="flex flex-wrap gap-2">
+                    <span v-for="keyword in (skill.description.split(', '))" :key="keyword" 
+                          class="text-xs font-mono font-medium px-2.5 py-1 rounded-md bg-white/5 text-gray-400 border border-white/10 hover:border-custom-blue-500/30 hover:text-custom-blue-200 transition-all cursor-default">
+                        {{ keyword }}
+                    </span>
                 </div>
-                <p class="text-sm text-gray-400 mb-5 leading-relaxed">{{ skill.description }}</p>
-                <div class="flex items-center gap-3">
-                  <div class="flex-1 bg-[#282828] rounded-full h-2 overflow-hidden">
-                    <div
-                      class="bg-gradient-to-r from-custom-blue-300 to-custom-blue-400 h-2 rounded-full transition-all duration-1000 ease-out skill-progress"
-                      :style="{ width: (skill.level / 5) * 100 + '%' }"
-                    ></div>
-                  </div>
-                  <span
-                    class="text-sm text-custom-blue-300 font-semibold min-w-[3rem] text-right"
-                  >{{ skill.level }}/5</span>
-                </div>
-              </div>
             </div>
-          </section>
-        </article>
-      </div>
+        </div>
+      </section>
+
+       <!-- Education & Certs -->
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-up" style="animation-delay: 0.5s">
+            <!-- Education Panel -->
+            <section class="animate-fade-up" style="animation-delay: 0.5s">
+                 <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400 border border-purple-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white font-display">Education</h2>
+                 </div>
+                 
+                 <div class="space-y-6">
+                     <div v-for="edu in education" :key="edu.id" class="group relative bg-white/[0.03] border border-white/[0.08] p-6 rounded-2xl transition-all duration-300 hover:bg-white/[0.05] hover:border-purple-500/30 hover:translate-y-[-2px] shadow-[0_8px_32px_0_rgba(0,0,0,0.2)]">
+                         <div class="flex justify-between items-start mb-3">
+                             <h4 class="text-white font-bold text-lg leading-tight group-hover:text-purple-300 transition-colors">{{ edu.institution }}</h4>
+                             <span class="text-[10px] font-mono font-bold text-purple-300 bg-purple-500/10 border border-purple-500/20 px-2 py-1 rounded">
+                                 {{ edu.date.split(' - ')[1] }}
+                             </span>
+                         </div>
+                         <div class="flex flex-col gap-2">
+                             <div class="text-purple-200/70 font-medium text-sm flex items-center gap-2">
+                                 <span class="w-1.5 h-1.5 rounded-full bg-purple-500/50"></span>
+                                 {{ edu.studyType }}
+                             </div>
+                             <div class="text-xs text-gray-500 font-mono flex items-center gap-2">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                 {{ edu.date }}
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+            </section>
+            
+             <!-- Certifications Panel -->
+             <section class="animate-fade-up" style="animation-delay: 0.6s">
+                 <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2 bg-custom-blue-500/10 rounded-lg text-custom-blue-400 border border-custom-blue-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white font-display">Certifications</h2>
+                 </div>
+
+                  <div class="space-y-4">
+                    <a v-for="cert in certifications" :key="cert.id" :href="cert.url" target="_blank" 
+                       class="flex items-center gap-4 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] hover:border-custom-blue-500/30 p-5 rounded-2xl transition-all duration-300 group backdrop-blur-sm shadow-[0_4px_20px_0_rgba(0,0,0,0.2)]">
+                         <div class="shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-custom-blue-500/10 border border-custom-blue-500/20 group-hover:bg-custom-blue-500/20 transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-custom-blue-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                         </div>
+                         <div class="flex-1 min-w-0">
+                             <h4 class="text-sm font-bold text-white group-hover:text-custom-blue-200 transition-colors leading-tight mb-1 truncate">{{ cert.name }}</h4>
+                             <div class="flex items-center gap-2">
+                                 <span class="text-[10px] text-gray-500 font-medium px-2 py-0.5 rounded bg-white/5 border border-white/10 uppercase tracking-tighter">{{ cert.issuer }}</span>
+                             </div>
+                         </div>
+                         <div class="opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300 hidden sm:block">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-custom-blue-400"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                         </div>
+                    </a>
+                  </div>
+             </section>
+       </div>
+
     </div>
-  </template>
-  
-  <style scoped>
-  .fadeins-1 {
-    animation-delay: 500ms;
-  }
-  
-  .skill-card {
-    transition: all 0.3s ease;
-  }
-  
-  .skill-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(138, 191, 255, 0.15);
-    border-color: #8ABFFF;
-  }
-  
-  .cert-card {
-    transition: all 0.3s ease;
-  }
-  
-  .cert-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(138, 191, 255, 0.15);
-    border-color: #8ABFFF;
-  }
-  
-  .skill-progress {
-    box-shadow: 0 0 10px rgba(138, 191, 255, 0.5);
-  }
-  
-  .experience-content :deep(ul) {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .experience-content :deep(li) {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .experience-content :deep(li::before) {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: #8ABFFF;
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-  
-  .experience-content :deep(p) {
-    margin: 0;
-    line-height: 1.6;
-  }
-  </style>
+  </div>
+</template>
+
+<style scoped>
+.animate-fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes fadeUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+        box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+    }
+}
+
+.experience-content :deep(ul) {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.experience-content :deep(li) {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #9ca3af; /* gray-400 */
+  transition: all 0.3s ease;
+}
+
+.experience-content :deep(li:hover) {
+  color: #f3f4f6; /* gray-100 */
+  transform: translateX(4px);
+}
+
+.experience-content :deep(li::before) {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6rem;
+  width: 6px;
+  height: 6px;
+  background: #5CA7FF;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px rgba(92, 167, 255, 0.5);
+}
+</style>
