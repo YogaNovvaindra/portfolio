@@ -1,7 +1,8 @@
 <template>
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 pt-24 max-w-7xl">
-    <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center items-center py-20 fadein-bot">
+  <div class="min-h-screen py-24 px-4 md:px-8 relative">
+    <div class="max-w-6xl mx-auto h-full relative">
+      <!-- Loading State -->
+      <div v-if="loading" class="flex justify-center items-center py-20 fadein-bot">
       <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
     </div>
 
@@ -27,7 +28,7 @@
           <!-- Left Side: Header -->
           <div class="xl:w-5/12 flex flex-col justify-center text-left title-reveal">
             <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 drop-shadow-sm">
-              Tech & <span class="text-blue-500">Explorations</span><span class="text-blue-500">.</span>
+              Tech <span class="text-blue-500">Explorations</span><span class="text-blue-500">.</span>
             </h1>
             <p class="text-lg text-zinc-400 leading-relaxed">
               A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
@@ -147,6 +148,7 @@
         </div>
       </template>
     </template>
+    </div>
   </div>
 </template>
 
@@ -220,20 +222,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.fadein-bot {
-  opacity: 0;
-  animation: fadeInBot 0.5s ease-out forwards;
-}
-
-@keyframes fadeInBot {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>

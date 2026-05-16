@@ -40,7 +40,7 @@ export default {
         <!-- Header -->
         <div class="mb-16 text-left title-reveal">
           <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5 drop-shadow-sm">
-            Projects<span class="text-blue-500">.</span>
+            Featured <span class="text-blue-500">Projects</span><span class="text-blue-500">.</span>
           </h1>
           <p class="text-zinc-400 max-w-2xl text-lg md:text-xl leading-relaxed">
             A collection of <span class="text-zinc-200 font-medium">infrastructure</span>, <span class="text-zinc-200 font-medium">automation</span>, and <span class="text-zinc-200 font-medium">full-stack</span> projects I've built.

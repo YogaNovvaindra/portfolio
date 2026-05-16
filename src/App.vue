@@ -10,7 +10,7 @@
     <nav class="w-full px-6 md:fixed top-0 z-[98] nav-bar">
       <div class="container mx-auto max-w-7xl flex flex-wrap items-center justify-between h-[60px]">
         <!-- Logo -->
-        <button @click="redirectToHome" class="flex items-center gap-2.5 fadein-bot">
+        <button @click="redirectToHome" class="flex items-center gap-2.5 nav-fadein">
           <div class="w-12 h-7 rounded-lg bg-blue-500/15 border border-blue-500/20 flex items-center justify-center">
             <span class="text-blue-400 text-xs font-bold font-mono">YGNV</span>
           </div>
@@ -18,7 +18,7 @@
         </button>
 
         <!-- GitHub link -->
-        <div class="flex md:order-3 fadein-bot">
+        <div class="flex md:order-3 nav-fadein">
           <a
             href="https://github.com/yoganovvaindra"
             target="_blank"
@@ -37,26 +37,26 @@
             <li>
               <router-link
                 to="/"
-                class="fadein-bot nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+                class="nav-fadein nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
                 aria-current="page"
               >Home</router-link>
             </li>
             <li>
               <router-link
                 to="/about"
-                class="fadein-bot fadein-1 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+                class="nav-fadein fadein-1 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
               >About</router-link>
             </li>
             <li>
               <router-link
                 to="/portfolio"
-                class="fadein-bot fadein-2 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+                class="nav-fadein fadein-2 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
               >Portfolio</router-link>
             </li>
             <li>
               <router-link
                 to="/blog"
-                class="fadein-bot fadein-3 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+                class="nav-fadein fadein-3 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
               >Blog</router-link>
             </li>
           </ul>
@@ -184,16 +184,16 @@ footer nav a.mobile-nav-link.router-link-exact-active {
   color: white !important;
 }
 
-/* Legacy fadein-bot for nav items */
-.fadein-bot {
+/* Legacy nav-fadein for nav items */
+.nav-fadein {
   opacity: 0;
-  animation: fadeInBot 0.4s ease-out forwards;
+  animation: navFadeIn 0.4s ease-out forwards;
 }
 .fadein-1 { animation-delay: 70ms; }
 .fadein-2 { animation-delay: 140ms; }
 .fadein-3 { animation-delay: 210ms; }
 
-@keyframes fadeInBot {
+@keyframes navFadeIn {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
 }

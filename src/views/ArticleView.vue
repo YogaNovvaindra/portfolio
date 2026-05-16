@@ -207,23 +207,6 @@ export default {
 </script>
 
 <style>
-/* Scoped isn't used here for the markdown body because v-html needs global styles to target the injected tags */
-.fadein-bot {
-  opacity: 0;
-  animation: fadeInBot 0.5s ease-out forwards;
-}
-
-@keyframes fadeInBot {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Enhancing the typography from Ghost HTML */
 .prose {
   font-size: 1.1rem;
