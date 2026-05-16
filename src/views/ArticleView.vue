@@ -1,5 +1,9 @@
 <template>
   <div class="min-h-screen bg-zinc-950">
+    <!-- Reading Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-zinc-900 z-50">
+      <div class="h-full bg-blue-500 transition-all duration-150 ease-out" :style="{ width: readingProgress + '%' }"></div>
+    </div>
     <!-- Full-Width Title Hero -->
     <header v-if="!loading && !error && post" class="relative w-full h-[50vh] md:h-[75vh] flex items-end justify-center overflow-hidden title-reveal">
       <!-- Background Image & Overlay -->
@@ -18,7 +22,8 @@
       </div>
     </header>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 max-w-4xl">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 max-w-6xl flex flex-col lg:flex-row gap-12 relative">
+      <div class="w-full lg:w-3/4 max-w-4xl mx-auto lg:mx-0">
       <!-- Back Button -->
       <div class="mb-12 fadein-bot text-center md:text-left">
         <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-blue-400 transition-colors">
@@ -73,7 +78,7 @@
         </div>
 
         <!-- Article Body -->
-        <div class="prose prose-invert prose-blue max-w-none prose-img:rounded-xl prose-img:border prose-img:border-zinc-800/80 prose-headings:text-white prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800" v-html="post.html">
+        <div ref="articleContent" class="prose prose-invert prose-blue max-w-none prose-img:rounded-xl prose-img:border prose-img:border-zinc-800/80 prose-headings:text-white prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800" v-html="post.html">
         </div>
 
         <!-- More Stories Navigation -->
@@ -120,12 +125,30 @@
           </p>
         </footer>
       </article>
+      </div>
+
+      <!-- TOC Sidebar -->
+      <div v-if="post && toc.length > 0" class="hidden lg:block lg:w-1/4 relative">
+        <div class="sticky top-24 pt-4 fadein-bot">
+          <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-6">Table of Contents</h4>
+          <ul class="flex flex-col gap-4 text-sm border-l border-zinc-800">
+            <li v-for="item in toc" :key="item.id" :class="['-ml-[1px] border-l pl-4 transition-colors', item.level === 3 ? 'ml-2 border-transparent' : 'border-zinc-800 hover:border-blue-500']">
+              <a :href="`#${item.id}`" class="text-zinc-400 hover:text-blue-400 transition-colors line-clamp-2 leading-relaxed">
+                {{ item.text }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ghost from '@/services/ghost';
+import { nextTick } from 'vue';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
 
 export default {
   name: 'ArticleView',
@@ -135,7 +158,15 @@ export default {
       recentPosts: [],
       loading: true,
       error: null,
+      readingProgress: 0,
+      toc: []
     };
+  },
+  mounted() {
+    window.addEventListener('scroll', this.updateProgress);
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.updateProgress);
   },
   watch: {
     '$route.params.slug': {
@@ -156,7 +187,11 @@ export default {
 
         if (postResponse.posts && postResponse.posts.length > 0) {
           this.post = postResponse.posts[0];
-          document.title = `${this.post.title} - Yoga Novaindra`;
+          this.updateMeta();
+          
+          nextTick(() => {
+            this.setupArticleEnhancements();
+          });
           
           // Filter out current post from recent posts
           this.recentPosts = (postsResponse.posts || [])
@@ -202,6 +237,72 @@ export default {
       }
       return 'just now';
     },
+    updateMeta() {
+      if (!this.post) return;
+      document.title = `${this.post.title} - Yoga Novaindra`;
+      
+      const updateTag = (name, content) => {
+        const attr = name.startsWith('og:') ? 'property' : 'name';
+        let tag = document.querySelector(`meta[${attr}="${name}"]`);
+        if (!tag) {
+          tag = document.createElement('meta');
+          tag.setAttribute(attr, name);
+          document.head.appendChild(tag);
+        }
+        tag.setAttribute('content', content);
+      };
+
+      const desc = this.post.custom_excerpt || this.post.excerpt || '';
+      updateTag('description', desc);
+      updateTag('og:title', this.post.title);
+      updateTag('og:description', desc);
+      updateTag('og:image', this.post.feature_image || '');
+      updateTag('twitter:card', 'summary_large_image');
+    },
+    updateProgress() {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      this.readingProgress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+    },
+    setupArticleEnhancements() {
+      const article = this.$refs.articleContent;
+      if (!article) return;
+
+      // 1. Generate TOC
+      const headings = article.querySelectorAll('h2, h3');
+      this.toc = Array.from(headings).map((h, index) => {
+        if (!h.id) h.id = `heading-${index}`;
+        return {
+          id: h.id,
+          text: h.innerText,
+          level: h.tagName === 'H2' ? 2 : 3
+        };
+      });
+
+      // 2. Syntax Highlighting & Copy Button
+      const blocks = article.querySelectorAll('pre code');
+      blocks.forEach((block) => {
+        hljs.highlightElement(block);
+        
+        const pre = block.parentElement;
+        if (!pre.classList.contains('relative')) {
+          pre.classList.add('relative', 'group');
+          const btn = document.createElement('button');
+          btn.innerHTML = `Copy`;
+          btn.className = 'absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 px-3 py-1.5 rounded-lg border border-zinc-700 font-medium tracking-wide';
+          btn.onclick = () => {
+            navigator.clipboard.writeText(block.innerText);
+            btn.innerHTML = 'Copied!';
+            btn.classList.add('text-blue-400', 'border-blue-500/50');
+            setTimeout(() => {
+              btn.innerHTML = 'Copy';
+              btn.classList.remove('text-blue-400', 'border-blue-500/50');
+            }, 2000);
+          };
+          pre.appendChild(btn);
+        }
+      });
+    }
   },
 };
 </script>

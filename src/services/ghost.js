@@ -12,17 +12,51 @@ const api = axios.create({
 });
 
 export default {
-  async getPosts(limit = 'all', page = 1) {
+  async getPosts(limit = 'all', page = 1, filter = null) {
     try {
-      const response = await api.get('/posts/', {
+      const params = { limit, page };
+      if (filter) params.filter = filter;
+
+      const response = await api.get('/posts/', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching Ghost posts:', error);
+      throw error;
+    }
+  },
+
+  async getSearchIndex() {
+    try {
+      const response = await axios.get(`${GHOST_URL}/ghost/api/content/posts/`, {
         params: {
-          limit,
-          page,
+          key: GHOST_KEY,
+          limit: 'all',
+          fields: 'id,title,slug,custom_excerpt,excerpt,published_at,feature_image,primary_author',
+          include: 'authors,tags'
         },
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching Ghost posts:', error);
+      console.error('Error fetching Ghost search index:', error);
+      throw error;
+    }
+  },
+
+  async getTags() {
+    try {
+      const response = await api.get('/tags/', {
+        params: {
+          limit: 'all',
+          include: 'count.posts',
+          filter: 'visibility:public'
+        }
+      });
+      // Sort tags by post count descending
+      let tags = response.data.tags || [];
+      tags.sort((a, b) => (b.count?.posts || 0) - (a.count?.posts || 0));
+      return tags;
+    } catch (error) {
+      console.error('Error fetching Ghost tags:', error);
       throw error;
     }
   },
