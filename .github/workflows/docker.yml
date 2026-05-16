@@ -40,6 +40,9 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
+          build-args: |
+            VUE_APP_GHOST_KEY=${{ secrets.VUE_APP_GHOST_KEY }}
+            VUE_APP_GHOST_URL=${{ secrets.VUE_APP_GHOST_URL }}
           tags: |
             ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
             ghcr.io/yoganovvaindra/portfolio:v${{ steps.version.outputs.version }}

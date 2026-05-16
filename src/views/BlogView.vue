@@ -1,113 +1,141 @@
 <template>
-  <div class="min-h-screen py-24 px-4 md:px-8 relative">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 relative">
-      <!-- Main Content -->
-      <div class="w-full md:w-2/3">
-        <div class="flex flex-col gap-6 animate-fade-up">
-          <article v-for="article in articles" :key="article.id">
-            <router-link :to="`/read/${article.slug}/${article.id}`" 
-                         class="group flex w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl p-5 md:p-8 transition-all duration-300 hover:bg-white/[0.06] hover:border-custom-blue-500/30 backdrop-blur-xl shadow-lg hover:shadow-custom-blue-500/10 hover:translate-x-1 items-center gap-6">
-              <div class="flex-1 min-w-0 pr-4">
-                <div class="text-xs mb-3 text-custom-blue-400 font-mono flex items-center gap-2">
-                  <span class="w-8 h-px bg-custom-blue-500/50"></span>
-                  {{ article.date }}
-                </div>
-                <h3 class="text-lg md:text-xl text-white font-bold mb-3 group-hover:text-custom-blue-300 transition-colors paraf line-clamp-2">
-                  {{ article.title }}
-                </h3>
-                <p class="text-gray-400 text-sm leading-relaxed paraf line-clamp-2 italic opacity-70 group-hover:opacity-100 transition-opacity">
-                  {{ article.desc }}
-                </p>
-              </div>
-              <div class="shrink-0 hidden sm:block">
-                <div class="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden border border-white/10 group-hover:border-custom-blue-500/30 transition-all duration-300">
-                  <img :src="article.image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Article Thumbnail">
-                </div>
-              </div>
-            </router-link>
-          </article>
-        </div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 pt-24 max-w-7xl">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto mb-20 fadein-bot">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+        </svg>
+        <span class="text-xs font-medium text-zinc-300 tracking-wide uppercase">Journal & Notes</span>
       </div>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
+        Tech & <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Explorations</span>
+      </h1>
+      <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+        A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
+      </p>
+    </div>
 
-      <!-- Sidebar -->
-      <aside class="w-full md:w-1/3 animate-fade-up" style="animation-delay: 0.2s">
-        <div class="md:sticky md:top-32 space-y-8">
-          <!-- Glass Card Sidebar -->
-          <div class="bg-white/[0.03] border border-white/[0.08] p-8 rounded-[2rem] backdrop-blur-xl shadow-2xl">
-            <h2 class="text-xl font-bold text-white mb-6 font-display capitalize bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-              Sharing Experiences, Stories, & Knowledge
-            </h2>
-            <div class="w-12 h-1 bg-custom-blue-500 rounded-full mb-8"></div>
-            
-            <div class="space-y-6">
-              <div>
-                <div class="text-white text-[10px] font-bold uppercase tracking-[0.2em] mb-4 opacity-50">Trending Topics</div>
-                <div class="flex flex-wrap gap-2">
-                  <span v-for="topic in ['NodeJS', 'Technology', 'DevOps', 'Security']" :key="topic"
-                        class="py-2 px-4 rounded-xl bg-white/10 hover:bg-custom-blue-500/20 text-white border border-white/20 hover:border-custom-blue-500/40 text-xs font-bold cursor-pointer transition-all">
-                    {{ topic }}
-                  </span>
-                </div>
-              </div>
-            </div>
+    <!-- Loading State -->
+    <div v-if="loading" class="flex justify-center items-center py-20 fadein-bot">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="text-center py-20 fadein-bot">
+      <div class="inline-block bg-red-500/10 border border-red-500/20 rounded-xl px-6 py-4">
+        <p class="text-red-400">{{ error }}</p>
+        <button @click="fetchPosts" class="mt-4 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium">
+          Try Again
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div v-else-if="posts.length === 0" class="text-center py-20 fadein-bot">
+      <p class="text-zinc-500">No posts found.</p>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article
+        v-for="(post, index) in posts"
+        :key="post.id"
+        class="group relative flex flex-col items-start justify-between rounded-2xl bg-zinc-900/40 border border-zinc-800/80 p-6 transition-all duration-300 hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 fadein-bot"
+        :style="{ animationDelay: `${index * 100}ms` }"
+      >
+        <div class="flex items-center gap-x-4 text-xs mb-4">
+          <time :datetime="post.published_at" class="text-zinc-500">
+            {{ formatDate(post.published_at) }}
+          </time>
+          <span
+            v-if="post.primary_tag"
+            class="relative z-10 rounded-full bg-blue-500/10 px-3 py-1.5 font-medium text-blue-400 border border-blue-500/20"
+          >
+            {{ post.primary_tag.name }}
+          </span>
+        </div>
+        <div class="group relative">
+          <h3 class="mt-3 text-xl font-semibold leading-6 text-white group-hover:text-blue-400 transition-colors">
+            <router-link :to="`/blog/${post.slug}`">
+              <span class="absolute inset-0"></span>
+              {{ post.title }}
+            </router-link>
+          </h3>
+          <p class="mt-4 line-clamp-3 text-sm leading-6 text-zinc-400">
+            {{ post.custom_excerpt || post.excerpt }}
+          </p>
+        </div>
+        <div class="relative mt-6 flex items-center gap-x-4">
+          <img v-if="post.feature_image" :src="post.feature_image" alt="" class="h-10 w-10 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
+          <div v-else class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 font-bold">
+            Y
+          </div>
+          <div class="text-sm leading-6">
+            <p class="font-semibold text-white">
+              <span class="absolute inset-0"></span>
+              {{ post.primary_author?.name || 'Yoga Novaindra' }}
+            </p>
+            <p class="text-zinc-500">{{ post.reading_time || 3 }} min read</p>
           </div>
         </div>
-      </aside>
+      </article>
     </div>
-    
-    <ArticleList class="mt-20 opacity-0 pointer-events-none" />
   </div>
 </template>
-  
+
 <script>
-import ArticleList from '@/components/ArticleList.vue';
-import axios from "axios";
+import ghost from '@/services/ghost';
+
 export default {
   name: 'BlogView',
   data() {
     return {
-      articles: []
-    }
+      posts: [],
+      loading: true,
+      error: null,
+    };
   },
-  components: {
-    ArticleList
-  },
-  mounted() {
-    this.getArticles();
+  async created() {
+    await this.fetchPosts();
   },
   methods: {
-    async getArticles() {
-      axios.get('https://64a38c9cc3b509573b564183.mockapi.io/api/blog/all')
-        .then(response => {
-          this.articles = response.data;
-        })
+    async fetchPosts() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await ghost.getPosts();
+        this.posts = response.posts || [];
+      } catch (err) {
+        this.error = 'Failed to load blog posts. Ensure Ghost Content API Key is configured.';
+        console.error(err);
+      } finally {
+        this.loading = false;
+      }
     },
-  }
-}
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+    },
+  },
+};
 </script>
 
 <style scoped>
-.paraf {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.fadein-bot {
+  opacity: 0;
+  animation: fadeInBot 0.5s ease-out forwards;
 }
 
-.animate-fade-up {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-pulse-slow {
-    animation: pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-@keyframes pulse-glow {
-    0%, 100% { opacity: 0.1; transform: scale(1); }
-    50% { opacity: 0.2; transform: scale(1.05); }
+@keyframes fadeInBot {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

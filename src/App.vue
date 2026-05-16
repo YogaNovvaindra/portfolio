@@ -53,6 +53,12 @@
                 class="fadein-bot fadein-2 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
               >Portfolio</router-link>
             </li>
+            <li>
+              <router-link
+                to="/blog"
+                class="fadein-bot fadein-3 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+              >Blog</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -81,6 +87,7 @@
       <router-link to="/" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Home</router-link>
       <router-link to="/about" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">About</router-link>
       <router-link to="/portfolio" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Portfolio</router-link>
+      <router-link to="/blog" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Blog</router-link>
     </nav>
   </footer>
 </template>
@@ -184,6 +191,7 @@ footer nav a.mobile-nav-link.router-link-exact-active {
 }
 .fadein-1 { animation-delay: 70ms; }
 .fadein-2 { animation-delay: 140ms; }
+.fadein-3 { animation-delay: 210ms; }
 
 @keyframes fadeInBot {
   from { opacity: 0; transform: translateY(-6px); }
