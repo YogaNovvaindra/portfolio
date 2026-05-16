@@ -38,16 +38,14 @@ export default {
 
     <div class="max-w-6xl mx-auto h-full relative">
         <!-- Header -->
-        <div class="mb-20 text-center animate-fade-up">
-              <h2 class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-custom-blue-200 to-purple-300 font-display mb-6">
-                  Selected Works
-              </h2>
-              <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed italic opacity-80">
-                  A curation of infrastructure, automation, and full-stack protocol developments.
-              </p>
-              <div class="mt-8 flex justify-center">
-                <div class="w-12 h-1 bg-custom-blue-500 rounded-full"></div>
-              </div>
+        <div class="mb-16 text-left animate-fade-up">
+          <p class="text-sm font-mono text-blue-400 font-semibold tracking-widest mb-3 uppercase">Selected Work</p>
+          <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-5">
+            Projects<span class="text-blue-500">.</span>
+          </h2>
+          <p class="text-zinc-400 max-w-2xl text-lg md:text-xl leading-relaxed">
+            A collection of <span class="text-zinc-200 font-medium">infrastructure</span>, <span class="text-zinc-200 font-medium">automation</span>, and <span class="text-zinc-200 font-medium">full-stack</span> projects I've built.
+          </p>
         </div>
 
         <!-- List Component -->
