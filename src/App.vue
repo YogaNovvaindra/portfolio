@@ -11,8 +11,8 @@
       <div class="container mx-auto flex flex-wrap items-center justify-between h-[60px]">
         <!-- Logo -->
         <button @click="redirectToHome" class="flex items-center gap-2.5 fadein-bot">
-          <div class="w-7 h-7 rounded-lg bg-blue-500/15 border border-blue-500/20 flex items-center justify-center">
-            <span class="text-blue-400 text-xs font-bold font-mono">YN</span>
+          <div class="w-12 h-7 rounded-lg bg-blue-500/15 border border-blue-500/20 flex items-center justify-center">
+            <span class="text-blue-400 text-xs font-bold font-mono">YGNV</span>
           </div>
           <span class="text-sm font-semibold text-white tracking-tight">Yoga Novaindra</span>
         </button>
