@@ -1,21 +1,5 @@
 <template>
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 pt-24 max-w-7xl">
-    <!-- Header -->
-    <div class="text-center max-w-3xl mx-auto mb-20 fadein-bot">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-        </svg>
-        <span class="text-xs font-medium text-zinc-300 tracking-wide uppercase">Journal & Notes</span>
-      </div>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
-        Tech & <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Explorations</span>
-      </h1>
-      <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-        A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
-      </p>
-    </div>
-
     <!-- Loading State -->
     <div v-if="loading" class="flex justify-center items-center py-20 fadein-bot">
       <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -31,56 +15,144 @@
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div v-else-if="posts.length === 0" class="text-center py-20 fadein-bot">
-      <p class="text-zinc-500">No posts found.</p>
-    </div>
+    <template v-else>
+      <!-- Empty State -->
+      <div v-if="posts.length === 0" class="text-center py-20 fadein-bot">
+        <p class="text-zinc-500">No posts found.</p>
+      </div>
 
-    <!-- Blog Posts Grid -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <article
-        v-for="(post, index) in posts"
-        :key="post.id"
-        class="group relative flex flex-col items-start justify-between rounded-2xl bg-zinc-900/40 border border-zinc-800/80 p-6 transition-all duration-300 hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 fadein-bot"
-        :style="{ animationDelay: `${index * 100}ms` }"
-      >
-        <div class="flex items-center gap-x-4 text-xs mb-4">
-          <time :datetime="post.published_at" class="text-zinc-500">
-            {{ formatDate(post.published_at) }}
-          </time>
-          <span
-            v-if="post.primary_tag"
-            class="relative z-10 rounded-full bg-blue-500/10 px-3 py-1.5 font-medium text-blue-400 border border-blue-500/20"
-          >
-            {{ post.primary_tag.name }}
-          </span>
-        </div>
-        <div class="group relative">
-          <h3 class="mt-3 text-xl font-semibold leading-6 text-white group-hover:text-blue-400 transition-colors">
-            <router-link :to="`/blog/${post.slug}`">
-              <span class="absolute inset-0"></span>
-              {{ post.title }}
-            </router-link>
-          </h3>
-          <p class="mt-4 line-clamp-3 text-sm leading-6 text-zinc-400">
-            {{ post.custom_excerpt || post.excerpt }}
-          </p>
-        </div>
-        <div class="relative mt-6 flex items-center gap-x-4">
-          <img v-if="post.feature_image" :src="post.feature_image" alt="" class="h-10 w-10 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
-          <div v-else class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 font-bold">
-            Y
-          </div>
-          <div class="text-sm leading-6">
-            <p class="font-semibold text-white">
-              <span class="absolute inset-0"></span>
-              {{ post.primary_author?.name || 'Yoga Novaindra' }}
+      <template v-else>
+        <!-- Hero Section: Header + Featured Post -->
+        <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-16 md:mb-24">
+          <!-- Left Side: Header -->
+          <div class="xl:w-5/12 flex flex-col justify-center text-left fadein-bot">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6 w-fit">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              <span class="text-xs font-medium text-zinc-300 tracking-wide uppercase">Journal & Notes</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 whitespace-nowrap">
+              Tech & <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Explorations</span>
+            </h1>
+            <p class="text-lg text-zinc-400 leading-relaxed">
+              A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
             </p>
-            <p class="text-zinc-500">{{ post.reading_time || 3 }} min read</p>
+          </div>
+
+          <!-- Right Side: Featured Post -->
+          <div class="xl:w-7/12 fadein-bot" style="animation-delay: 100ms;" v-if="featuredPost">
+            <article class="h-full group relative rounded-2xl border border-zinc-800/80 p-8 md:p-10 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden">
+              <!-- Background Image & Overlay -->
+              <div class="absolute inset-0 z-0">
+                <img v-if="featuredPost.feature_image" :src="featuredPost.feature_image" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div v-else class="w-full h-full bg-zinc-900/80"></div>
+                <!-- Dark Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-zinc-900/70"></div>
+                <div class="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/40 backdrop-blur-none group-hover:backdrop-blur-sm transition-all duration-700"></div>
+              </div>
+
+              <!-- Content -->
+              <div class="relative z-10">
+                <div class="flex items-center gap-x-4 mb-4 text-sm">
+                  <time :datetime="featuredPost.published_at" class="text-zinc-400">
+                    {{ formatDate(featuredPost.published_at) }}
+                  </time>
+                  <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">
+                    {{ featuredPost.primary_tag.name }}
+                  </span>
+                </div>
+                <div class="group relative">
+                  <h3 class="mt-4 text-3xl md:text-4xl font-semibold leading-tight text-white group-hover:text-blue-400 transition-colors">
+                    <router-link :to="`/blog/${featuredPost.slug}`">
+                      <span class="absolute inset-0"></span>
+                      {{ featuredPost.title }}
+                    </router-link>
+                  </h3>
+                  <p class="mt-6 text-base md:text-lg leading-relaxed text-zinc-300 line-clamp-4">
+                    {{ featuredPost.custom_excerpt || featuredPost.excerpt }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Author -->
+              <div class="relative z-10 mt-8 flex items-center gap-x-4">
+                <img v-if="featuredPost.primary_author?.profile_image" :src="featuredPost.primary_author.profile_image" alt="" class="h-12 w-12 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
+                <div v-else class="h-12 w-12 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-lg font-bold">
+                  Y
+                </div>
+                <div class="text-base leading-6">
+                  <p class="font-semibold text-white">
+                    <span class="absolute inset-0"></span>
+                    {{ featuredPost.primary_author?.name || 'Yoga Novaindra' }}
+                  </p>
+                  <p class="text-zinc-400">{{ featuredPost.reading_time || 3 }} min read</p>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
-      </article>
-    </div>
+
+        <!-- Blog Posts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" v-if="remainingPosts.length > 0">
+          <article
+            v-for="(post, index) in remainingPosts"
+            :key="post.id"
+            class="group relative flex flex-col items-start justify-between rounded-2xl border border-zinc-800/80 p-6 transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 fadein-bot overflow-hidden min-h-[320px]"
+            :style="{ animationDelay: `${(index + 2) * 100}ms` }"
+          >
+            <!-- Background Image & Overlay -->
+            <div class="absolute inset-0 z-0">
+              <img v-if="post.feature_image" :src="post.feature_image" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div v-else class="w-full h-full bg-zinc-900/80"></div>
+              <!-- Dark Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-zinc-900/70"></div>
+              <div class="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/40 backdrop-blur-none group-hover:backdrop-blur-sm transition-all duration-700"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="relative z-10 w-full">
+              <div class="flex items-center gap-x-4 text-xs mb-4">
+                <time :datetime="post.published_at" class="text-zinc-400">
+                  {{ formatDate(post.published_at) }}
+                </time>
+                <span
+                  v-if="post.primary_tag"
+                  class="relative z-10 rounded-full bg-blue-500/20 px-3 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm"
+                >
+                  {{ post.primary_tag.name }}
+                </span>
+              </div>
+              <div class="group relative w-full">
+                <h3 class="mt-3 text-xl font-semibold leading-6 text-white group-hover:text-blue-400 transition-colors">
+                  <router-link :to="`/blog/${post.slug}`">
+                    <span class="absolute inset-0"></span>
+                    {{ post.title }}
+                  </router-link>
+                </h3>
+                <p class="mt-4 text-sm leading-6 text-zinc-300 line-clamp-3">
+                  {{ post.custom_excerpt || post.excerpt }}
+                </p>
+              </div>
+            </div>
+            
+            <div class="relative z-10 mt-6 flex items-center gap-x-4 w-full">
+              <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" class="h-10 w-10 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
+              <div v-else class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-sm font-bold">
+                Y
+              </div>
+              <div class="text-sm leading-6">
+                <p class="font-semibold text-white">
+                  <span class="absolute inset-0"></span>
+                  {{ post.primary_author?.name || 'Yoga Novaindra' }}
+                </p>
+                <p class="text-zinc-400">{{ post.reading_time || 3 }} min read</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </template>
+    </template>
   </div>
 </template>
 
@@ -95,6 +167,14 @@ export default {
       loading: true,
       error: null,
     };
+  },
+  computed: {
+    featuredPost() {
+      return this.posts.length > 0 ? this.posts[0] : null;
+    },
+    remainingPosts() {
+      return this.posts.length > 1 ? this.posts.slice(1) : [];
+    }
   },
   async created() {
     await this.fetchPosts();

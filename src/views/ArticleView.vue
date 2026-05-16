@@ -1,76 +1,126 @@
 <template>
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 pt-24 max-w-4xl">
-    <!-- Back Button -->
-    <div class="mb-8 fadein-bot">
-      <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-blue-400 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back to Blog
-      </router-link>
-    </div>
-
-    <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center items-center py-32 fadein-bot">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="error" class="text-center py-20 fadein-bot">
-      <div class="inline-block bg-red-500/10 border border-red-500/20 rounded-xl px-6 py-4">
-        <p class="text-red-400">{{ error }}</p>
-        <button @click="fetchPost" class="mt-4 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium">
-          Try Again
-        </button>
+  <div class="min-h-screen bg-zinc-950">
+    <!-- Full-Width Title Hero -->
+    <header v-if="!loading && !error && post" class="relative w-full h-[50vh] md:h-[75vh] flex items-end justify-center overflow-hidden fadein-bot">
+      <!-- Background Image & Overlay -->
+      <div class="absolute inset-0 z-0">
+        <img v-if="post.feature_image" :src="post.feature_image" :alt="post.title" class="w-full h-full object-cover" />
+        <div v-else class="w-full h-full bg-zinc-900/80"></div>
+        <!-- Dark Gradient Overlay for Title -->
+        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent"></div>
       </div>
-    </div>
 
-    <!-- Article Content -->
-    <article v-else-if="post" class="fadein-bot">
-      <!-- Article Header -->
-      <header class="mb-12 text-center md:text-left">
-        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm mb-6">
-          <time :datetime="post.published_at" class="text-zinc-400">
-            {{ formatDate(post.published_at) }}
-          </time>
-          <span class="text-zinc-600">•</span>
-          <span class="text-zinc-400">{{ post.reading_time || 3 }} min read</span>
-          <span v-if="post.primary_tag" class="text-zinc-600">•</span>
-          <span v-if="post.primary_tag" class="text-blue-400 font-medium bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
-            {{ post.primary_tag.name }}
-          </span>
-        </div>
-        
-        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
+      <!-- Overlaid Title Only -->
+      <div class="relative z-10 container mx-auto px-4 max-w-5xl text-center pb-12 md:pb-20">
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-tight drop-shadow-2xl">
           {{ post.title }}
         </h1>
+      </div>
+    </header>
 
-        <p v-if="post.custom_excerpt || post.excerpt" class="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed max-w-3xl mx-auto md:mx-0">
-          {{ post.custom_excerpt || post.excerpt }}
-        </p>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 max-w-4xl">
+      <!-- Back Button -->
+      <div class="mb-12 fadein-bot text-center md:text-left">
+        <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-blue-400 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Blog
+        </router-link>
+      </div>
 
-        <!-- Author Info -->
-        <div class="flex items-center justify-center md:justify-start gap-4">
-          <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" class="h-12 w-12 rounded-full object-cover border-2 border-zinc-800" />
-          <div v-else class="h-12 w-12 rounded-full bg-blue-500/20 flex items-center justify-center border-2 border-blue-500/30 text-blue-400 font-bold text-lg">
-            Y
+      <!-- Loading/Error States -->
+      <div v-if="loading" class="flex justify-center items-center py-32 fadein-bot">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+      <div v-else-if="error" class="text-center py-20 fadein-bot">
+        <div class="inline-block bg-red-500/10 border border-red-500/20 rounded-xl px-6 py-4">
+          <p class="text-red-400">{{ error }}</p>
+          <button @click="fetchPost" class="mt-4 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium">
+            Try Again
+          </button>
+        </div>
+      </div>
+
+      <!-- Article Content -->
+      <article v-else-if="post" class="fadein-bot">
+        <!-- Post Meta Information Below Hero -->
+        <div class="mb-16 text-left">
+          <div class="flex items-center justify-start gap-4 text-sm font-medium mb-8">
+            <span v-if="post.primary_tag" class="text-blue-400 uppercase tracking-widest text-xs">
+              {{ post.primary_tag.name }}
+            </span>
+            <span class="text-zinc-700">|</span>
+            <time :datetime="post.published_at" class="text-zinc-500 uppercase tracking-widest text-xs">
+              {{ formatDate(post.published_at) }}
+            </time>
           </div>
-          <div class="text-left">
-            <p class="font-medium text-white">{{ post.primary_author?.name || 'Yoga Novaindra' }}</p>
-            <p class="text-sm text-zinc-500">Author</p>
+
+          <p v-if="post.custom_excerpt || post.excerpt" class="text-xl md:text-2xl text-zinc-400 mb-10 leading-relaxed max-w-3xl italic">
+            "{{ post.custom_excerpt || post.excerpt }}"
+          </p>
+
+          <div class="flex items-center gap-4">
+            <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" class="h-14 w-14 rounded-full object-cover border-2 border-zinc-800" />
+            <div v-else class="h-14 w-14 rounded-full bg-blue-500/20 flex items-center justify-center border-2 border-blue-500/30 text-blue-400 font-bold text-xl">
+              Y
+            </div>
+            <div class="text-left">
+              <p class="font-medium text-white">{{ post.primary_author?.name || 'Yoga Novaindra' }}</p>
+              <p class="text-xs text-zinc-600 uppercase tracking-widest mt-1">Author</p>
+            </div>
           </div>
         </div>
-      </header>
 
-      <!-- Feature Image -->
-      <div v-if="post.feature_image" class="mb-12 rounded-2xl overflow-hidden border border-zinc-800/80 shadow-2xl">
-        <img :src="post.feature_image" :alt="post.title" class="w-full h-auto object-cover" />
-      </div>
+        <!-- Article Body -->
+        <div class="prose prose-invert prose-blue max-w-none prose-img:rounded-xl prose-img:border prose-img:border-zinc-800/80 prose-headings:text-white prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800" v-html="post.html">
+        </div>
 
-      <!-- Article Body -->
-      <div class="prose prose-invert prose-blue max-w-none prose-img:rounded-xl prose-img:border prose-img:border-zinc-800/80 prose-headings:text-white prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800" v-html="post.html">
-      </div>
-    </article>
+        <!-- More Stories Navigation -->
+        <div v-if="recentPosts.length > 0" class="mt-24 pt-16 border-t border-zinc-800/50 fadein-bot">
+          <div class="flex items-center justify-between mb-10">
+            <h2 class="text-2xl font-bold text-white tracking-tight">More from the blog</h2>
+            <router-link to="/blog" class="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors">
+              View all posts &rarr;
+            </router-link>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <router-link 
+              v-for="recent in recentPosts" 
+              :key="recent.id" 
+              :to="`/blog/${recent.slug}`"
+              class="group block relative"
+            >
+              <div class="aspect-video rounded-2xl overflow-hidden mb-6 border border-zinc-800/50 bg-zinc-900/40 relative">
+                <img :src="recent.feature_image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/60 to-transparent"></div>
+              </div>
+              <h3 class="text-xl font-bold text-zinc-100 group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
+                {{ recent.title }}
+              </h3>
+              <p class="mt-3 text-sm text-zinc-500 line-clamp-2">
+                {{ recent.custom_excerpt || recent.excerpt }}
+              </p>
+            </router-link>
+          </div>
+        </div>
+
+        <!-- Article Footer -->
+        <footer class="mt-24 pt-12 border-t border-zinc-900 text-center fadein-bot">
+          <p class="text-zinc-600 text-sm flex items-center justify-center gap-2">
+            <span>&copy; {{ new Date().getFullYear() }} Yoga Novaindra</span>
+            <span class="text-zinc-800">•</span>
+            <span class="flex items-center gap-1.5">
+              Powered by 
+              <a href="https://ghost.org" target="_blank" class="inline-flex items-center gap-1 font-medium text-zinc-400 hover:text-blue-400 transition-colors">
+                <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M11.96 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0h-.04zm7.25 15.11c-.53 1.48-1.59 2.54-3.1 3.1-1.51.56-3.1.56-4.6 0-1.5-.56-2.57-1.62-3.1-3.1-.53-1.48-.53-3.1 0-4.6.53-1.5 1.59-2.56 3.1-3.1 1.51-.56 3.1-.56 4.6 0 1.5.56 2.57 1.62 3.1 3.1.53 1.49.53 3.09 0 4.6z"/></svg>
+                Ghost
+              </a>
+            </span>
+          </p>
+        </footer>
+      </article>
+    </div>
   </div>
 </template>
 
@@ -82,12 +132,16 @@ export default {
   data() {
     return {
       post: null,
+      recentPosts: [],
       loading: true,
       error: null,
     };
   },
-  async created() {
-    await this.fetchPost();
+  watch: {
+    '$route.params.slug': {
+      handler: 'fetchPost',
+      immediate: true
+    }
   },
   methods: {
     async fetchPost() {
@@ -95,10 +149,19 @@ export default {
       this.error = null;
       const slug = this.$route.params.slug;
       try {
-        const response = await ghost.getPostBySlug(slug);
-        if (response.posts && response.posts.length > 0) {
-          this.post = response.posts[0];
+        const [postResponse, postsResponse] = await Promise.all([
+          ghost.getPostBySlug(slug),
+          ghost.getPosts({ limit: 3 })
+        ]);
+
+        if (postResponse.posts && postResponse.posts.length > 0) {
+          this.post = postResponse.posts[0];
           document.title = `${this.post.title} - Yoga Novaindra`;
+          
+          // Filter out current post from recent posts
+          this.recentPosts = (postsResponse.posts || [])
+            .filter(p => p.id !== this.post.id)
+            .slice(0, 2);
         } else {
           this.error = 'Post not found.';
         }
@@ -107,6 +170,7 @@ export default {
         console.error(err);
       } finally {
         this.loading = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     },
     formatDate(dateString) {
