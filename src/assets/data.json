@@ -98,7 +98,7 @@
     {
       "id": 1,
       "name": "Containers & Orchestration",
-      "description": "Kubernetes, Docker",
+      "description": "Kubernetes, Docker, Docker Swarm, Microk8s, OpenShift",
       "level": 4,
       "keywords": [],
       "icon": "kubernetes"
@@ -130,7 +130,7 @@
     {
       "id": 5,
       "name": "Networking",
-      "description": "Firewalls, VPN, MikroTik",
+      "description": "Firewalls, VPN, MikroTik, Fortinet",
       "level": 3,
       "keywords": [],
       "icon": "cisco"
