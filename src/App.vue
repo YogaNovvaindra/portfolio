@@ -6,9 +6,9 @@
   <!-- Bottom left subtle warmth -->
   <div class="fixed bottom-[-15%] left-[-10%] -z-10 pointer-events-none w-[400px] h-[400px] bg-blue-800/[0.05] blur-[120px] rounded-full"></div>
 
-  <div class="max-w-7xl mx-auto flex flex-col relative pb-20 md:pb-0 min-h-screen">
-    <nav class="max-w-7xl px-6 md:fixed top-0 z-[98] w-full nav-bar">
-      <div class="container mx-auto flex flex-wrap items-center justify-between h-[60px]">
+  <div class="w-full flex flex-col relative pb-20 md:pb-0 min-h-screen">
+    <nav class="w-full px-6 md:fixed top-0 z-[98] nav-bar">
+      <div class="container mx-auto max-w-7xl flex flex-wrap items-center justify-between h-[60px]">
         <!-- Logo -->
         <button @click="redirectToHome" class="flex items-center gap-2.5 fadein-bot">
           <div class="w-12 h-7 rounded-lg bg-blue-500/15 border border-blue-500/20 flex items-center justify-center">

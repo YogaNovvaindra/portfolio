@@ -51,8 +51,8 @@
               {{ post.primary_tag.name }}
             </span>
             <span class="text-zinc-700">|</span>
-            <time :datetime="post.published_at" class="text-zinc-500 uppercase tracking-widest text-xs">
-              {{ formatDate(post.published_at) }}
+            <time :datetime="post.published_at" :title="formatDate(post.published_at)" class="text-zinc-500 uppercase tracking-widest text-xs cursor-help">
+              {{ getRelativeTime(post.published_at) }}
             </time>
           </div>
 
@@ -177,6 +177,30 @@ export default {
       if (!dateString) return '';
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
+    },
+    getRelativeTime(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+      
+      const units = [
+        { name: 'year', seconds: 31536000 },
+        { name: 'month', seconds: 2592000 },
+        { name: 'week', seconds: 604800 },
+        { name: 'day', seconds: 86400 },
+        { name: 'hour', seconds: 3600 },
+        { name: 'minute', seconds: 60 },
+        { name: 'second', seconds: 1 }
+      ];
+
+      for (const unit of units) {
+        if (diffInSeconds >= unit.seconds) {
+          const count = Math.floor(diffInSeconds / unit.seconds);
+          return `${count} ${unit.name}${count !== 1 ? 's' : ''} ago`;
+        }
+      }
+      return 'just now';
     },
   },
 };

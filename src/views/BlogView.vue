@@ -55,8 +55,8 @@
               <!-- Content -->
               <div class="relative z-10">
                 <div class="flex items-center gap-x-4 mb-4 text-sm">
-                  <time :datetime="featuredPost.published_at" class="text-zinc-400">
-                    {{ formatDate(featuredPost.published_at) }}
+                  <time :datetime="featuredPost.published_at" :title="formatDate(featuredPost.published_at)" class="text-zinc-400 cursor-help">
+                    {{ getRelativeTime(featuredPost.published_at) }}
                   </time>
                   <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">
                     {{ featuredPost.primary_tag.name }}
@@ -113,8 +113,8 @@
             <!-- Content -->
             <div class="relative z-10 w-full">
               <div class="flex items-center gap-x-4 text-xs mb-4">
-                <time :datetime="post.published_at" class="text-zinc-400">
-                  {{ formatDate(post.published_at) }}
+                <time :datetime="post.published_at" :title="formatDate(post.published_at)" class="text-zinc-400 cursor-help">
+                  {{ getRelativeTime(post.published_at) }}
                 </time>
                 <span
                   v-if="post.primary_tag"
@@ -197,6 +197,30 @@ export default {
       if (!dateString) return '';
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
+    },
+    getRelativeTime(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+      
+      const units = [
+        { name: 'year', seconds: 31536000 },
+        { name: 'month', seconds: 2592000 },
+        { name: 'week', seconds: 604800 },
+        { name: 'day', seconds: 86400 },
+        { name: 'hour', seconds: 3600 },
+        { name: 'minute', seconds: 60 },
+        { name: 'second', seconds: 1 }
+      ];
+
+      for (const unit of units) {
+        if (diffInSeconds >= unit.seconds) {
+          const count = Math.floor(diffInSeconds / unit.seconds);
+          return `${count} ${unit.name}${count !== 1 ? 's' : ''} ago`;
+        }
+      }
+      return 'just now';
     },
   },
 };
