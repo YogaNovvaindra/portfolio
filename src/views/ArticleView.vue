@@ -56,7 +56,7 @@
             </time>
           </div>
 
-          <p v-if="post.custom_excerpt || post.excerpt" class="text-xl md:text-2xl text-zinc-400 mb-10 leading-relaxed max-w-3xl italic">
+          <p v-if="post.custom_excerpt || post.excerpt" class="text-lg md:text-xl lg:text-2xl text-zinc-300 mb-10 leading-relaxed max-w-3xl italic">
             "{{ post.custom_excerpt || post.excerpt }}"
           </p>
 
@@ -209,8 +209,14 @@ export default {
 <style>
 /* Enhancing the typography from Ghost HTML */
 .prose {
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.75;
+}
+@media (min-width: 768px) {
+  .prose {
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
 }
 .prose h2 {
   margin-top: 2em;
@@ -237,7 +243,7 @@ export default {
 .prose p {
   margin-top: 1.25em;
   margin-bottom: 1.25em;
-  color: #a1a1aa; /* zinc-400 */
+  color: #d4d4d8; /* zinc-300 for better contrast */
 }
 .prose ul, .prose ol {
   margin-top: 1.25em;
@@ -253,7 +259,7 @@ export default {
 .prose li {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  color: #a1a1aa;
+  color: #d4d4d8; /* zinc-300 for better contrast */
 }
 .prose li > p {
   margin-top: 0.5em;

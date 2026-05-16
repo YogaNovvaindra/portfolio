@@ -67,7 +67,7 @@
                 </div>
               </div>
               <!-- Summary -->
-              <div class="text-zinc-400 text-base leading-relaxed experience-content" v-html="exp.summary"></div>
+              <div class="text-zinc-300 text-sm leading-relaxed experience-content" v-html="exp.summary"></div>
             </div>
           </div>
         </div>
@@ -366,13 +366,10 @@ export default {
 .experience-content :deep(li) {
   position: relative;
   padding-left: 14px;
-  color: #71717a;
-  font-size: 0.8125rem;
-  line-height: 1.5;
   transition: color 0.2s ease;
 }
 .experience-content :deep(li:hover) {
-  color: #a1a1aa;
+  color: #f4f4f5;
 }
 .experience-content :deep(li::before) {
   content: "";
