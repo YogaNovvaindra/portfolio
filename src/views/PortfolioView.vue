@@ -38,22 +38,19 @@ export default {
 
     <div class="max-w-6xl mx-auto h-full relative">
         <!-- Header -->
-        <div class="mb-20 text-center animate-fade-up">
-              <h2 class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-custom-blue-200 to-purple-300 font-display mb-6">
-                  Selected Works
-              </h2>
-              <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed italic opacity-80">
-                  A curation of infrastructure, automation, and full-stack protocol developments.
-              </p>
-              <div class="mt-8 flex justify-center">
-                <div class="w-12 h-1 bg-custom-blue-500 rounded-full"></div>
-              </div>
+        <div class="mb-16 text-left title-reveal">
+          <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5 drop-shadow-sm">
+            Featured <span class="text-blue-500">Projects</span><span class="text-blue-500">.</span>
+          </h1>
+          <p class="text-zinc-400 max-w-2xl text-lg md:text-xl leading-relaxed">
+            A collection of <span class="text-zinc-200 font-medium">infrastructure</span>, <span class="text-zinc-200 font-medium">automation</span>, and <span class="text-zinc-200 font-medium">full-stack</span> projects I've built.
+          </p>
         </div>
 
         <!-- List Component -->
         <ProjectList 
             :items="portfolio" 
-            class="animate-fade-up" 
+            class="title-reveal" 
             style="animation-delay: 0.1s"
             @select="openModal"
         />
@@ -69,19 +66,6 @@ export default {
 </template>
 
 <style scoped>
-.animate-fade-up {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes fadeUp {
-    from { 
-        opacity: 0; 
-        transform: translateY(30px);
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0);
-    }
-}
 
 .animate-pulse-slow {
     animation: pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;

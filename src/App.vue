@@ -1,71 +1,70 @@
 <template>
-  <div class="fixed inset-0 -z-20 bg-[#020202] pointer-events-none"></div>
-  <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-    <div 
-      v-for="(blob, index) in blobs" 
-      :key="index"
-      class="absolute rounded-full mix-blend-screen animate-blob opacity-[0.15] blur-[100px] md:blur-[120px]"
-      :style="blob.style"
-    ></div>
-  </div>
+  <!-- Clean minimal background -->
+  <div class="fixed inset-0 -z-20 bg-[#0a0a0a] pointer-events-none"></div>
+  <!-- Single restrained accent — top right only -->
+  <div class="fixed top-[-10%] right-[-10%] -z-10 pointer-events-none w-[500px] h-[500px] bg-blue-600/[0.07] blur-[130px] rounded-full"></div>
+  <!-- Bottom left subtle warmth -->
+  <div class="fixed bottom-[-15%] left-[-10%] -z-10 pointer-events-none w-[400px] h-[400px] bg-blue-800/[0.05] blur-[120px] rounded-full"></div>
 
-  <!-- Blue themed component -->
-  <div
-    class="max-w-7xl mx-auto flex flex-col relative pb-20 md:pb-0 min-h-screen"
-  >
-    <nav
-      class="max-w-7xl px-5 md:fixed top-0 z-[98] w-full backdrop-blur-xl bg-black/20"
-    >
-      <div
-        class="container mx-auto flex flex-wrap items-center justify-between"
-      >
-        <button @click="redirectToHome" class="flex px-4 py-2">
-          <span
-            class="self-center text-lg text-custom-blue-300 font-bold whitespace-nowrap fadein-bot hover:text-custom-blue-200 transition-colors"
-            >Yoga Novaindra</span
-          >
+  <div class="w-full flex flex-col relative pb-20 md:pb-0 min-h-screen">
+    <nav class="w-full px-6 md:fixed top-0 z-[98] nav-bar">
+      <div class="container mx-auto max-w-7xl flex flex-wrap items-center justify-between h-[60px]">
+        <!-- Logo -->
+        <button @click="redirectToHome" class="flex items-center gap-2.5 nav-fadein">
+          <div class="w-12 h-7 rounded-lg bg-blue-500/15 border border-blue-500/20 flex items-center justify-center">
+            <span class="text-blue-400 text-xs font-bold font-mono">YGNV</span>
+          </div>
+          <span class="text-sm font-semibold text-white tracking-tight">Yoga Novaindra</span>
         </button>
-        <div class="flex md:order-3 fadein-bot ml-8">
-          <a href="https://github.com/yoganovvaindra" target="_blank" class="hover:opacity-80 transition-opacity"
-            ><img class="w-8 h-8 rounded-full border border-white/10" src="/img/github.png" alt="github"
-          /></a>
-        </div>
-        <!-- Updated menu div with justify-end and flex-grow -->
-        <div
-          class="hidden md:flex justify-end items-center flex-grow md:order-2"
-          id="mobile-menu-3"
-        >
-          <ul
-            class="flex-col md:flex-row flex md:space-x-12 mt-4 md:mt-0 md:text-sm md:font-medium uppercase tracking-widest"
+
+        <!-- GitHub link -->
+        <div class="flex md:order-3 nav-fadein">
+          <a
+            href="https://github.com/yoganovvaindra"
+            target="_blank"
+            class="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors duration-200 px-3 py-1.5 rounded-md border border-transparent hover:border-zinc-700/60 hover:bg-white/[0.04]"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+
+        <!-- Nav links -->
+        <div class="hidden md:flex justify-end items-center flex-grow md:order-2" id="mobile-menu-3">
+          <ul class="flex-col md:flex-row flex md:space-x-1 mt-4 md:mt-0">
             <li>
               <router-link
                 to="/"
-                class="fadein-bot text-gray-400 hover:text-custom-blue-300 transition-colors font-bold block"
+                class="nav-fadein nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
                 aria-current="page"
-                >Home</router-link
-              >
+              >Home</router-link>
             </li>
             <li>
               <router-link
                 to="/about"
-                class="fadein-bot fadein-1 text-gray-400 hover:text-custom-blue-300 transition-colors font-bold block"
-                >About</router-link
-              >
+                class="nav-fadein fadein-1 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+              >About</router-link>
             </li>
             <li>
               <router-link
                 to="/portfolio"
-                class="fadein-bot fadein-2 text-gray-400 hover:text-custom-blue-300 transition-colors font-bold block"
-                >Portfolio</router-link
-              >
+                class="nav-fadein fadein-2 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+              >Portfolio</router-link>
+            </li>
+            <li>
+              <router-link
+                to="/blog"
+                class="nav-fadein fadein-3 nav-link text-zinc-400 hover:text-white transition-colors duration-200 font-medium block px-3.5 py-1.5 rounded-md text-sm"
+              >Blog</router-link>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <div class="md:mt-[100px]">
+    <div class="md:mt-[60px]">
       <router-view />
     </div>
 
@@ -73,44 +72,22 @@
     <button
       v-show="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-24 right-6 z-[99] bg-custom-blue-600/20 backdrop-blur-xl border border-white/10 text-white p-4 rounded-2xl shadow-2xl transition-all duration-300 transform hover:scale-110 hover:bg-custom-blue-500/30 md:bottom-8 md:right-8 group"
+      class="fixed bottom-24 right-6 z-[99] bg-zinc-900 border border-zinc-700/60 text-zinc-400 hover:text-white hover:border-zinc-500 p-3 rounded-lg shadow-xl transition-all duration-200 md:bottom-8 md:right-8"
       title="Back to top"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="3"
-        stroke="currentColor"
-        class="w-5 h-5 group-hover:-translate-y-1 transition-transform"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M4.5 15.75l7.5-7.5 7.5 7.5"
-        />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
       </svg>
     </button>
   </div>
-  <footer
-    class="block md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-white/5 bg-black/40 backdrop-blur-2xl"
-  >
-    <nav class="flex justify-around py-5 text-[10px] uppercase font-bold tracking-[0.2em]">
-      <router-link
-        to="/"
-        class="text-gray-400 hover:text-white transition-colors"
-        >Home</router-link
-      >
-      <router-link
-        to="/about"
-        class="text-gray-400 hover:text-white transition-colors"
-        >About</router-link
-      >
-      <router-link
-        to="/portfolio"
-        class="text-gray-400 hover:text-white transition-colors"
-        >Works</router-link
-      >
+
+  <!-- Mobile footer nav -->
+  <footer class="block md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800/70 bg-[#0a0a0a]/95 backdrop-blur-sm">
+    <nav class="flex justify-around py-4 text-[11px] font-medium tracking-wide">
+      <router-link to="/" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Home</router-link>
+      <router-link to="/about" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">About</router-link>
+      <router-link to="/portfolio" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Portfolio</router-link>
+      <router-link to="/blog" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Blog</router-link>
     </nav>
   </footer>
 </template>
@@ -120,43 +97,15 @@ export default {
   data() {
     return {
       showBackToTop: false,
-      blobs: []
     };
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
-    this.generateBlobs();
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    generateBlobs() {
-      const colors = [
-        'rgba(46, 143, 255, 0.15)', // custom-blue-500
-        'rgba(147, 51, 234, 0.15)', // purple-600
-        'rgba(59, 130, 246, 0.15)', // blue-500
-        'rgba(139, 92, 246, 0.15)', // violet-500
-        'rgba(0, 119, 255, 0.12)',  // custom-blue-600
-        'rgba(168, 85, 247, 0.12)'   // purple-500
-      ];
-      
-      this.blobs = Array.from({ length: 6 }, () => {
-        const size = Math.floor(Math.random() * 25) + 35; // 35% to 60%
-        return {
-          style: {
-            width: `${size}%`,
-            height: `${size}%`,
-            top: `${Math.floor(Math.random() * 100) - 20}%`,
-            left: `${Math.floor(Math.random() * 100) - 20}%`,
-            backgroundColor: colors[Math.floor(Math.random() * colors.length)],
-            animationDelay: `${Math.random() * -20}s`,
-            animationDuration: `${Math.random() * 10 + 15}s`,
-            opacity: (Math.random() * 0.1 + 0.1).toFixed(2)
-          }
-        };
-      });
-    },
     redirectToHome() {
       this.$router.push("/");
     },
@@ -174,7 +123,9 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap');
 @import url('@/assets/css/animations.css');
+
 *,
 *::before,
 *::after {
@@ -184,32 +135,29 @@ export default {
 }
 
 ::-webkit-scrollbar {
-  width: 5px; /* for vertical scrollbar */
-  height: 5px; /* for horizontal scrollbar */
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(240, 1%, 17%);
-  border-radius: 5px;
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #8ABFFF;
-  border-radius: 5px;
+  background: #2a2a2a;
+  border-radius: 4px;
 }
 
-::-webkit-scrollbar-button {
-  width: 20px;
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f3f;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  background: hsl(0, 0%, 0%);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #0a0a0a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  height: 100vh;
+  color: #e4e4e7;
   overflow-x: hidden;
 }
 
@@ -217,51 +165,36 @@ html {
   overflow-x: hidden;
 }
 
-nav {
-  padding: 30px;
+/* Nav bar */
+.nav-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-  transition: color 0.3s;
+/* Active desktop nav link */
+nav a.nav-link.router-link-exact-active {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-nav a.router-link-exact-active {
-  display: inline-flex;
-  flex-direction: column;
-  color: white;
-  transition: color 0.3s;
+/* Active mobile nav link */
+footer nav a.mobile-nav-link.router-link-exact-active {
+  color: white !important;
 }
 
-nav a.router-link-exact-active::after {
-  display: inline-block;
-  content: "";
-  margin-top: 0.08em;
-  width: 100%;
-  height: 4px;
-  border-radius: 2px;
-  background-color: #8ABFFF;
+/* Legacy nav-fadein for nav items */
+.nav-fadein {
+  opacity: 0;
+  animation: navFadeIn 0.4s ease-out forwards;
 }
+.fadein-1 { animation-delay: 70ms; }
+.fadein-2 { animation-delay: 140ms; }
+.fadein-3 { animation-delay: 210ms; }
 
-nav a.router-link-exact-active:hover {
-  color: white;
-}
-
-footer nav a.router-link-exact-active {
-  color: #8ABFFF;
-  position: relative;
-}
-
-footer nav a.router-link-exact-active::after {
-  display: block;
-  content: "";
-  width: 100%;
-  height: 3px;
-  background-color: #8ABFFF;
-  border-radius: 2px;
-  position: absolute;
-  bottom: -12px;
-  left: 0;
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 </style>

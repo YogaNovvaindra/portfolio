@@ -20,18 +20,18 @@ const routes = [
     component: () => import('../views/PortfolioView.vue'),
     meta: { title: 'Portfolio' }
   },
-  // {
-  //   path: '/blog',
-  //   name: 'blog',
-  //   component: () => import('../views/BlogView.vue'),
-  //   meta: { title: 'Blog' }
-  // },
-  // {
-  //   path: '/read/:slug/:id',
-  //   name: 'articleDetail',
-  //   component: () => import('../views/ArticleView.vue'),
-  //   meta: { title: 'Blog' }
-  // }
+  {
+    path: '/blog',
+    name: 'blog',
+    component: () => import('../views/BlogView.vue'),
+    meta: { title: 'Blog' }
+  },
+  {
+    path: '/blog/:slug',
+    name: 'articleDetail',
+    component: () => import('../views/ArticleView.vue'),
+    meta: { title: 'Blog Article' }
+  },
   {
     path: '/:pathMatch(.*)*', // Will match any path not matched above
     name: 'not-found',
