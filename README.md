@@ -1,7 +1,7 @@
-# Portfolio Website
+# Portfolio & Blog Website
 
-This repository contains the source code for my personal portfolio website.  
-It showcases my projects and skills as a DevOps Engineer and tech enthusiast.
+This repository contains the source code for my personal portfolio and technical blog.  
+It showcases my projects and skills as a DevOps Engineer, with a fully integrated custom frontend pulling posts from a Headless Ghost CMS.
 
 ## 🚀 Tech Stack
 
@@ -9,8 +9,19 @@ It showcases my projects and skills as a DevOps Engineer and tech enthusiast.
 - **Routing**: Vue Router 4.6.3
 - **Styling**: Tailwind CSS 3.4.18
 - **HTTP Client**: Axios 1.13.2
+- **CMS**: Ghost Content API (Headless)
 - **Build Tool**: Vue CLI 5.0.9
-- **Linting**: ESLint 8.57.1
+
+## 🔐 Environment Variables
+
+To run the application locally or build it via Docker, you must provide your Ghost API credentials.
+Create a `.env` file in the root of the project:
+
+```env
+# .env
+VUE_APP_GHOST_URL=https://ygnv.my.id
+VUE_APP_GHOST_KEY=your_ghost_content_api_key_here
+```
 
 ## 📋 Prerequisites
 
@@ -44,11 +55,16 @@ npm run lint
 
 ## 🐳 Docker Deployment
 
-This project includes Docker support for containerized deployment.
+This project includes Docker support for containerized deployment, utilizing a multi-stage Nginx build.
 
 ### Build Docker image
+Because the Vue app is compiled into static files, environment variables must be passed as `build-args` during the build step:
+
 ```bash
-docker build -t portfolio:latest .
+docker build \
+  --build-arg VUE_APP_GHOST_URL=https://ygnv.my.id \
+  --build-arg VUE_APP_GHOST_KEY=your_ghost_content_api_key_here \
+  -t portfolio:latest .
 ```
 
 ### Run container
@@ -56,31 +72,27 @@ docker build -t portfolio:latest .
 docker run -p 80:80 portfolio:latest
 ```
 
-The application uses a multi-stage build with Nginx for serving the static files.
-
 ## 📁 Project Structure
 
-```
+```text
 portfolio/
 ├── public/          # Static assets
 ├── src/
-│   ├── assets/      # CSS and images
-│   ├── components/  # Vue components
+│   ├── assets/      # CSS, tokens, and data.json
+│   ├── components/  # Reusable Vue components
 │   ├── router/      # Vue Router configuration
-│   ├── views/       # Page components
+│   ├── services/    # API integrations (Ghost CMS)
+│   ├── views/       # Page components (Home, Portfolio, Blog)
 │   └── main.js      # Application entry point
-├── .github/         # GitHub Actions workflows
-├── Dockerfile       # Docker configuration
-└── nginx.conf       # Nginx configuration
+├── .github/         # GitHub Actions workflows for CI/CD
+├── Dockerfile       # Multi-stage Docker build
+└── default.conf     # Nginx routing configuration
 ```
 
 ## 🔄 CI/CD
 
-The project uses GitHub Actions for automated Docker builds and pushes to GitHub Container Registry on pushes to the `main` branch.
-
-## 📝 Customize Configuration
-
-See [Vue CLI Configuration Reference](https://cli.vuejs.org/config/).
+The project uses GitHub Actions for automated Docker builds and pushes to the GitHub Container Registry (`ghcr.io`) upon pushing to the `main` branch. 
+*Note: Make sure `VUE_APP_GHOST_URL` and `VUE_APP_GHOST_KEY` are added to your GitHub Actions Secrets to ensure the automated build has access to the CMS.*
 
 ## 📄 License
 
