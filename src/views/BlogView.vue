@@ -25,15 +25,9 @@
         <!-- Hero Section: Header + Featured Post -->
         <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-16 md:mb-24">
           <!-- Left Side: Header -->
-          <div class="xl:w-5/12 flex flex-col justify-center text-left fadein-bot">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-6 w-fit">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-              </svg>
-              <span class="text-xs font-medium text-zinc-300 tracking-wide uppercase">Journal & Notes</span>
-            </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 whitespace-nowrap">
-              Tech & <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Explorations</span>
+          <div class="xl:w-5/12 flex flex-col justify-center text-left title-reveal">
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 drop-shadow-sm">
+              Tech & <span class="text-blue-500">Explorations</span><span class="text-blue-500">.</span>
             </h1>
             <p class="text-lg text-zinc-400 leading-relaxed">
               A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.

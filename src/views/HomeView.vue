@@ -3,7 +3,7 @@
     <main class="flex flex-col-reverse gap-16 items-center lg:flex-row lg:gap-20 lg:justify-between max-w-6xl mx-auto w-full">
 
       <!-- Hero Content -->
-      <div class="flex flex-col flex-1 space-y-10 text-center lg:text-left max-w-2xl home-fade-up">
+      <div class="flex flex-col flex-1 space-y-10 text-center lg:text-left max-w-2xl title-reveal">
 
         <!-- Name + Role -->
         <div class="space-y-4">
@@ -17,10 +17,8 @@
               Jakarta, ID
             </div>
           </div>
-
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05]">
-            Yoga<br/>
-            <span class="text-blue-500 drop-shadow-md">Novaindra</span>
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight drop-shadow-sm">
+            Yoga <span class="text-blue-500 drop-shadow-md">Novaindra</span><span class="text-blue-500">.</span>
           </h1>
 
           <div class="min-h-[1.8rem] flex items-center justify-center lg:justify-start">
@@ -81,7 +79,7 @@
       </div>
 
       <!-- Hero Avatar -->
-      <div class="relative home-fade-up shrink-0" style="animation-delay: 0.15s">
+      <div class="relative title-reveal shrink-0" style="animation-delay: 0.15s">
         <!-- Restrained glow behind avatar -->
         <div class="absolute inset-[-10%] bg-blue-600/10 blur-[60px] rounded-full"></div>
 
@@ -187,13 +185,5 @@ span[ref="typewriter"]::after,
   to  { transform: rotate(0deg); }
 }
 
-.home-fade-up {
-  animation: homeFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes homeFadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 </style>
 

@@ -38,11 +38,10 @@ export default {
 
     <div class="max-w-6xl mx-auto h-full relative">
         <!-- Header -->
-        <div class="mb-16 text-left animate-fade-up">
-          <p class="text-sm font-mono text-blue-400 font-semibold tracking-widest mb-3 uppercase">Selected Work</p>
-          <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-5">
+        <div class="mb-16 text-left title-reveal">
+          <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5 drop-shadow-sm">
             Projects<span class="text-blue-500">.</span>
-          </h2>
+          </h1>
           <p class="text-zinc-400 max-w-2xl text-lg md:text-xl leading-relaxed">
             A collection of <span class="text-zinc-200 font-medium">infrastructure</span>, <span class="text-zinc-200 font-medium">automation</span>, and <span class="text-zinc-200 font-medium">full-stack</span> projects I've built.
           </p>
@@ -51,7 +50,7 @@ export default {
         <!-- List Component -->
         <ProjectList 
             :items="portfolio" 
-            class="animate-fade-up" 
+            class="title-reveal" 
             style="animation-delay: 0.1s"
             @select="openModal"
         />
@@ -67,19 +66,6 @@ export default {
 </template>
 
 <style scoped>
-.animate-fade-up {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes fadeUp {
-    from { 
-        opacity: 0; 
-        transform: translateY(30px);
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0);
-    }
-}
 
 .animate-pulse-slow {
     animation: pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;

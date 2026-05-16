@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto space-y-20">
 
       <!-- Profile Header -->
-      <section class="about-fade-up">
+      <section class="title-reveal">
         <div class="flex flex-col md:flex-row items-start gap-8 md:gap-12">
           <!-- Avatar -->
           <div class="relative shrink-0">
@@ -13,10 +13,9 @@
               class="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover ring-1 ring-white/10 shadow-xl"
             />
           </div>
-          <!-- Intro Text -->
           <div class="space-y-4">
             <div>
-              <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight">Yoga Novaindra</h1>
+              <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight drop-shadow-sm">Yoga <span class="text-blue-500">Novaindra</span><span class="text-blue-500">.</span></h1>
               <div class="flex flex-wrap gap-2 mt-3">
                 <span class="text-xs font-semibold text-blue-400 bg-blue-500/15 px-3 py-1 rounded-full">DevSecOps Engineer</span>
                 <span class="text-xs font-medium text-zinc-400 bg-zinc-800/60 px-3 py-1 rounded-full">Cloud Enthusiast</span>
@@ -30,7 +29,7 @@
       </section>
 
       <!-- Experience Section -->
-      <section class="about-fade-up" style="animation-delay: 0.1s">
+      <section class="title-reveal" style="animation-delay: 0.1s">
         <div class="section-header">
           <h2 class="text-xl font-semibold text-white">Experience</h2>
           <div class="section-line"></div>
@@ -75,7 +74,7 @@
       </section>
 
       <!-- Skills Section -->
-      <section class="about-fade-up" style="animation-delay: 0.2s">
+      <section class="title-reveal" style="animation-delay: 0.2s">
         <div class="section-header">
           <h2 class="text-xl font-semibold text-white">Technical Skills</h2>
           <div class="section-line"></div>
@@ -108,7 +107,7 @@
       </section>
 
       <!-- Education & Certifications -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 about-fade-up" style="animation-delay: 0.3s">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 title-reveal" style="animation-delay: 0.3s">
 
         <!-- Education -->
         <section>
@@ -182,13 +181,6 @@ export default {
 </script>
 
 <style scoped>
-.about-fade-up {
-  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 
 /* Section header with line */
 .section-header {

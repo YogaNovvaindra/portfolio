@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-zinc-950">
     <!-- Full-Width Title Hero -->
-    <header v-if="!loading && !error && post" class="relative w-full h-[50vh] md:h-[75vh] flex items-end justify-center overflow-hidden fadein-bot">
+    <header v-if="!loading && !error && post" class="relative w-full h-[50vh] md:h-[75vh] flex items-end justify-center overflow-hidden title-reveal">
       <!-- Background Image & Overlay -->
       <div class="absolute inset-0 z-0">
         <img v-if="post.feature_image" :src="post.feature_image" :alt="post.title" class="w-full h-full object-cover" />
@@ -12,7 +12,7 @@
 
       <!-- Overlaid Title Only -->
       <div class="relative z-10 container mx-auto px-4 max-w-5xl text-center pb-12 md:pb-20">
-        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-tight drop-shadow-2xl">
+        <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-2xl">
           {{ post.title }}
         </h1>
       </div>
