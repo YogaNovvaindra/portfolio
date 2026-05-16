@@ -1,15 +1,15 @@
-FROM node:lts as builder
+FROM node:lts AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ARG VUE_APP_GHOST_URL
-ENV VUE_APP_GHOST_URL=$VUE_APP_GHOST_URL
-ARG VUE_APP_GHOST_KEY
-ENV VUE_APP_GHOST_KEY=$VUE_APP_GHOST_KEY
-RUN npm run build
+ARG GHOST_URL
+ARG GHOST_API
+RUN echo "VUE_APP_GHOST_URL=$GHOST_URL" >> .env && \
+    echo "VUE_APP_GHOST_KEY=$GHOST_API" >> .env && \
+    npm run build
 
-FROM nginx:alpine-slim as production
+FROM nginx:alpine-slim AS production
 RUN apk add --no-cache tzdata
 ENV TZ=Asia/Jakarta
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
