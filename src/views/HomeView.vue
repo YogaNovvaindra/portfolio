@@ -18,7 +18,7 @@
             </div>
           </div>
           <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight drop-shadow-sm">
-            Yoga <span class="text-blue-500 drop-shadow-md">Novaindra</span><span class="text-blue-500">.</span>
+            Yoga <span class="text-blue-500 drop-shadow-md">Novaindra</span>
           </h1>
 
           <div class="min-h-[1.8rem] flex items-center justify-center lg:justify-start">

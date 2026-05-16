@@ -66,7 +66,8 @@
       "name": "Associate Cloud Engineer Certification",
       "issuer": "Google",
       "date": "October 2024 - October 2027",
-      "summary": "",
+      "summary": "Validates ability to deploy applications, monitor operations, and manage enterprise solutions on Google Cloud Platform. Demonstrates proficiency with GCP console, CLI, and cloud-native architecture.",
+      "image": "1",
       "url": "https://www.credly.com/badges/59776b45-4faf-4e4e-a4a2-ba4308993c61/linked_in_profile"
     },
     {
@@ -74,7 +75,8 @@
       "name": "System Administration and IT Infrastructure Services",
       "issuer": "Coursera",
       "date": "February 2024 - No Expiration Date",
-      "summary": "",
+      "summary": "Comprehensive professional certificate covering active directory, cloud computing principles, server administration, troubleshooting, and robust IT infrastructure management.",
+      "image": "2",
       "url": "https://coursera.org/verify/LTXMV8GMHVC4"
     },
     {
@@ -82,7 +84,8 @@
       "name": "Applied Machine Learning for Cloud Engineer",
       "issuer": "Dicoding Indonesia",
       "date": "May 2024 - May 2027",
-      "summary": "",
+      "summary": "Focuses on deploying and serving machine learning models in cloud environments. Covers TensorFlow integration, scalable ML pipelines, and cloud-native APIs for model inference.",
+      "image": "3",
       "url": "https://www.dicoding.com/certificates/1OP8WN4OVXQK"
     },
     {
@@ -90,7 +93,8 @@
       "name": "Becoming a Google Cloud Engineer",
       "issuer": "Dicoding Indonesia",
       "date": "May 2024 - May 2027",
-      "summary": "",
+      "summary": "Covers fundamental and intermediate concepts of Google Cloud Platform (GCP), including compute engines, VPC networking, storage lifecycle management, and IAM security policies.",
+      "image": "4",
       "url": "https://www.dicoding.com/certificates/QLZ972GKEP5D"
     }
   ],
