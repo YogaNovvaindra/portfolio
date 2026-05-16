@@ -18,7 +18,7 @@
 
     <template v-else>
       <!-- Empty State -->
-      <div v-if="posts.length === 0" class="text-center py-20 fadein-bot">
+      <div v-if="serverPosts.length === 0" class="text-center py-20 fadein-bot">
         <p class="text-zinc-500">No posts found.</p>
       </div>
 
@@ -30,9 +30,56 @@
             <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 drop-shadow-sm">
               Tech <span class="text-blue-500">Explorations</span><span class="text-blue-500">.</span>
             </h1>
-            <p class="text-lg text-zinc-400 leading-relaxed">
+            <p class="text-lg text-zinc-400 leading-relaxed mb-8">
               A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
             </p>
+            
+            <!-- Search Bar -->
+            <div class="relative w-full fadein-bot" style="animation-delay: 200ms;">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+              <input 
+                v-model="searchQuery" 
+                type="text" 
+                placeholder="Search articles, or type # to filter by tag..." 
+                class="w-full bg-zinc-900/50 border border-zinc-800 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 text-white rounded-xl pl-12 pr-4 py-3 placeholder-zinc-500 transition-all duration-300 outline-none"
+              >
+            </div>
+            
+            <!-- Tag Filters -->
+            <div class="mt-6 relative w-full h-[32px] overflow-hidden fadein-bot" style="animation-delay: 300ms;" v-if="tags && tags.length > 0">
+              <!-- Scrollable Track (hidden scrollbar) -->
+              <div class="flex gap-2 w-full pr-24 absolute inset-0 hide-scrollbar overflow-x-auto">
+                <button
+                  @click="toggleTag(null)"
+                  :class="['flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+                >
+                  All
+                </button>
+                <button
+                  v-for="tag in sortedTags"
+                  :key="tag.id"
+                  @click="toggleTag(tag.slug)"
+                  :class="['flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+                >
+                  {{ tag.name }}
+                </button>
+              </div>
+              
+              <!-- Absolute Gradient & More Button -->
+              <div class="absolute right-0 top-0 h-full flex items-center bg-gradient-to-l from-[#09090b] via-[#09090b] to-transparent pl-12 pointer-events-none">
+                <button
+                  @click="showTagsModal = true"
+                  class="pointer-events-auto px-4 py-1.5 rounded-full text-xs font-medium transition-colors border bg-zinc-900/90 border-zinc-700 text-zinc-300 hover:text-white hover:border-blue-500 hover:bg-zinc-800 flex items-center gap-1 shadow-lg"
+                >
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                  More
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Right Side: Featured Post -->
@@ -88,14 +135,19 @@
           </div>
         </div>
 
+        <!-- Empty Search State -->
+        <div v-if="searchQuery && searchMatches.length === 0" class="text-center py-20 fadein-bot">
+          <p class="text-zinc-500 text-lg">No articles found matching "<span class="text-zinc-300">{{ searchQuery }}</span>".</p>
+        </div>
+
         <!-- Blog Posts Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" v-if="remainingPosts.length > 0">
-          <article
-            v-for="(post, index) in remainingPosts"
-            :key="post.id"
-            class="group relative flex flex-col items-start justify-between rounded-2xl border border-zinc-800/80 p-6 transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 fadein-bot overflow-hidden min-h-[320px]"
-            :style="{ animationDelay: `${(index + 2) * 100}ms` }"
-          >
+        <Transition name="fade" mode="out-in">
+          <div :key="currentPage + '-' + searchQuery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative w-full" v-if="remainingPosts.length > 0">
+            <article
+              v-for="post in remainingPosts"
+              :key="post.id"
+              class="group relative w-full flex flex-col items-start justify-between rounded-2xl border border-zinc-800/80 p-6 transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden min-h-[320px] bg-zinc-900/50"
+            >
             <!-- Background Image & Overlay -->
             <div class="absolute inset-0 z-0">
               <img v-if="post.feature_image" :src="post.feature_image" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -144,10 +196,77 @@
                 <p class="text-zinc-400">{{ post.reading_time || 3 }} min read</p>
               </div>
             </div>
-          </article>
+            </article>
+          </div>
+        </Transition>
+
+        <!-- Pagination -->
+        <div v-if="totalPages > 1" class="flex justify-center mt-12 fadein-bot">
+          <div class="flex space-x-2">
+            <button 
+              @click="currentPage > 1 && currentPage--"
+              :disabled="currentPage === 1"
+              class="px-4 py-2 rounded-lg border border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <div class="flex space-x-1">
+              <button 
+                v-for="page in totalPages" 
+                :key="page"
+                @click="currentPage = page"
+                :class="[
+                  'w-10 h-10 rounded-lg border transition-colors flex items-center justify-center font-medium',
+                  currentPage === page 
+                    ? 'bg-blue-500/20 border-blue-500/50 text-blue-400' 
+                    : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800 hover:text-white'
+                ]"
+              >
+                {{ page }}
+              </button>
+            </div>
+            <button 
+              @click="currentPage < totalPages && currentPage++"
+              :disabled="currentPage === totalPages"
+              class="px-4 py-2 rounded-lg border border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </template>
     </template>
+    </div>
+
+    <!-- Tags Modal -->
+    <div v-if="showTagsModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" @click.self="showTagsModal = false">
+      <div class="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm transition-opacity" @click="showTagsModal = false"></div>
+      <div class="relative bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl transform transition-all fadein-bot">
+        <div class="p-6 border-b border-zinc-800 flex justify-between items-center">
+          <h3 class="text-lg font-semibold text-white">All Tags</h3>
+          <button @click="showTagsModal = false" class="text-zinc-500 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+        <div class="p-6 overflow-y-auto hide-scrollbar">
+          <div class="flex flex-wrap gap-2">
+            <button
+              @click="toggleTag(null); showTagsModal = false"
+              :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+            >
+              All
+            </button>
+            <button
+              v-for="tag in sortedTags"
+              :key="tag.id"
+              @click="toggleTag(tag.slug); showTagsModal = false"
+              :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+            >
+              {{ tag.name }} <span class="text-zinc-600 ml-1">{{ tag.count?.posts || 0 }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -159,34 +278,153 @@ export default {
   name: 'BlogView',
   data() {
     return {
-      posts: [],
+      serverPosts: [],
+      searchIndex: [],
       loading: true,
       error: null,
+      searchQuery: '',
+      serverPage: 1,
+      searchPage: 1,
+      apiTotalPages: 1,
+      tags: [],
+      activeTag: null,
+      showTagsModal: false,
     };
   },
+  watch: {
+    searchQuery() {
+      this.searchPage = 1;
+    },
+    serverPage(newPage) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.fetchPosts(newPage);
+    },
+    searchPage() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    activeTag() {
+      this.serverPage = 1;
+      this.searchPage = 1;
+      // If serverPage is already 1, watcher won't trigger fetchPosts, so we call it manually
+      if (this.serverPage === 1) {
+        this.fetchPosts(1);
+      }
+    }
+  },
   computed: {
+    sortedTags() {
+      if (!this.tags || this.tags.length === 0) return [];
+      if (!this.activeTag) return this.tags;
+      
+      const activeTagIndex = this.tags.findIndex(t => t.slug === this.activeTag);
+      if (activeTagIndex > -1) {
+        const sorted = [...this.tags];
+        const [active] = sorted.splice(activeTagIndex, 1);
+        sorted.unshift(active);
+        return sorted;
+      }
+      return this.tags;
+    },
+    currentPage: {
+      get() {
+        return this.searchQuery ? this.searchPage : this.serverPage;
+      },
+      set(val) {
+        if (this.searchQuery) {
+          this.searchPage = val;
+        } else {
+          this.serverPage = val;
+        }
+      }
+    },
+    searchMatches() {
+      if (!this.searchQuery) return [];
+      const query = this.searchQuery.toLowerCase();
+      
+      // Hashtag search check
+      const isHashtagSearch = query.startsWith('#') && query.length > 1;
+      const hashTagQuery = isHashtagSearch ? query.substring(1) : null;
+      
+      // First filter by tag if active
+      let matches = this.searchIndex;
+      if (this.activeTag) {
+        matches = matches.filter(post => 
+          post.tags && post.tags.some(t => t.slug === this.activeTag)
+        );
+      }
+      
+      // Then filter by text or hashtag
+      return matches.filter(post => {
+        if (isHashtagSearch) {
+          return post.tags && post.tags.some(t => t.slug.toLowerCase().includes(hashTagQuery) || t.name.toLowerCase().includes(hashTagQuery));
+        } else {
+          const matchTitle = post.title?.toLowerCase().includes(query);
+          const matchExcerpt = post.excerpt?.toLowerCase().includes(query) || post.custom_excerpt?.toLowerCase().includes(query);
+          return matchTitle || matchExcerpt;
+        }
+      });
+    },
     featuredPost() {
-      return this.posts.length > 0 ? this.posts[0] : null;
+      if (this.searchQuery || this.currentPage !== 1) return null;
+      return this.serverPosts.length > 0 ? this.serverPosts[0] : null;
     },
     remainingPosts() {
-      return this.posts.length > 1 ? this.posts.slice(1) : [];
+      if (this.searchQuery) {
+        const startIndex = (this.currentPage - 1) * 6;
+        return this.searchMatches.slice(startIndex, startIndex + 6);
+      }
+      if (this.currentPage === 1) return this.serverPosts.slice(1);
+      return this.serverPosts;
+    },
+    totalPages() {
+      if (this.searchQuery) {
+        return Math.ceil(this.searchMatches.length / 6) || 1;
+      }
+      return this.apiTotalPages;
     }
   },
   async created() {
-    await this.fetchPosts();
+    this.fetchTags();
+    this.fetchSearchIndex(); // Fetch lightweight search index in background
+    await this.fetchPosts(); // Fetch server-paginated posts for grid
   },
   methods: {
-    async fetchPosts() {
+    async fetchTags() {
+      try {
+        this.tags = await ghost.getTags();
+      } catch (err) {
+        console.error('Failed to load tags', err);
+      }
+    },
+    toggleTag(slug) {
+      if (this.activeTag === slug) {
+        this.activeTag = null; // deselect
+      } else {
+        this.activeTag = slug;
+      }
+    },
+    async fetchPosts(page = 1) {
       this.loading = true;
       this.error = null;
       try {
-        const response = await ghost.getPosts();
-        this.posts = response.posts || [];
+        const filter = this.activeTag ? `tag:${this.activeTag}` : null;
+        // Fetch 7 posts per page (Page 1 uses 1 for featured + 6 for grid)
+        const response = await ghost.getPosts(7, page, filter);
+        this.serverPosts = response.posts || [];
+        this.apiTotalPages = response.meta?.pagination?.pages || 1;
       } catch (err) {
         this.error = 'Failed to load blog posts. Ensure Ghost Content API Key is configured.';
         console.error(err);
       } finally {
         this.loading = false;
+      }
+    },
+    async fetchSearchIndex() {
+      try {
+        const response = await ghost.getSearchIndex();
+        this.searchIndex = response.posts || [];
+      } catch (err) {
+        console.error('Failed to load search index', err);
       }
     },
     formatDate(dateString) {
