@@ -42,14 +42,15 @@
           </router-link>
           <router-link
             to="/about"
-            class="px-6 py-3 bg-transparent border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white text-sm font-semibold rounded-lg transition-colors duration-200 text-center"
+            class="px-6 py-3 bg-transparent border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white text-sm font-semibold rounded-lg transition-all duration-200 text-center inline-flex items-center justify-center gap-2"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             About Me
           </router-link>
           <a
-            href="/resume.pdf"
+            href="/pdf/cv.pdf"
             download
-            class="px-6 py-3 bg-transparent border border-zinc-800 hover:border-blue-500/50 text-zinc-400 hover:text-blue-400 text-sm font-semibold rounded-lg transition-all duration-200 text-center inline-flex items-center justify-center gap-2"
+            class="px-6 py-3 bg-transparent border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white text-sm font-semibold rounded-lg transition-all duration-200 text-center inline-flex items-center justify-center gap-2"
             aria-label="Download Resume PDF"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
