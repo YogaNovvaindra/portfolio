@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-20 md:gap-28">
+  <div class="flex flex-col gap-16 md:gap-20">
     <div
       v-for="(item, index) in items"
       :key="item.id"
@@ -23,7 +23,7 @@ export default {
         class="w-full md:w-1/2 relative cursor-pointer"
         @click="$emit('select', item)"
       >
-        <div class="relative rounded-xl overflow-hidden ring-1 ring-white/8 shadow-2xl bg-zinc-900">
+        <div class="relative rounded-xl overflow-hidden shadow-2xl bg-zinc-900">
           <div class="aspect-video w-full overflow-hidden">
             <img
               v-if="item.imageUrl"
@@ -51,14 +51,17 @@ export default {
         </p>
 
         <h3
-          class="text-2xl md:text-3xl font-bold text-white tracking-tight cursor-pointer hover:text-blue-300 transition-colors"
+          class="text-2xl md:text-3xl font-bold text-white tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center gap-2.5"
           @click="$emit('select', item)"
         >
           {{ item.name }}
+          <span v-if="item.status === 'Active'" class="relative flex h-2 w-2 shrink-0">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
         </h3>
-
         <p class="text-zinc-500 leading-relaxed text-sm md:text-base">
-          {{ item.status }}
+          {{ item.description || item.status }}
         </p>
 
         <!-- Tech stack -->
@@ -82,18 +85,20 @@ export default {
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </button>
           <a
-            v-if="item.github !== 'null'"
+            v-if="item.github"
             :href="item.github"
             target="_blank"
+            aria-label="View source code on GitHub"
             class="text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors inline-flex items-center gap-1.5"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
             Code
           </a>
           <a
-            v-if="item.demo !== 'null'"
+            v-if="item.demo"
             :href="item.demo"
             target="_blank"
+            aria-label="View live demo"
             class="text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors inline-flex items-center gap-1.5"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>

@@ -117,9 +117,8 @@
           </div>
           <div class="space-y-4 mt-8">
             <div v-for="edu in education" :key="edu.id" class="group relative p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 hover:bg-zinc-900/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 flex flex-col">
-              <div class="flex justify-between items-start mb-2">
+              <div class="mb-2">
                 <h4 class="text-base font-bold text-zinc-100 leading-snug group-hover:text-blue-400 transition-colors">{{ edu.institution }}</h4>
-                <span class="text-[11px] font-mono text-zinc-500 ml-2 shrink-0 mt-1">{{ edu.date.split(' - ')[1] }}</span>
               </div>
               <p class="text-sm text-zinc-300">{{ edu.studyType }}</p>
               <p class="text-[11px] text-zinc-500 font-mono mt-2">{{ edu.date }}</p>
@@ -163,7 +162,8 @@
           
           <!-- Close Button -->
           <button 
-              @click="closeCertModal" 
+              @click="closeCertModal"
+              aria-label="Close certificate modal"
               class="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 rounded-full bg-black/40 md:bg-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors border border-white/5 md:border-zinc-700 backdrop-blur-md"
           >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -223,6 +223,7 @@
 </template>
 
 <script>
+import { setPageMeta } from '@/services/pageMeta';
 import data from '@/assets/data.json';
 
 export default {
@@ -237,9 +238,24 @@ export default {
       selectedCert: null
     };
   },
+  mounted() {
+    setPageMeta({
+      title: 'About — Yoga Novaindra',
+      description: 'DevSecOps Engineer with hands-on experience in Kubernetes, Docker, Ansible, GCP, Wazuh SIEM, and Zero Trust. Based in Jakarta, Indonesia.',
+      url: 'https://yoganova.my.id/about',
+    });
+  },
   methods: {
     handleImageError(event) {
-      event.target.style.display = "none";
+      const img = event.target;
+      const container = img.parentElement;
+      img.style.display = 'none';
+      // Show first letter of skill name as fallback
+      const skillName = img.closest('.group')?.querySelector('h3')?.textContent?.trim() || '?';
+      const fallback = document.createElement('span');
+      fallback.className = 'text-blue-400 text-base font-bold font-mono';
+      fallback.textContent = skillName.charAt(0).toUpperCase();
+      container.appendChild(fallback);
     },
     openCertModal(cert) {
       this.selectedCert = cert;
@@ -380,7 +396,7 @@ export default {
   height: 4px;
   background: #3b82f6;
   border-radius: 50%;
-  opacity: 0.6;
+  opacity: 0.85;
 }
 .experience-content :deep(p) {
   margin: 0;

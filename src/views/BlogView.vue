@@ -140,11 +140,14 @@
               <!-- Content -->
               <div class="relative z-10">
                 <div class="flex items-center gap-x-4 mb-4 text-sm">
+                  <!-- Inline featured star -->
+                  <span class="text-amber-400" title="Featured post">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </span>
                   <time :datetime="featuredPost.published_at" :title="formatDate(featuredPost.published_at)" class="text-zinc-400 cursor-help">
                     {{ getRelativeTime(featuredPost.published_at) }}
                   </time>
                   <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">{{ featuredPost.primary_tag.name }}</span>
-                  
                 </div>
                 <div class="group relative">
                   <h3 class="mt-4 text-3xl md:text-4xl font-semibold leading-tight text-white group-hover:text-blue-400 transition-colors">
@@ -156,6 +159,11 @@
                   <p class="mt-6 text-base md:text-lg leading-relaxed text-zinc-300 line-clamp-4">
                     {{ featuredPost.custom_excerpt || featuredPost.excerpt }}
                   </p>
+                  <!-- Read CTA -->
+                  <span class="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 group-hover:text-blue-300 transition-colors">
+                    Read article
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </span>
                 </div>
               </div>
 
@@ -163,7 +171,7 @@
               <div class="relative z-10 mt-8 flex items-center gap-x-4">
                 <img v-if="featuredPost.primary_author?.profile_image" :src="featuredPost.primary_author.profile_image" alt="" class="h-12 w-12 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
                 <div v-else class="h-12 w-12 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-lg font-bold">
-                  Y
+                  {{ (featuredPost.primary_author?.name || 'Yoga Novaindra').charAt(0).toUpperCase() }}
                 </div>
                 <div class="text-base leading-6">
                   <p class="font-semibold text-white">
@@ -227,9 +235,9 @@
             
             <div class="relative z-10 mt-6 flex items-center gap-x-4 w-full">
               <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" class="h-10 w-10 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
-              <div v-else class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-sm font-bold">
-                Y
-              </div>
+                <div v-else class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-sm font-bold">
+                  {{ (post.primary_author?.name || 'Yoga Novaindra').charAt(0).toUpperCase() }}
+                </div>
               <div class="text-sm leading-6">
                 <p class="font-semibold text-white">
                   <span class="absolute inset-0"></span>
@@ -241,6 +249,15 @@
             </article>
           </div>
         </Transition>
+
+        <!-- Dual-filter indicator -->
+        <div v-if="searchQuery && activeTag" class="flex items-center gap-2 mt-4 mb-2 fadein-bot">
+          <span class="text-xs text-zinc-500">Filtering by:</span>
+          <span class="text-xs font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-full">#{{ activeTag }}</span>
+          <span class="text-xs text-zinc-600">+</span>
+          <span class="text-xs font-mono text-zinc-300 bg-zinc-800/60 border border-zinc-700/60 px-2.5 py-0.5 rounded-full">"{{ searchQuery }}"</span>
+          <button @click="activeTag = null; searchQuery = ''" class="text-xs text-zinc-600 hover:text-zinc-400 transition-colors ml-1" title="Clear all filters">✕ clear</button>
+        </div>
 
         <!-- Post Count & Pagination -->
         <div class="flex items-center justify-between mt-12 fadein-bot" v-if="!searchQuery">
@@ -259,19 +276,21 @@
               Prev
             </button>
             <div class="flex items-center gap-1.5">
-              <button 
-                v-for="page in totalPages" 
-                :key="page"
-                @click="currentPage = page"
-                :class="[
-                  'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
-                  currentPage === page 
-                    ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]' 
-                    : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
-                ]"
-              >
-                {{ page }}
-              </button>
+              <template v-for="item in windowedPages" :key="item">
+                <span v-if="item === '...'" class="w-9 h-9 flex items-center justify-center text-zinc-700 text-sm select-none">…</span>
+                <button
+                  v-else
+                  @click="currentPage = item"
+                  :class="[
+                    'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
+                    currentPage === item
+                      ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]'
+                      : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
+                  ]"
+                >
+                  {{ item }}
+                </button>
+              </template>
             </div>
             <button 
               @click="currentPage < totalPages && currentPage++"
@@ -300,19 +319,21 @@
               Prev
             </button>
             <div class="flex items-center gap-1.5">
-              <button 
-                v-for="page in totalPages" 
-                :key="page"
-                @click="currentPage = page"
-                :class="[
-                  'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
-                  currentPage === page 
-                    ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]' 
-                    : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
-                ]"
-              >
-                {{ page }}
-              </button>
+              <template v-for="item in windowedPages" :key="item">
+                <span v-if="item === '...'" class="w-9 h-9 flex items-center justify-center text-zinc-700 text-sm select-none">…</span>
+                <button
+                  v-else
+                  @click="currentPage = item"
+                  :class="[
+                    'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
+                    currentPage === item
+                      ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]'
+                      : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
+                  ]"
+                >
+                  {{ item }}
+                </button>
+              </template>
             </div>
             <button 
               @click="currentPage < totalPages && currentPage++"
@@ -387,6 +408,7 @@
 
 <script>
 import ghost from '@/services/ghost';
+import { setPageMeta } from '@/services/pageMeta';
 
 export default {
   name: 'BlogView',
@@ -492,7 +514,8 @@ export default {
       });
     },
     featuredPost() {
-      if (this.searchQuery || this.currentPage !== 1) return null;
+      // Only show featured on the default all-posts view (no tag, no search, page 1)
+      if (this.searchQuery || this.currentPage !== 1 || this.activeTag) return null;
       return this.serverPosts.length > 0 ? this.serverPosts[0] : null;
     },
     remainingPosts() {
@@ -500,7 +523,8 @@ export default {
         const startIndex = (this.currentPage - 1) * 6;
         return this.searchMatches.slice(startIndex, startIndex + 6);
       }
-      if (this.currentPage === 1) return this.serverPosts.slice(1);
+      // Only skip first post (featured) when on default all-posts view, page 1
+      if (this.currentPage === 1 && !this.activeTag) return this.serverPosts.slice(1);
       return this.serverPosts;
     },
     totalPages() {
@@ -516,8 +540,34 @@ export default {
       }
       return `page ${page} of ${this.apiTotalPages}`;
     },
+    windowedPages() {
+      const total = this.totalPages;
+      const current = this.currentPage;
+      if (total <= 7) {
+        return Array.from({ length: total }, (_, i) => i + 1);
+      }
+      const pages = [];
+      // Always show first
+      pages.push(1);
+      // Left ellipsis
+      if (current > 4) pages.push('...');
+      // Window around current
+      const start = Math.max(2, current - 1);
+      const end = Math.min(total - 1, current + 1);
+      for (let i = start; i <= end; i++) pages.push(i);
+      // Right ellipsis
+      if (current < total - 3) pages.push('...');
+      // Always show last
+      pages.push(total);
+      return pages;
+    },
   },
   mounted() {
+    setPageMeta({
+      title: 'Blog — Yoga Novaindra',
+      description: 'Field notes, documentation, and practical guides on DevSecOps, Kubernetes, security, and cloud infrastructure.',
+      url: 'https://yoganova.my.id/blog',
+    });
     window.addEventListener('scroll', this.handleParallax, { passive: true });
   },
   unmounted() {
