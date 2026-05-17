@@ -174,7 +174,18 @@
               class="group block relative"
             >
               <div class="aspect-video rounded-2xl overflow-hidden mb-6 border border-zinc-800/50 bg-zinc-900/40 relative">
-                <img :src="recent.feature_image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
+                <img
+                  v-if="recent.feature_image"
+                  :src="recent.feature_image"
+                  :alt="recent.title"
+                  loading="lazy"
+                  @error="$event.target.style.display='none'"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                />
+                <!-- Fallback when no feature image -->
+                <div v-else class="w-full h-full bg-zinc-900/80 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-700"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                </div>
                 <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/60 to-transparent"></div>
               </div>
               <h3 class="text-xl font-bold text-zinc-100 group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
@@ -208,8 +219,8 @@
     <Transition name="toc-float">
       <aside
         v-if="post && toc.length > 0 && readingProgress > 4"
-        class="hidden xl:block fixed right-8 2xl:right-12 top-1/2 -translate-y-1/2 z-40 overflow-y-auto hide-scrollbar"
-        style="max-height: calc(100vh - 10rem); width: 11rem;"
+        class="hidden lg:block fixed right-8 2xl:right-12 top-1/2 -translate-y-1/2 z-40 overflow-y-auto hide-scrollbar"
+        style="max-height: calc(100vh - 10rem); width: 10rem;"
         aria-label="Table of Contents"
       >
         <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-4 pl-4">On this page</p>
