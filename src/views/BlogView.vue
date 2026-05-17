@@ -128,13 +128,6 @@
           <!-- Right Side: Featured Post -->
           <div class="xl:w-7/12 fadein-bot" style="animation-delay: 100ms;" v-if="featuredPost">
             <article class="h-full group relative rounded-2xl border border-zinc-800/80 p-8 md:p-10 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden">
-              <!-- Featured label -->
-              <div class="absolute top-5 left-5 z-20">
-                <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-zinc-950/80 border border-zinc-700/60 text-zinc-400 backdrop-blur-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" class="text-amber-400"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                  Featured
-                </span>
-              </div>
               <!-- Background Image & Overlay -->
               <div class="absolute inset-0 z-0 overflow-hidden">
                 <img v-if="featuredPost.feature_image" ref="featuredImg" :src="featuredPost.feature_image" :alt="featuredPost.title" :style="{ transform: 'translateY(' + parallaxY + 'px) scale(1.12)' }" class="w-full h-full object-cover will-change-transform" />
@@ -147,11 +140,14 @@
               <!-- Content -->
               <div class="relative z-10">
                 <div class="flex items-center gap-x-4 mb-4 text-sm">
+                  <!-- Inline featured star -->
+                  <span class="text-amber-400" title="Featured post">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </span>
                   <time :datetime="featuredPost.published_at" :title="formatDate(featuredPost.published_at)" class="text-zinc-400 cursor-help">
                     {{ getRelativeTime(featuredPost.published_at) }}
                   </time>
                   <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">{{ featuredPost.primary_tag.name }}</span>
-                  
                 </div>
                 <div class="group relative">
                   <h3 class="mt-4 text-3xl md:text-4xl font-semibold leading-tight text-white group-hover:text-blue-400 transition-colors">
