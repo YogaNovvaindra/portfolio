@@ -112,6 +112,7 @@
 </template>
 
 <script>
+  import { setPageMeta } from '@/services/pageMeta';
   export default {
     name: "HomeView",
     data() {
@@ -135,7 +136,11 @@
       };
     },
     mounted() {
-      document.title = 'Yoga Novaindra — DevSecOps Engineer';
+      setPageMeta({
+        title: 'Yoga Novaindra — DevSecOps Engineer',
+        description: 'Building automated, secure, and observable infrastructure — from bare-metal Kubernetes clusters to cloud-native platforms.',
+        url: 'https://yoganova.my.id/',
+      });
       this.$nextTick(() => {
         this.tick();
       });

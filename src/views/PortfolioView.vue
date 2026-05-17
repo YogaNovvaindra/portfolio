@@ -1,5 +1,6 @@
 <script>
 import data from '@/assets/data.json';
+import { setPageMeta } from '@/services/pageMeta';
 import ProjectList from '@/components/ProjectList.vue';
 import ProjectModal from '@/components/ProjectModal.vue';
 
@@ -28,7 +29,11 @@ export default {
         },
     },
     mounted() {
-        document.title = 'Portfolio — Yoga Novaindra';
+        setPageMeta({
+            title: 'Portfolio — Yoga Novaindra',
+            description: 'A collection of infrastructure, automation, and full-stack projects built by Yoga Novaindra — Kubernetes, GitOps, security, and more.',
+            url: 'https://yoganova.my.id/portfolio',
+        });
     },
     methods: {
         openModal(project) {

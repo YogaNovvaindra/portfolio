@@ -405,6 +405,7 @@
 
 <script>
 import ghost from '@/services/ghost';
+import { setPageMeta } from '@/services/pageMeta';
 
 export default {
   name: 'BlogView',
@@ -557,7 +558,11 @@ export default {
     },
   },
   mounted() {
-    document.title = 'Blog — Yoga Novaindra';
+    setPageMeta({
+      title: 'Blog — Yoga Novaindra',
+      description: 'Field notes, documentation, and practical guides on DevSecOps, Kubernetes, security, and cloud infrastructure.',
+      url: 'https://yoganova.my.id/blog',
+    });
     window.addEventListener('scroll', this.handleParallax, { passive: true });
   },
   unmounted() {

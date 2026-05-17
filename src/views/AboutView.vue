@@ -223,6 +223,7 @@
 </template>
 
 <script>
+import { setPageMeta } from '@/services/pageMeta';
 import data from '@/assets/data.json';
 
 export default {
@@ -238,7 +239,11 @@ export default {
     };
   },
   mounted() {
-    document.title = 'About — Yoga Novaindra';
+    setPageMeta({
+      title: 'About — Yoga Novaindra',
+      description: 'DevSecOps Engineer with hands-on experience in Kubernetes, Docker, Ansible, GCP, Wazuh SIEM, and Zero Trust. Based in Jakarta, Indonesia.',
+      url: 'https://yoganova.my.id/about',
+    });
   },
   methods: {
     handleImageError(event) {
