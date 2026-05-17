@@ -58,7 +58,7 @@ export default {
         </h3>
 
         <!-- Status badge + description -->
-        <div class="flex flex-wrap items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2" :class="{ 'md:justify-end': index % 2 !== 0 }">
           <span
             v-if="item.status"
             :class="[
