@@ -127,58 +127,45 @@
 
           <!-- Right Side: Featured Post -->
           <div class="xl:w-7/12 fadein-bot" style="animation-delay: 100ms;" v-if="featuredPost">
-            <article class="h-full group relative rounded-2xl border border-zinc-800/80 p-6 md:p-10 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden">
+            <article class="h-full group relative rounded-3xl border border-white/5 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] overflow-hidden min-h-[400px]">
               <!-- Background Image & Overlay -->
               <div class="absolute inset-0 z-0 overflow-hidden">
                 <img v-if="featuredPost.feature_image" ref="featuredImg" :src="featuredPost.feature_image" :alt="featuredPost.title" :style="{ transform: 'translateY(' + parallaxY + 'px) scale(1.12)' }" class="w-full h-full object-cover will-change-transform" />
                 <div v-else class="w-full h-full bg-zinc-900/80"></div>
                 <!-- Dark Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-zinc-900/70"></div>
-                <div class="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/40 backdrop-blur-none group-hover:backdrop-blur-sm transition-all duration-700"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-900/40"></div>
+                <div class="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/30 backdrop-blur-none transition-all duration-700"></div>
               </div>
 
               <!-- Content -->
-              <div class="relative z-10">
-                <div class="flex items-center gap-x-4 mb-4 text-sm">
-                  <!-- Inline featured star -->
-                  <span class="text-amber-400" title="Featured post">
+              <div class="relative z-10 flex flex-col h-full p-6 md:p-10">
+                <!-- Meta: Featured, Date, Read Time, Tag -->
+                <div class="flex items-center gap-3 text-xs text-zinc-300 font-medium mb-4 flex-wrap">
+                  <span class="text-amber-400 flex items-center gap-1.5 bg-amber-500/10 px-2.5 py-1 rounded-md border border-amber-500/20 backdrop-blur-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Featured
                   </span>
-                  <time :datetime="featuredPost.published_at" :title="formatDate(featuredPost.published_at)" class="text-zinc-400 cursor-help">
-                    {{ getRelativeTime(featuredPost.published_at) }}
-                  </time>
-                  <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">{{ featuredPost.primary_tag.name }}</span>
+                  <time :datetime="featuredPost.published_at" class="cursor-help drop-shadow">{{ getRelativeTime(featuredPost.published_at) }}</time>
+                  <span class="w-1 h-1 rounded-full bg-zinc-500"></span>
+                  <span class="drop-shadow">{{ featuredPost.reading_time || 3 }} min read</span>
+                  <span v-if="featuredPost.primary_tag" class="text-blue-300 bg-blue-500/20 px-2.5 py-1 rounded-md backdrop-blur-sm border border-blue-500/30 ml-auto">{{ featuredPost.primary_tag.name }}</span>
                 </div>
-                <div class="group relative">
-                  <h3 class="mt-4 text-3xl md:text-4xl font-semibold leading-tight text-white group-hover:text-blue-400 transition-colors">
+                
+                <div class="mt-auto pt-10">
+                  <h3 class="text-3xl md:text-4xl font-bold leading-tight text-white group-hover:text-blue-400 transition-colors mb-4 drop-shadow-xl">
                     <router-link :to="`/blog/${featuredPost.slug}`">
                       <span class="absolute inset-0"></span>
                       {{ featuredPost.title }}
                     </router-link>
                   </h3>
-                  <p class="mt-6 text-base md:text-lg leading-relaxed text-zinc-300 line-clamp-4">
+                  <p class="text-base md:text-lg leading-relaxed text-zinc-300 line-clamp-3 mb-8 drop-shadow-md">
                     {{ featuredPost.custom_excerpt || featuredPost.excerpt }}
                   </p>
-                  <!-- Read CTA -->
-                  <span class="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 group-hover:text-blue-300 transition-colors">
-                    Read article
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                  </span>
-                </div>
-              </div>
-
-              <!-- Author -->
-              <div class="relative z-10 mt-8 flex items-center gap-x-4">
-                <img v-if="featuredPost.primary_author?.profile_image" :src="featuredPost.primary_author.profile_image" alt="" class="h-12 w-12 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
-                <div v-else class="h-12 w-12 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-lg font-bold">
-                  {{ (featuredPost.primary_author?.name || 'Yoga Novaindra').charAt(0).toUpperCase() }}
-                </div>
-                <div class="text-base leading-6">
-                  <p class="font-semibold text-white">
-                    <span class="absolute inset-0"></span>
-                    {{ featuredPost.primary_author?.name || 'Yoga Novaindra' }}
-                  </p>
-                  <p class="text-zinc-400">{{ featuredPost.reading_time || 3 }} min read</p>
+                  
+                  <div class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-colors px-6 py-2.5 rounded-full shadow-lg shadow-blue-500/20">
+                    Read featured article
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
                 </div>
               </div>
             </article>
@@ -192,60 +179,51 @@
 
         <!-- Blog Posts Grid -->
         <Transition name="fade" mode="out-in">
-          <div :key="currentPage + '-' + searchQuery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative w-full" v-if="remainingPosts.length > 0">
+          <div :key="currentPage + '-' + searchQuery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 relative w-full" v-if="remainingPosts.length > 0">
             <article
               v-for="post in remainingPosts"
               :key="post.id"
-              class="group relative w-full flex flex-col items-start justify-between rounded-2xl border border-zinc-800/80 p-6 transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden min-h-[320px] bg-zinc-900/50"
+              class="group relative flex flex-col rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]"
             >
-            <!-- Background Image & Overlay -->
-            <div class="absolute inset-0 z-0">
-              <img v-if="post.feature_image" :src="post.feature_image" :alt="post.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div v-else class="w-full h-full bg-zinc-900/80"></div>
-              <!-- Dark Gradient Overlay -->
-              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-zinc-900/70"></div>
-              <div class="absolute inset-0 bg-zinc-950/0 group-hover:bg-zinc-950/40 backdrop-blur-none group-hover:backdrop-blur-sm transition-all duration-700"></div>
-            </div>
-
-            <!-- Content -->
-            <div class="relative z-10 w-full">
-              <div class="flex items-center gap-x-4 text-xs mb-4">
-                <time :datetime="post.published_at" :title="formatDate(post.published_at)" class="text-zinc-400 cursor-help">
-                  {{ getRelativeTime(post.published_at) }}
-                </time>
-                <span
-                  v-if="post.primary_tag"
-                  class="relative z-10 rounded-full bg-blue-500/20 px-3 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm"
-                >
-                  {{ post.primary_tag.name }}
-                </span>
+              <!-- Top Image Block -->
+              <div class="relative w-full aspect-[16/9] overflow-hidden bg-zinc-900 border-b border-white/5">
+                <img v-if="post.feature_image" :src="post.feature_image" :alt="post.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
+                <div v-else class="w-full h-full bg-zinc-800/50 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-700"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                </div>
               </div>
-              <div class="group relative w-full">
-                <h3 class="mt-3 text-xl font-semibold leading-6 text-white group-hover:text-blue-400 transition-colors">
+
+              <!-- Content Block -->
+              <div class="p-6 sm:p-8 flex-1 flex flex-col relative z-10 w-full">
+                <!-- Meta: Tag, Date, Read Time -->
+                <div class="flex items-center gap-3 text-xs text-zinc-500 font-medium mb-4 flex-wrap">
+                  <span v-if="post.primary_tag" class="text-blue-400 bg-blue-500/10 px-2 py-1 rounded-md border border-blue-500/20">{{ post.primary_tag.name }}</span>
+                  <time :datetime="post.published_at" :title="formatDate(post.published_at)" class="cursor-help">{{ getRelativeTime(post.published_at) }}</time>
+                  <span class="w-1 h-1 rounded-full bg-zinc-700"></span>
+                  <span>{{ post.reading_time || 3 }} min read</span>
+                </div>
+                
+                <!-- Title -->
+                <h3 class="text-xl font-bold leading-snug text-white group-hover:text-blue-400 transition-colors mb-3">
                   <router-link :to="`/blog/${post.slug}`">
                     <span class="absolute inset-0"></span>
                     {{ post.title }}
                   </router-link>
                 </h3>
-                <p class="mt-4 text-sm leading-6 text-zinc-300 line-clamp-3">
+                
+                <!-- Excerpt -->
+                <p class="text-sm leading-relaxed text-zinc-400 line-clamp-2 mb-6">
                   {{ post.custom_excerpt || post.excerpt }}
                 </p>
-              </div>
-            </div>
-            
-            <div class="relative z-10 mt-6 flex items-center gap-x-4 w-full">
-              <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" class="h-10 w-10 rounded-full bg-zinc-800 object-cover border border-zinc-700" />
-                <div v-else class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30 text-blue-400 text-sm font-bold">
-                  {{ (post.primary_author?.name || 'Yoga Novaindra').charAt(0).toUpperCase() }}
+                
+                <div class="mt-auto"></div>
+                
+                <!-- Action Footer -->
+                <div class="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 group-hover:text-blue-400 transition-colors pt-5 border-t border-zinc-800/50">
+                  Read article
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
-              <div class="text-sm leading-6">
-                <p class="font-semibold text-white">
-                  <span class="absolute inset-0"></span>
-                  {{ post.primary_author?.name || 'Yoga Novaindra' }}
-                </p>
-                <p class="text-zinc-400">{{ post.reading_time || 3 }} min read</p>
               </div>
-            </div>
             </article>
           </div>
         </Transition>
