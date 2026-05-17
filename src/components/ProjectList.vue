@@ -23,7 +23,7 @@ export default {
         class="w-full md:w-1/2 relative cursor-pointer"
         @click="$emit('select', item)"
       >
-        <div class="relative rounded-xl overflow-hidden ring-1 ring-white/8 shadow-2xl bg-zinc-900">
+        <div class="relative rounded-xl overflow-hidden shadow-2xl bg-zinc-900">
           <div class="aspect-video w-full overflow-hidden">
             <img
               v-if="item.imageUrl"
