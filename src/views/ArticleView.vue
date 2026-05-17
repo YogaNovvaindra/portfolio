@@ -713,12 +713,13 @@ export default {
 /* Share section expand/collapse */
 .share-expand-enter-active,
 .share-expand-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: bottom center;
 }
 .share-expand-enter-from,
 .share-expand-leave-to {
   opacity: 0;
-  transform: translateX(-6px);
+  transform: translateY(16px) scale(0.9);
 }
 /* Share float entry (bottom-right, slides up) */
 .share-float-enter-active,
