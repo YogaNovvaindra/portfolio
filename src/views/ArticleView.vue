@@ -489,6 +489,8 @@ export default {
       const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       this.readingProgress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+      // Close share panel on scroll for clean UX
+      if (this.showShare) this.showShare = false;
     },
     setupArticleEnhancements() {
       const article = this.$refs.articleContent;
