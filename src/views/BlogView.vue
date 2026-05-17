@@ -148,7 +148,7 @@
                   <time :datetime="featuredPost.published_at" class="cursor-help drop-shadow">{{ getRelativeTime(featuredPost.published_at) }}</time>
                   <span class="w-1 h-1 rounded-full bg-zinc-500"></span>
                   <span class="drop-shadow">{{ featuredPost.reading_time || 3 }} min read</span>
-                  <span v-if="featuredPost.primary_tag" class="text-blue-300 bg-blue-500/20 px-2.5 py-1 rounded-md backdrop-blur-sm border border-blue-500/30 ml-auto">{{ featuredPost.primary_tag.name }}</span>
+                  <span v-if="featuredPost.primary_tag" class="text-blue-300 bg-blue-500/20 px-2.5 py-1 rounded-md backdrop-blur-sm border border-blue-500/30">{{ featuredPost.primary_tag.name }}</span>
                 </div>
                 
                 <div class="mt-auto pt-10">
