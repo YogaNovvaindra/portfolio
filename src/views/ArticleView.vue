@@ -157,6 +157,51 @@
         <!-- Article Body -->
         <div ref="articleContent" class="prose prose-invert prose-blue max-w-none prose-img:rounded-xl prose-img:border prose-img:border-zinc-800/80 prose-headings:text-white prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800" v-html="post.html">
         </div>
+        <!-- Share Section -->
+        <div class="mt-16 pt-10 border-t border-zinc-800/50 fadein-bot">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p class="text-sm font-medium text-zinc-400">Found this useful? Share it.</p>
+            <div class="flex items-center gap-2">
+              <!-- Copy Link -->
+              <button
+                @click="copyLink"
+                :title="copied ? 'Copied!' : 'Copy link'"
+                class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg border transition-all duration-200"
+                :class="copied
+                  ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
+                  : 'border-zinc-700 bg-zinc-900/60 text-zinc-300 hover:border-blue-500/50 hover:text-white'"
+              >
+                <svg v-if="!copied" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M20 6 9 17l-5-5"/></svg>
+                {{ copied ? 'Copied!' : 'Copy link' }}
+              </button>
+
+              <!-- Twitter/X -->
+              <a
+                :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(currentUrl)}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Share on Twitter / X"
+                class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg border border-zinc-700 bg-zinc-900/60 text-zinc-300 hover:border-blue-500/50 hover:text-white transition-all duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                X
+              </a>
+
+              <!-- LinkedIn -->
+              <a
+                :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Share on LinkedIn"
+                class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg border border-zinc-700 bg-zinc-900/60 text-zinc-300 hover:border-blue-500/50 hover:text-white transition-all duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
 
         <!-- More Stories Navigation -->
         <div v-if="recentPosts.length > 0" class="mt-24 pt-16 border-t border-zinc-800/50 fadein-bot">
@@ -202,7 +247,7 @@
         <footer class="mt-24 pt-12 border-t border-zinc-900 text-center fadein-bot">
           <p class="text-zinc-600 text-sm flex items-center justify-center gap-2">
             <span>&copy; {{ new Date().getFullYear() }} Yoga Novaindra</span>
-            <span class="text-zinc-800">â€¢</span>
+            <span class="text-zinc-800">&bull;</span>
             <span class="flex items-center gap-1.5">
               Powered by 
               <a href="https://ghost.org" target="_blank" class="inline-flex items-center gap-1 font-medium text-zinc-400 hover:text-blue-400 transition-colors">
@@ -273,7 +318,13 @@ export default {
       activeTocId: null,
       tocObserver: null,
       heroParallaxY: 0,
+      copied: false,
     };
+  },
+  computed: {
+    currentUrl() {
+      return window.location.href;
+    },
   },
   mounted() {
     window.addEventListener('scroll', this.updateProgress);
@@ -293,6 +344,23 @@ export default {
   methods: {
     updateHeroParallax() {
       this.heroParallaxY = Math.min(window.scrollY * 0.12, 60);
+    },
+    async copyLink() {
+      try {
+        await navigator.clipboard.writeText(this.currentUrl);
+        this.copied = true;
+        setTimeout(() => { this.copied = false; }, 2000);
+      } catch {
+        // Fallback for browsers without clipboard API
+        const el = document.createElement('input');
+        el.value = this.currentUrl;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        this.copied = true;
+        setTimeout(() => { this.copied = false; }, 2000);
+      }
     },
     async fetchPost() {
       this.loading = true;
