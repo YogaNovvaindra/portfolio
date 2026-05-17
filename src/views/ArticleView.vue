@@ -156,7 +156,9 @@
 
         <!-- Article Body -->
         <div ref="articleContent" class="prose prose-invert prose-blue max-w-none prose-img:rounded-xl prose-img:border prose-img:border-zinc-800/80 prose-headings:text-white prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800" v-html="post.html">
-        <        <!-- Share Section -->
+        </div>
+
+        <!-- Share Section -->
         <div class="mt-16 pt-10 border-t border-zinc-800/50 fadein-bot">
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
             <div>
@@ -703,6 +705,15 @@ export default {
 .toc-float-leave-from {
   opacity: 1;
   transform: translateX(0) translateY(-50%);
+}
+/* TOC: offset scroll target below fixed navbar (nav ~64px + breathing room) */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  scroll-margin-top: 88px;
 }
 </style>
 
