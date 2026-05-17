@@ -21,3 +21,23 @@ Based on the [YogaNovvaindra/kube](https://github.com/YogaNovvaindra/kube) repos
 ## 5. Building a Self-Hosted Developer Platform: Gitea, Harbor, and Bytebase on K8s
 **The Pitch:** You aren't just hosting media apps; you've built a full developer environment. Write about how you host your own code (Gitea), Docker images (Harbor), and database schemas (Bytebase).
 **Why it works:** It shifts the focus from "homelab" to building an "Internal Developer Platform (IDP)", which is highly relevant to enterprise DevOps and Platform Engineering roles.
+
+## 6. Full-Stack Observability on Bare Metal: Prometheus, Loki, and Tempo
+**The Pitch:** Go beyond basic metric dashboards. Explain how you integrated Prometheus for metrics, Loki for distributed log aggregation, and Tempo for tracing. Show how they work together in Grafana to provide a unified observability pane.
+**Why it works:** Distributed tracing (Tempo) is a highly sought-after enterprise skill. Demonstrating it in a homelab context proves deep understanding of modern microservice observability.
+
+## 7. Cloud-Native Media Management: The Arr Suite and Plex on Kubernetes
+**The Pitch:** Detail the complexities of running stateful, storage-heavy applications like Plex, Radarr, Sonarr, and qBittorrent on Kubernetes. Discuss how you handle persistent storage with CephFS and manage VPN routing/proxies (FlareSolverr).
+**Why it works:** The "Arr" suite is massively popular, but getting it to run reliably on K8s with proper PVCs is notoriously tricky. This serves as a masterclass on stateful workloads.
+
+## 8. Exposing Internal Services Securely with the Cloudflare Operator
+**The Pitch:** Explain how to bypass port-forwarding and NAT issues entirely by using the Kubernetes-native Cloudflare Operator to manage Cloudflare Tunnels via CRDs.
+**Why it works:** Security-conscious engineers are moving away from exposing ports to the internet. Showing how to automate Cloudflare Tunnels *declaratively* using GitOps is extremely valuable.
+
+## 9. S3-Compatible Object Storage at Home: Deploying RustFS
+**The Pitch:** Walk through the deployment of RustFS for high-performance object storage on your bare-metal cluster. Discuss its use cases (e.g., database backups, image storage) and how it compares to MinIO.
+**Why it works:** Object storage is a foundational requirement for many modern cloud-native apps. Engineers love discovering lightweight, high-performance alternatives for on-prem environments.
+
+## 10. Automated Cluster-Wide Database Backups via CronJobs
+**The Pitch:** Your `db-backup.yml` suggests a centralized strategy for backing up stateful services. Write about how you built an automated multi-database backup pipeline using Kubernetes CronJobs to push dumps to your S3 storage.
+**Why it works:** "Day 2 Operations" like backup and disaster recovery are often ignored in homelab guides. Covering this shows operational maturity and reliability engineering skills.

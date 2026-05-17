@@ -28,7 +28,7 @@
 
         <!-- Description -->
         <p class="mt-6 text-zinc-400 leading-relaxed text-base md:text-lg max-w-lg mx-auto lg:mx-0">
-          Building <span class="text-zinc-200 font-medium">automated, secure, and observable</span> infrastructure — from bare-metal clusters to cloud-native platforms. <span class="wave inline-block">👋🏼</span>
+          Building <span class="text-zinc-200 font-medium">automated, secure, and observable</span> infrastructure from bare-metal clusters to cloud-native platforms. <span class="wave inline-block">👋🏼</span>
         </p>
 
         <!-- CTA Buttons -->
