@@ -145,7 +145,7 @@ export default {
                           <h2 class="text-xs font-bold text-custom-blue-400 font-mono tracking-[0.2em] uppercase opacity-80">Documentation</h2>
                         </div>
                         <div class="text-gray-300 leading-relaxed text-base font-sans space-y-6">
-                            <p class="opacity-90">{{ activeProject.status }}</p>
+                            <p class="opacity-90">{{ activeProject.description || activeProject.status }}</p>
                             
                             <div class="bg-black/40 p-6 rounded-2xl border border-white/[0.08] font-mono text-[11px] text-custom-blue-300/90 leading-loose shadow-inner relative overflow-hidden group/console">
                                 <div class="absolute top-0 right-0 p-2 opacity-0 group-hover/console:opacity-100 transition-opacity">
@@ -163,11 +163,11 @@ export default {
                         <div class="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 backdrop-blur-xl shadow-xl">
                             <h3 class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-6 opacity-50">Project Links</h3>
                             <div class="space-y-3">
-                                <a v-if="activeProject.github !== 'null'" :href="activeProject.github" target="_blank" class="flex items-center w-full p-3 rounded-xl hover:bg-white/5 transition-all text-sm text-gray-300 font-bold border border-transparent hover:border-white/10 group/item">
+                                <a v-if="activeProject.github" :href="activeProject.github" target="_blank" aria-label="View source on GitHub" class="flex items-center w-full p-3 rounded-xl hover:bg-white/5 transition-all text-sm text-gray-300 font-bold border border-transparent hover:border-white/10 group/item">
                                     <svg class="w-4 h-4 mr-3 opacity-50 group-hover/item:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                                     View Github
                                 </a>
-                                <a v-if="activeProject.demo !== 'null'" :href="activeProject.demo" target="_blank" class="flex items-center w-full p-3 rounded-xl bg-custom-blue-500/10 hover:bg-custom-blue-500/20 transition-all text-sm text-custom-blue-300 font-bold border border-custom-blue-500/20 group/item">
+                                <a v-if="activeProject.demo" :href="activeProject.demo" target="_blank" aria-label="View live demo" class="flex items-center w-full p-3 rounded-xl bg-custom-blue-500/10 hover:bg-custom-blue-500/20 transition-all text-sm text-custom-blue-300 font-bold border border-custom-blue-500/20 group/item">
                                     <svg class="w-4 h-4 mr-3 opacity-70 group-hover/item:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                     Live Demo
                                 </a>

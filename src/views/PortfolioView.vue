@@ -14,7 +14,21 @@ export default {
             portfolio: data.portfolio,
             isModalOpen: false,
             selectedProject: {},
+            activeCategory: 'All',
         };
+    },
+    computed: {
+        categories() {
+            const cats = ['All', ...new Set(this.portfolio.map(p => p.category).filter(Boolean))];
+            return cats;
+        },
+        filteredProjects() {
+            if (this.activeCategory === 'All') return this.portfolio;
+            return this.portfolio.filter(p => p.category === this.activeCategory);
+        },
+    },
+    mounted() {
+        document.title = 'Portfolio — Yoga Novaindra';
     },
     methods: {
         openModal(project) {
@@ -38,7 +52,7 @@ export default {
 
     <div class="max-w-6xl mx-auto h-full relative">
         <!-- Header -->
-        <div class="mb-16 text-left title-reveal">
+        <div class="mb-12 text-left title-reveal">
           <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5 drop-shadow-sm">
             Featured <span class="text-blue-500">Projects</span><span class="text-blue-500">.</span>
           </h1>
@@ -47,20 +61,46 @@ export default {
           </p>
         </div>
 
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap gap-2 mb-12 title-reveal" style="animation-delay: 0.05s">
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            @click="activeCategory = cat"
+            :class="[
+              'text-xs font-mono px-4 py-1.5 rounded-full border transition-all duration-200',
+              activeCategory === cat
+                ? 'bg-blue-500/15 border-blue-500/50 text-blue-400'
+                : 'bg-transparent border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300'
+            ]"
+          >
+            {{ cat }}
+          </button>
+        </div>
+
         <!-- List Component -->
-        <ProjectList 
-            :items="portfolio" 
-            class="title-reveal" 
+        <ProjectList
+            v-if="filteredProjects.length"
+            :items="filteredProjects"
+            class="title-reveal"
             style="animation-delay: 0.1s"
             @select="openModal"
         />
+
+        <!-- Empty State -->
+        <div v-else class="flex flex-col items-center justify-center py-28 text-center title-reveal" style="animation-delay: 0.1s">
+          <div class="w-14 h-14 rounded-2xl border border-zinc-800 bg-zinc-900/60 flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-600"><path d="M3 7h18M3 12h18M3 17h9"/></svg>
+          </div>
+          <p class="text-zinc-500 text-sm">No projects in this category yet.</p>
+        </div>
     </div>
 
     <!-- Modal -->
-    <ProjectModal 
-        :is-open="isModalOpen" 
-        :project="selectedProject" 
-        @close="closeModal" 
+    <ProjectModal
+        :is-open="isModalOpen"
+        :project="selectedProject"
+        @close="closeModal"
     />
   </div>
 </template>
