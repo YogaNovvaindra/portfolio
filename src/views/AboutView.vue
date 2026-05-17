@@ -164,7 +164,7 @@
           <button 
               @click="closeCertModal"
               aria-label="Close certificate modal"
-              class="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-2 rounded-full bg-black/40 md:bg-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors border border-white/5 md:border-zinc-700 backdrop-blur-md"
+              class="absolute top-4 right-4 md:top-6 md:right-6 z-20 p-3 md:p-2 rounded-full bg-black/40 md:bg-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors border border-white/5 md:border-zinc-700 backdrop-blur-md"
           >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>

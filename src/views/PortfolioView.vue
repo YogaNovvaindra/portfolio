@@ -73,7 +73,7 @@ export default {
             :key="cat"
             @click="activeCategory = cat"
             :class="[
-              'text-xs font-mono px-4 py-1.5 rounded-full border transition-all duration-200',
+              'h-9 md:h-7 px-4 inline-flex items-center justify-center text-xs font-medium rounded-full border transition-all duration-200',
               activeCategory === cat
                 ? 'bg-blue-500/15 border-blue-500/50 text-blue-400'
                 : 'bg-transparent border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300'

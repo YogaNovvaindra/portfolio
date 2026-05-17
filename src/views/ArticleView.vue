@@ -6,14 +6,14 @@
     </div>
     <!-- Full-Width Title Hero -->
     <!-- Skeleton Hero (shown while loading) -->
-    <div v-if="loading" class="relative w-full h-[40vh] md:h-[55vh] skeleton-shimmer flex items-end">
-      <div class="w-full px-4 pb-12 md:pb-20 max-w-4xl mx-auto text-left">
+    <div v-if="loading" class="relative w-full h-[35vh] md:h-[55vh] skeleton-shimmer flex items-end">
+      <div class="w-full px-4 pb-8 md:pb-20 max-w-4xl mx-auto text-left">
         <div class="h-10 w-3/4 rounded mb-4 bg-zinc-800/80"></div>
         <div class="h-10 w-1/2 rounded bg-zinc-800/80"></div>
       </div>
     </div>
 
-    <header v-if="!loading && !error && post" class="relative w-full h-[40vh] md:h-[55vh] flex items-end justify-center overflow-hidden title-reveal">
+    <header v-if="!loading && !error && post" class="relative w-full h-[35vh] md:h-[55vh] flex items-end justify-center overflow-hidden title-reveal">
       <!-- Background Image & Overlay -->
       <div class="absolute inset-0 z-0 overflow-hidden">
         <img v-if="post.feature_image" ref="heroImg" :src="post.feature_image" :alt="post.title" :style="{ transform: 'translateY(' + heroParallaxY + 'px) scale(1.1)' }" class="w-full h-full object-cover will-change-transform" />
@@ -23,7 +23,7 @@
       </div>
 
       <!-- Overlaid Title Only -->
-      <div class="relative z-10 container mx-auto px-4 max-w-4xl text-left pb-12 md:pb-20">
+      <div class="relative z-10 container mx-auto px-4 max-w-4xl text-left pb-8 md:pb-20">
         <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-2xl max-w-3xl">
           {{ post.title }}
         </h1>
@@ -44,7 +44,7 @@
       <!-- Skeleton Loading State -->
       <div v-if="loading">
         <!-- Meta skeleton -->
-        <div class="mb-16">
+        <div class="mb-10 md:mb-16">
           <div class="flex items-center gap-3 mb-8">
             <div class="h-3 w-16 rounded-full skeleton-shimmer"></div>
             <div class="h-3 w-4 rounded skeleton-shimmer"></div>
@@ -95,7 +95,7 @@
       <!-- Article Content -->
       <article v-else-if="post" class="fadein-bot">
         <!-- Post Meta Information Below Hero -->
-        <div class="mb-16 text-left">
+        <div class="mb-10 md:mb-16 text-left">
           <div class="flex items-center justify-start gap-4 text-sm font-medium mb-8 flex-wrap">
             <div v-if="post.tags && post.tags.length > 0" class="flex items-center gap-2 flex-wrap">
               <template v-if="!showAllTags">

@@ -91,13 +91,13 @@
             </div>
             
             <!-- Tag Filters -->
-            <div class="mt-6 relative w-full h-[32px] overflow-hidden fadein-bot" style="animation-delay: 300ms;" v-if="tags && tags.length > 0">
+            <div class="mt-6 relative w-full h-9 md:h-7 overflow-hidden fadein-bot" style="animation-delay: 300ms;" v-if="tags && tags.length > 0">
               <!-- Scrollable Track (hidden scrollbar) -->
               <div class="flex gap-2 w-full pr-24 absolute inset-0 hide-scrollbar overflow-x-auto">
                 <button
                   @click="toggleTag(null)"
                   :aria-pressed="!activeTag"
-                  :class="['flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+                  :class="['flex-shrink-0 h-9 md:h-7 px-4 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
                 >
                   All
                 </button>
@@ -106,7 +106,7 @@
                   :key="tag.id"
                   @click="toggleTag(tag.slug)"
                   :aria-pressed="activeTag === tag.slug"
-                  :class="['flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+                  :class="['flex-shrink-0 h-9 md:h-7 px-4 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
                 >
                   {{ tag.name }}
                 </button>
@@ -116,7 +116,7 @@
               <div class="absolute right-0 top-0 h-full flex items-center bg-gradient-to-l from-[#09090b] via-[#09090b] to-transparent pl-12 pointer-events-none">
                 <button
                   @click="showTagsModal = true"
-                  class="pointer-events-auto px-4 py-1.5 rounded-full text-xs font-medium transition-colors border bg-zinc-900/90 border-zinc-700 text-zinc-300 hover:text-white hover:border-blue-500 hover:bg-zinc-800 flex items-center gap-1 shadow-lg"
+                  class="pointer-events-auto h-9 md:h-7 px-4 rounded-full text-xs font-medium transition-colors border bg-zinc-900/90 border-zinc-700 text-zinc-300 hover:text-white hover:border-blue-500 hover:bg-zinc-800 inline-flex items-center justify-center gap-1 shadow-lg"
                 >
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                   More
@@ -127,7 +127,7 @@
 
           <!-- Right Side: Featured Post -->
           <div class="xl:w-7/12 fadein-bot" style="animation-delay: 100ms;" v-if="featuredPost">
-            <article class="h-full group relative rounded-2xl border border-zinc-800/80 p-8 md:p-10 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden">
+            <article class="h-full group relative rounded-2xl border border-zinc-800/80 p-6 md:p-10 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden">
               <!-- Background Image & Overlay -->
               <div class="absolute inset-0 z-0 overflow-hidden">
                 <img v-if="featuredPost.feature_image" ref="featuredImg" :src="featuredPost.feature_image" :alt="featuredPost.title" :style="{ transform: 'translateY(' + parallaxY + 'px) scale(1.12)' }" class="w-full h-full object-cover will-change-transform" />
@@ -282,7 +282,7 @@
                   v-else
                   @click="currentPage = item"
                   :class="[
-                    'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
+                    'w-10 h-10 md:w-9 md:h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
                     currentPage === item
                       ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]'
                       : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
@@ -385,7 +385,7 @@
               <button
                 @click="toggleTag(null); showTagsModal = false"
                 :aria-pressed="!activeTag"
-                :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+                :class="['h-9 md:h-7 px-3 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
               >
                 All
               </button>
@@ -394,7 +394,7 @@
                 :key="tag.id"
                 @click="toggleTag(tag.slug); showTagsModal = false"
                 :aria-pressed="activeTag === tag.slug"
-                :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+                :class="['h-9 md:h-7 px-3 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
               >
                 {{ tag.name }} <span class="text-zinc-400 ml-1">{{ tag.count?.posts || 0 }}</span>
               </button>
