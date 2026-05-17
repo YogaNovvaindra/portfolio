@@ -57,18 +57,11 @@ export default {
           {{ item.name }}
         </h3>
 
-        <!-- Status badge + description -->
-        <div class="flex flex-wrap items-center gap-2" :class="{ 'md:justify-end': index % 2 !== 0 }">
-          <span
-            v-if="item.status"
-            :class="[
-              'text-[10px] font-mono font-semibold uppercase tracking-widest px-2.5 py-0.5 rounded-full border',
-              item.status === 'Active'
-                ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30'
-                : 'text-zinc-500 bg-zinc-800/60 border-zinc-700/60'
-            ]"
-          >
-            {{ item.status }}
+        <!-- Active indicator dot -->
+        <div v-if="item.status === 'Active'" class="flex items-center gap-1.5" :class="{ 'md:justify-end': index % 2 !== 0 }">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
         </div>
         <p class="text-zinc-500 leading-relaxed text-sm md:text-base">
