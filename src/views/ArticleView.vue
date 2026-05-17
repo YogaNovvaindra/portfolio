@@ -251,11 +251,11 @@
       </aside>
     </Transition>
 
-    <!-- Floating Share (left side, mirrors TOC) -->
+    <!-- Floating Share (bottom-right) -->
     <Transition name="toc-float">
       <div
         v-if="post && readingProgress > 4"
-        class="hidden lg:flex fixed left-8 2xl:left-12 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-2"
+        class="flex fixed bottom-20 right-6 md:bottom-20 md:right-8 z-40 flex-col-reverse items-center gap-2"
         aria-label="Share article"
       >
         <!-- Share toggle -->
@@ -271,9 +271,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
         </button>
 
-        <!-- Platform icons — stacked vertically -->
+        <!-- Platform icons — expand upward -->
         <Transition name="share-expand">
-          <div v-if="showShare" class="flex flex-col items-center gap-2">
+          <div v-if="showShare" class="flex flex-col-reverse items-center gap-2">
 
             <!-- Copy link -->
             <button
