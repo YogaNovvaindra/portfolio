@@ -252,7 +252,7 @@
     </Transition>
 
     <!-- Floating Share (bottom-right) -->
-    <Transition name="toc-float">
+    <Transition name="share-float">
       <div
         v-if="post && readingProgress > 4"
         class="flex fixed bottom-24 right-6 md:bottom-24 md:right-8 z-40 flex-col-reverse items-center gap-2"
@@ -717,6 +717,21 @@ export default {
 .share-expand-leave-to {
   opacity: 0;
   transform: translateX(-6px);
+}
+/* Share float entry (bottom-right, slides up) */
+.share-float-enter-active,
+.share-float-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.share-float-enter-from,
+.share-float-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.share-float-enter-to,
+.share-float-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 
