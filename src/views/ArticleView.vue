@@ -25,7 +25,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 max-w-6xl flex flex-col lg:flex-row gap-12 relative">
       <div class="w-full lg:w-3/4 max-w-4xl mx-auto lg:mx-0">
       <!-- Back Button -->
-      <div class="mb-12 fadein-bot text-center md:text-left">
+      <div class="mb-12 fadein-bot text-left">
         <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-blue-400 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -51,8 +51,34 @@
       <article v-else-if="post" class="fadein-bot">
         <!-- Post Meta Information Below Hero -->
         <div class="mb-16 text-left">
-          <div class="flex items-center justify-start gap-4 text-sm font-medium mb-8">
-            <span v-if="post.primary_tag" class="text-blue-400 uppercase tracking-widest text-xs">
+          <div class="flex items-center justify-start gap-4 text-sm font-medium mb-8 flex-wrap">
+            <div v-if="post.tags && post.tags.length > 0" class="flex items-center gap-2 flex-wrap">
+              <template v-if="!showAllTags">
+                <span 
+                  @click="post.tags.length > 1 ? showAllTags = true : null"
+                  :class="['text-blue-400 uppercase tracking-widest text-xs', post.tags.length > 1 ? 'cursor-pointer hover:text-blue-300 transition-colors' : '']"
+                  :title="post.tags.length > 1 ? 'Click to view all tags' : ''"
+                >
+                  {{ post.primary_tag ? post.primary_tag.name : post.tags[0].name }}
+                  <span v-if="post.tags.length > 1" class="text-zinc-500 font-bold ml-1 opacity-70 hover:opacity-100 transition-opacity">
+                    +{{ post.tags.length - 1 }}
+                  </span>
+                </span>
+              </template>
+              <template v-else>
+                <span 
+                  v-for="(tag, index) in post.tags" 
+                  :key="tag.id"
+                  @click="showAllTags = false"
+                  class="text-blue-400 uppercase tracking-widest text-xs cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center"
+                  title="Click to collapse tags"
+                >
+                  {{ tag.name }}
+                  <span v-if="index < post.tags.length - 1" class="text-zinc-600 ml-2 mr-2">·</span>
+                </span>
+              </template>
+            </div>
+            <span v-else-if="post.primary_tag" class="text-blue-400 uppercase tracking-widest text-xs">
               {{ post.primary_tag.name }}
             </span>
             <span class="text-zinc-700">|</span>
@@ -159,7 +185,8 @@ export default {
       loading: true,
       error: null,
       readingProgress: 0,
-      toc: []
+      toc: [],
+      showAllTags: false
     };
   },
   mounted() {
