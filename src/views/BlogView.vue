@@ -17,31 +17,38 @@
             </div>
           </div>
           <div class="xl:w-7/12">
-            <div class="min-h-[360px] rounded-2xl border border-zinc-800/60 relative skeleton-shimmer">
-              <div class="absolute bottom-0 left-0 right-0 p-8">
-                <div class="flex gap-3 mb-4"><div class="h-4 w-24 bg-zinc-800/80 rounded"></div><div class="h-6 w-20 bg-zinc-800/80 rounded-full"></div></div>
-                <div class="h-8 w-full bg-zinc-800/80 rounded mb-2"></div>
-                <div class="h-8 w-3/4 bg-zinc-800/80 rounded mb-6"></div>
-                <div class="h-4 w-full bg-zinc-800/80 rounded mb-2"></div>
-                <div class="h-4 w-5/6 bg-zinc-800/80 rounded mb-8"></div>
-                <div class="flex items-center gap-3"><div class="h-12 w-12 rounded-full bg-zinc-800/80"></div><div><div class="h-4 w-32 bg-zinc-800/80 rounded mb-2"></div><div class="h-3 w-20 bg-zinc-800/80 rounded"></div></div></div>
+            <div class="min-h-[400px] rounded-3xl border border-white/5 bg-zinc-900/40 relative overflow-hidden flex flex-col justify-between">
+              <div class="absolute inset-0 z-0 bg-zinc-900 skeleton-shimmer"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-900/40"></div>
+              <div class="relative z-10 flex flex-col h-full p-6 md:p-10">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="h-6 w-24 bg-zinc-800/80 rounded-md skeleton-shimmer"></div>
+                  <div class="h-4 w-20 bg-zinc-800/80 rounded skeleton-shimmer"></div>
+                </div>
+                <div class="mt-auto pt-10">
+                  <div class="h-10 w-full bg-zinc-800/80 rounded mb-4 skeleton-shimmer"></div>
+                  <div class="h-5 w-full bg-zinc-800/80 rounded mb-2 skeleton-shimmer"></div>
+                  <div class="h-5 w-5/6 bg-zinc-800/80 rounded mb-8 skeleton-shimmer"></div>
+                  <div class="h-10 w-48 bg-zinc-800/80 rounded-full skeleton-shimmer"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <!-- Skeleton Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="n in 6" :key="n" class="rounded-2xl border border-zinc-800/60 min-h-[320px] p-6 flex flex-col justify-between skeleton-shimmer">
-            <div>
-              <div class="flex gap-3 mb-5"><div class="h-3 w-16 bg-zinc-800/80 rounded-full"></div><div class="h-5 w-20 bg-zinc-800/80 rounded-full"></div></div>
-              <div class="h-5 w-full bg-zinc-800/80 rounded mb-2"></div>
-              <div class="h-5 w-4/5 bg-zinc-800/80 rounded mb-5"></div>
-              <div class="h-3.5 w-full bg-zinc-800/60 rounded mb-2"></div>
-              <div class="h-3.5 w-2/3 bg-zinc-800/60 rounded"></div>
-            </div>
-            <div class="flex items-center gap-3 mt-6">
-              <div class="h-10 w-10 rounded-full bg-zinc-800/80"></div>
-              <div><div class="h-3.5 w-28 bg-zinc-800/80 rounded mb-2"></div><div class="h-3 w-16 bg-zinc-800/60 rounded"></div></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 relative w-full">
+          <div v-for="n in 6" :key="n" class="group relative flex flex-col rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden">
+            <div class="relative w-full aspect-[16/9] bg-zinc-900 border-b border-white/5 skeleton-shimmer"></div>
+            <div class="p-6 sm:p-8 flex-1 flex flex-col relative z-10 w-full">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="h-6 w-16 bg-zinc-800/80 rounded-md skeleton-shimmer"></div>
+                <div class="h-3 w-20 bg-zinc-800/80 rounded skeleton-shimmer"></div>
+              </div>
+              <div class="h-7 w-full bg-zinc-800/80 rounded mb-3 skeleton-shimmer"></div>
+              <div class="h-7 w-2/3 bg-zinc-800/80 rounded mb-6 skeleton-shimmer"></div>
+              <div class="mt-auto pt-6 border-t border-zinc-800/50">
+                <div class="h-5 w-32 bg-zinc-800/80 rounded skeleton-shimmer"></div>
+              </div>
             </div>
           </div>
         </div>

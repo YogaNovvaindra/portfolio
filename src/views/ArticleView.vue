@@ -6,10 +6,12 @@
     </div>
     <!-- Full-Width Title Hero -->
     <!-- Skeleton Hero (shown while loading) -->
-    <div v-if="loading" class="relative w-full h-[35vh] md:h-[45vh] skeleton-shimmer flex items-end">
-      <div class="w-full px-4 pb-8 md:pb-20 max-w-4xl mx-auto text-left">
-        <div class="h-10 w-3/4 rounded mb-4 bg-zinc-800/80"></div>
-        <div class="h-10 w-1/2 rounded bg-zinc-800/80"></div>
+    <div v-if="loading" class="relative w-full h-[35vh] md:h-[45vh] bg-zinc-900 skeleton-shimmer flex items-end">
+      <!-- Gradient over skeleton hero so it matches the real header -->
+      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent"></div>
+      <div class="relative z-10 w-full px-4 pb-8 md:pb-20 max-w-4xl mx-auto text-left">
+        <div class="h-10 md:h-12 w-3/4 rounded-xl mb-4 bg-zinc-800/80 skeleton-shimmer"></div>
+        <div class="h-10 md:h-12 w-1/2 rounded-xl bg-zinc-800/80 skeleton-shimmer"></div>
       </div>
     </div>
 
@@ -46,41 +48,40 @@
         <!-- Meta skeleton -->
         <div class="mb-10 md:mb-16">
           <div class="flex items-center gap-3 mb-8">
-            <div class="h-3 w-16 rounded-full skeleton-shimmer"></div>
-            <div class="h-3 w-4 rounded skeleton-shimmer"></div>
-            <div class="h-3 w-24 rounded-full skeleton-shimmer"></div>
+            <div class="h-4 w-16 rounded-md bg-zinc-800/80 skeleton-shimmer"></div>
+            <div class="h-4 w-4 rounded bg-zinc-800/60 skeleton-shimmer"></div>
+            <div class="h-4 w-24 rounded-full bg-zinc-800/80 skeleton-shimmer"></div>
           </div>
           <!-- Excerpt skeleton -->
-          <div class="h-6 w-full rounded mb-3 skeleton-shimmer"></div>
-          <div class="h-6 w-5/6 rounded mb-3 skeleton-shimmer"></div>
-          <div class="h-6 w-3/4 rounded mb-10 skeleton-shimmer"></div>
+          <div class="h-6 w-full rounded-md bg-zinc-800/60 mb-3 skeleton-shimmer"></div>
+          <div class="h-6 w-5/6 rounded-md bg-zinc-800/60 mb-3 skeleton-shimmer"></div>
+          <div class="h-6 w-3/4 rounded-md bg-zinc-800/60 mb-10 skeleton-shimmer"></div>
           <!-- Author skeleton -->
           <div class="flex items-center gap-4">
-            <div class="h-14 w-14 rounded-full skeleton-shimmer"></div>
+            <div class="h-14 w-14 rounded-full bg-zinc-800/80 skeleton-shimmer border-2 border-zinc-800"></div>
             <div>
-              <div class="h-4 w-36 rounded mb-2 skeleton-shimmer"></div>
-              <div class="h-3 w-16 rounded skeleton-shimmer"></div>
+              <div class="h-5 w-36 rounded-md bg-zinc-800/80 mb-2 skeleton-shimmer"></div>
+              <div class="h-3 w-16 rounded bg-zinc-800/60 skeleton-shimmer"></div>
             </div>
           </div>
         </div>
         <!-- Body skeleton lines -->
-        <div class="space-y-3">
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-5/6 rounded skeleton-shimmer"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-4/5 rounded skeleton-shimmer"></div>
-          <div class="h-4 w-0 rounded mt-8"></div>
-          <div class="h-5 w-1/3 rounded skeleton-shimmer mt-8"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-3/4 rounded skeleton-shimmer"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-5/6 rounded skeleton-shimmer"></div>
-          <div class="h-5 w-1/4 rounded skeleton-shimmer mt-8"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-full rounded skeleton-shimmer"></div>
-          <div class="h-4 w-2/3 rounded skeleton-shimmer"></div>
+        <div class="space-y-4">
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-5/6 rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-4/5 rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-10 w-1/3 rounded-lg bg-zinc-800/80 skeleton-shimmer mt-10 mb-6"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-3/4 rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-5/6 rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-8 w-1/4 rounded-lg bg-zinc-800/80 skeleton-shimmer mt-10 mb-6"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-full rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
+          <div class="h-5 w-2/3 rounded-md bg-zinc-800/60 skeleton-shimmer"></div>
         </div>
       </div>
       <div v-else-if="error" class="text-center py-20 fadein-bot">
