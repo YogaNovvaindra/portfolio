@@ -51,19 +51,15 @@ export default {
         </p>
 
         <h3
-          class="text-2xl md:text-3xl font-bold text-white tracking-tight cursor-pointer hover:text-blue-300 transition-colors"
+          class="text-2xl md:text-3xl font-bold text-white tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center gap-2.5"
           @click="$emit('select', item)"
         >
           {{ item.name }}
-        </h3>
-
-        <!-- Active indicator dot -->
-        <div v-if="item.status === 'Active'" class="flex items-center gap-1.5" :class="{ 'md:justify-end': index % 2 !== 0 }">
-          <span class="relative flex h-2 w-2">
+          <span v-if="item.status === 'Active'" class="relative flex h-2 w-2 shrink-0">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-        </div>
+        </h3>
         <p class="text-zinc-500 leading-relaxed text-sm md:text-base">
           {{ item.description || item.status }}
         </p>
