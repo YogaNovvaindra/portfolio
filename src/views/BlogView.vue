@@ -76,9 +76,9 @@
             </p>
             
             <!-- Search Bar -->
-            <div class="relative w-full fadein-bot" style="animation-delay: 200ms;">
-              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div class="relative w-full fadein-bot group" style="animation-delay: 200ms;">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-300 group-focus-within:text-blue-400 text-zinc-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
               </div>
@@ -86,7 +86,7 @@
                 v-model="searchQuery" 
                 type="text" 
                 placeholder="Search articles, or type # to filter by tag..." 
-                class="w-full bg-zinc-900/50 border border-zinc-800 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 text-white rounded-xl pl-12 pr-4 py-3 placeholder-zinc-500 transition-all duration-300 outline-none"
+                class="w-full bg-zinc-900/40 border border-white/5 focus:border-blue-500/30 focus:shadow-[0_0_30px_rgba(59,130,246,0.15)] focus:bg-zinc-900/60 text-white rounded-2xl pl-12 pr-4 py-3.5 placeholder-zinc-500 transition-all duration-300 outline-none backdrop-blur-sm"
               >
             </div>
             
@@ -162,10 +162,10 @@
                     {{ featuredPost.custom_excerpt || featuredPost.excerpt }}
                   </p>
                   
-                  <div class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-colors px-6 py-2.5 rounded-full shadow-lg shadow-blue-500/20">
+                  <router-link :to="`/blog/${featuredPost.slug}`" class="relative z-20 inline-flex items-center gap-2 text-sm font-semibold text-white bg-blue-500 hover:bg-blue-400 transition-colors px-6 py-2.5 rounded-full shadow-lg shadow-blue-500/20">
                     Read featured article
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                  </div>
+                  </router-link>
                 </div>
               </div>
             </article>
@@ -219,10 +219,10 @@
                 <div class="mt-auto"></div>
                 
                 <!-- Action Footer -->
-                <div class="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 group-hover:text-blue-400 transition-colors pt-5 border-t border-zinc-800/50">
+                <router-link :to="`/blog/${post.slug}`" class="relative z-20 inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 group-hover:text-blue-400 transition-colors pt-5 border-t border-zinc-800/50 w-full">
                   Read article
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </div>
+                </router-link>
               </div>
             </article>
           </div>
