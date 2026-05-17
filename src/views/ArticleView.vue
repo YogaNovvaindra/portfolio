@@ -7,9 +7,9 @@
     <!-- Full-Width Title Hero -->
     <!-- Skeleton Hero (shown while loading) -->
     <div v-if="loading" class="relative w-full h-[40vh] md:h-[55vh] skeleton-shimmer flex items-end">
-      <div class="w-full px-4 pb-12 md:pb-20 max-w-5xl mx-auto">
-        <div class="h-8 w-2/3 mx-auto rounded mb-4 bg-zinc-800/80"></div>
-        <div class="h-8 w-1/2 mx-auto rounded bg-zinc-800/80"></div>
+      <div class="w-full px-4 pb-12 md:pb-20 max-w-4xl mx-auto text-left">
+        <div class="h-10 w-3/4 rounded mb-4 bg-zinc-800/80"></div>
+        <div class="h-10 w-1/2 rounded bg-zinc-800/80"></div>
       </div>
     </div>
 
@@ -23,8 +23,8 @@
       </div>
 
       <!-- Overlaid Title Only -->
-      <div class="relative z-10 container mx-auto px-4 max-w-5xl text-center pb-12 md:pb-20">
-        <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-2xl">
+      <div class="relative z-10 container mx-auto px-4 max-w-4xl text-left pb-12 md:pb-20">
+        <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-2xl max-w-3xl">
           {{ post.title }}
         </h1>
       </div>
@@ -138,8 +138,8 @@
             </time>
           </div>
 
-          <p v-if="post.custom_excerpt || post.excerpt" class="text-lg md:text-xl lg:text-2xl text-zinc-300 mb-10 leading-relaxed max-w-3xl italic">
-            "{{ post.custom_excerpt || post.excerpt }}"
+          <p v-if="post.custom_excerpt || post.excerpt" class="text-lg md:text-xl lg:text-2xl text-zinc-400 mb-10 leading-relaxed max-w-3xl">
+            {{ post.custom_excerpt || post.excerpt }}
           </p>
 
           <div class="flex items-center gap-4">

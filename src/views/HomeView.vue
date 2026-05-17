@@ -3,10 +3,10 @@
     <main class="flex flex-col-reverse gap-16 items-center lg:flex-row lg:gap-20 lg:justify-between max-w-6xl mx-auto w-full">
 
       <!-- Hero Content -->
-      <div class="flex flex-col flex-1 space-y-10 text-center lg:text-left max-w-2xl title-reveal">
+      <div class="flex flex-col flex-1 text-center lg:text-left max-w-2xl title-reveal">
 
         <!-- Name + Role -->
-        <div class="space-y-4">
+        <div class="space-y-5">
           <div class="flex flex-wrap items-center gap-3 justify-center lg:justify-start">
             <div class="inline-flex items-center gap-2 text-sm font-mono text-blue-400 bg-blue-500/10 px-3 py-1.5 rounded-full">
               <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]"></span>
@@ -27,12 +27,12 @@
         </div>
 
         <!-- Description -->
-        <p class="text-zinc-400 leading-relaxed text-base md:text-lg max-w-lg mx-auto lg:mx-0">
+        <p class="mt-6 text-zinc-400 leading-relaxed text-base md:text-lg max-w-lg mx-auto lg:mx-0">
           Building <span class="text-zinc-200 font-medium">automated, secure, and observable</span> infrastructure — from bare-metal clusters to cloud-native platforms. <span class="wave inline-block">👋🏼</span>
         </p>
 
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <router-link
             to="/portfolio"
             class="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white text-sm font-semibold rounded-lg transition-colors duration-200 text-center shadow-[0_0_15px_rgba(59,130,246,0.3)] inline-flex items-center justify-center gap-2"
@@ -59,7 +59,7 @@
         </div>
 
         <!-- Stats row -->
-        <div class="flex gap-8 justify-center lg:justify-start pt-2">
+        <div class="mt-12 flex gap-8 justify-center lg:justify-start">
           <div class="text-left group cursor-default">
             <div class="text-2xl font-bold text-white tabular-nums group-hover:text-blue-400 group-hover:-translate-y-1 transition-all duration-300">8+</div>
             <div class="text-xs text-zinc-500 mt-0.5 font-medium group-hover:text-zinc-400 transition-colors duration-300">Deployments</div>
@@ -76,19 +76,47 @@
           </div>
         </div>
 
-        <!-- Social Links -->
-        <div class="flex gap-3 justify-center lg:justify-start">
-          <a v-for="link in socialLinks" :key="link.name" :href="link.url"
-             :target="link.icon === 'MailIcon' ? '_self' : '_blank'"
-             :title="link.name"
-             :aria-label="link.name"
-             class="p-2.5 rounded-lg border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 bg-transparent hover:bg-zinc-800/50 transition-all duration-200">
-            <svg v-if="link.icon === 'MailIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <svg v-else-if="link.icon === 'LinkedinIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-            <svg v-else-if="link.icon === 'GithubIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-            <svg v-else-if="link.icon === 'GlobeIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-          </a>
+        <!-- Socials & Latest Article Group -->
+        <div class="mt-10 flex flex-col gap-6">
+          <!-- Social Links -->
+          <div class="flex gap-3 justify-center lg:justify-start">
+            <a v-for="link in socialLinks" :key="link.name" :href="link.url"
+               :target="link.icon === 'MailIcon' ? '_self' : '_blank'"
+               :title="link.name"
+               :aria-label="link.name"
+               class="p-2.5 rounded-lg border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 bg-transparent hover:bg-zinc-800/50 transition-all duration-200">
+              <svg v-if="link.icon === 'MailIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <svg v-else-if="link.icon === 'LinkedinIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              <svg v-else-if="link.icon === 'GithubIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              <svg v-else-if="link.icon === 'GlobeIcon'" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </a>
+          </div>
+
+          <!-- Latest Article Card Skeleton -->
+          <div v-if="loadingArticle" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/20 border border-zinc-800/50 w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm animate-pulse h-[74px]">
+            <div class="h-12 w-16 shrink-0 rounded-lg bg-zinc-800/50"></div>
+            <div class="flex flex-col gap-2 flex-1 mt-0.5">
+              <div class="h-2.5 w-24 bg-zinc-800/50 rounded-full"></div>
+              <div class="h-3.5 w-3/4 bg-zinc-800/50 rounded-full"></div>
+            </div>
+          </div>
+
+          <!-- Latest Article Card -->
+          <router-link v-else-if="latestArticle" :to="`/blog/${latestArticle.slug}`" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm">
+          <div class="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-zinc-800 border border-zinc-700/50">
+            <img v-if="latestArticle.feature_image" :src="latestArticle.feature_image" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+            <div v-else class="h-full w-full flex items-center justify-center text-zinc-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            </div>
+          </div>
+          <div class="flex flex-col overflow-hidden text-left flex-1">
+            <span class="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Latest Article</span>
+            <span class="text-sm font-medium text-zinc-300 group-hover:text-blue-400 truncate transition-colors">{{ latestArticle.title }}</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 shrink-0 text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"><path d="m9 18 6-6-6-6"/></svg>
+        </router-link>
         </div>
+
       </div>
 
       <!-- Hero Avatar -->
@@ -114,6 +142,7 @@
 
 <script>
   import { setPageMeta } from '@/services/pageMeta';
+  import ghost from '@/services/ghost';
   export default {
     name: "HomeView",
     data() {
@@ -124,7 +153,7 @@
           "Continuous Integration",
           "Platform Engineering",
         ],
-        period: 2200,
+        period: 2000,
         txt: "",
         loopNum: 0,
         isDeleting: false,
@@ -133,7 +162,9 @@
           { name: 'LinkedIn', url: 'https://www.linkedin.com/in/yoga-novaindra/', icon: 'LinkedinIcon' },
           { name: 'GitHub', url: 'https://github.com/YogaNovvaindra', icon: 'GithubIcon' },
           { name: 'Website', url: 'https://yoganova.my.id', icon: 'GlobeIcon' }
-        ]
+        ],
+        latestArticle: null,
+        loadingArticle: true
       };
     },
     mounted() {
@@ -145,8 +176,22 @@
       this.$nextTick(() => {
         this.tick();
       });
+      this.fetchLatestArticle();
     },
     methods: {
+      async fetchLatestArticle() {
+        this.loadingArticle = true;
+        try {
+          const data = await ghost.getPosts(1);
+          if (data && data.posts && data.posts.length > 0) {
+            this.latestArticle = data.posts[0];
+          }
+        } catch (error) {
+          console.error('Failed to fetch latest article:', error);
+        } finally {
+          this.loadingArticle = false;
+        }
+      },
       tick() {
         let i = this.loopNum % this.toRotate.length;
         let fullTxt = this.toRotate[i];
@@ -155,7 +200,7 @@
           ? fullTxt.substring(0, this.txt.length - 1)
           : fullTxt.substring(0, this.txt.length + 1);
 
-        let delta = 150 - Math.random() * 80;
+        let delta = 100 - Math.random() * 50;
         if (this.isDeleting) delta /= 2;
 
         if (!this.isDeleting && this.txt === fullTxt) {
@@ -164,7 +209,7 @@
         } else if (this.isDeleting && this.txt === "") {
           this.isDeleting = false;
           this.loopNum++;
-          delta = 500;
+          delta = 400;
         }
 
         setTimeout(() => this.tick(), delta);
