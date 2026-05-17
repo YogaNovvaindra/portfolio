@@ -255,7 +255,7 @@
     <Transition name="toc-float">
       <div
         v-if="post && readingProgress > 4"
-        class="flex fixed bottom-20 right-6 md:bottom-20 md:right-8 z-40 flex-col-reverse items-center gap-2"
+        class="flex fixed bottom-24 right-6 md:bottom-24 md:right-8 z-40 flex-col-reverse items-center gap-2"
         aria-label="Share article"
       >
         <!-- Share toggle -->
