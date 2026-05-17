@@ -1,10 +1,51 @@
 <template>
   <div class="min-h-screen py-24 px-4 md:px-8 relative">
     <div class="max-w-6xl mx-auto h-full relative">
-      <!-- Loading State -->
-      <div v-if="loading" class="flex justify-center items-center py-20 fadein-bot">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
+      <!-- Skeleton Loading State -->
+      <div v-if="loading">
+        <!-- Skeleton Hero -->
+        <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-8 md:mb-12">
+          <div class="xl:w-5/12 flex flex-col justify-center">
+            <div class="h-10 w-64 bg-zinc-800/60 rounded-xl mb-6 skeleton-shimmer"></div>
+            <div class="h-4 w-full bg-zinc-800/40 rounded mb-2 skeleton-shimmer"></div>
+            <div class="h-4 w-5/6 bg-zinc-800/40 rounded mb-8 skeleton-shimmer"></div>
+            <div class="h-12 w-full bg-zinc-800/40 rounded-xl mb-6 skeleton-shimmer"></div>
+            <div class="flex gap-2">
+              <div class="h-8 w-12 bg-zinc-800/40 rounded-full skeleton-shimmer"></div>
+              <div class="h-8 w-16 bg-zinc-800/40 rounded-full skeleton-shimmer"></div>
+              <div class="h-8 w-20 bg-zinc-800/40 rounded-full skeleton-shimmer"></div>
+            </div>
+          </div>
+          <div class="xl:w-7/12">
+            <div class="min-h-[360px] rounded-2xl border border-zinc-800/60 relative skeleton-shimmer">
+              <div class="absolute bottom-0 left-0 right-0 p-8">
+                <div class="flex gap-3 mb-4"><div class="h-4 w-24 bg-zinc-800/80 rounded"></div><div class="h-6 w-20 bg-zinc-800/80 rounded-full"></div></div>
+                <div class="h-8 w-full bg-zinc-800/80 rounded mb-2"></div>
+                <div class="h-8 w-3/4 bg-zinc-800/80 rounded mb-6"></div>
+                <div class="h-4 w-full bg-zinc-800/80 rounded mb-2"></div>
+                <div class="h-4 w-5/6 bg-zinc-800/80 rounded mb-8"></div>
+                <div class="flex items-center gap-3"><div class="h-12 w-12 rounded-full bg-zinc-800/80"></div><div><div class="h-4 w-32 bg-zinc-800/80 rounded mb-2"></div><div class="h-3 w-20 bg-zinc-800/80 rounded"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Skeleton Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="n in 6" :key="n" class="rounded-2xl border border-zinc-800/60 min-h-[320px] p-6 flex flex-col justify-between skeleton-shimmer">
+            <div>
+              <div class="flex gap-3 mb-5"><div class="h-3 w-16 bg-zinc-800/80 rounded-full"></div><div class="h-5 w-20 bg-zinc-800/80 rounded-full"></div></div>
+              <div class="h-5 w-full bg-zinc-800/80 rounded mb-2"></div>
+              <div class="h-5 w-4/5 bg-zinc-800/80 rounded mb-5"></div>
+              <div class="h-3.5 w-full bg-zinc-800/60 rounded mb-2"></div>
+              <div class="h-3.5 w-2/3 bg-zinc-800/60 rounded"></div>
+            </div>
+            <div class="flex items-center gap-3 mt-6">
+              <div class="h-10 w-10 rounded-full bg-zinc-800/80"></div>
+              <div><div class="h-3.5 w-28 bg-zinc-800/80 rounded mb-2"></div><div class="h-3 w-16 bg-zinc-800/60 rounded"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <!-- Error State -->
     <div v-else-if="error" class="text-center py-20 fadein-bot">
@@ -24,7 +65,7 @@
 
       <template v-else>
         <!-- Hero Section: Header + Featured Post -->
-        <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-16 md:mb-24">
+        <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-8 md:mb-12">
           <!-- Left Side: Header -->
           <div class="xl:w-5/12 flex flex-col justify-center text-left title-reveal">
             <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 drop-shadow-sm">
@@ -55,6 +96,7 @@
               <div class="flex gap-2 w-full pr-24 absolute inset-0 hide-scrollbar overflow-x-auto">
                 <button
                   @click="toggleTag(null)"
+                  :aria-pressed="!activeTag"
                   :class="['flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
                 >
                   All
@@ -63,6 +105,7 @@
                   v-for="tag in sortedTags"
                   :key="tag.id"
                   @click="toggleTag(tag.slug)"
+                  :aria-pressed="activeTag === tag.slug"
                   :class="['flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
                 >
                   {{ tag.name }}
@@ -86,8 +129,8 @@
           <div class="xl:w-7/12 fadein-bot" style="animation-delay: 100ms;" v-if="featuredPost">
             <article class="h-full group relative rounded-2xl border border-zinc-800/80 p-8 md:p-10 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 overflow-hidden">
               <!-- Background Image & Overlay -->
-              <div class="absolute inset-0 z-0">
-                <img v-if="featuredPost.feature_image" :src="featuredPost.feature_image" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div class="absolute inset-0 z-0 overflow-hidden">
+                <img v-if="featuredPost.feature_image" ref="featuredImg" :src="featuredPost.feature_image" :alt="featuredPost.title" :style="{ transform: 'translateY(' + parallaxY + 'px) scale(1.12)' }" class="w-full h-full object-cover will-change-transform" />
                 <div v-else class="w-full h-full bg-zinc-900/80"></div>
                 <!-- Dark Gradient Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-zinc-900/70"></div>
@@ -100,9 +143,8 @@
                   <time :datetime="featuredPost.published_at" :title="formatDate(featuredPost.published_at)" class="text-zinc-400 cursor-help">
                     {{ getRelativeTime(featuredPost.published_at) }}
                   </time>
-                  <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">
-                    {{ featuredPost.primary_tag.name }}
-                  </span>
+                  <span v-if="featuredPost.primary_tag" class="relative z-10 rounded-full bg-blue-500/20 px-4 py-1.5 font-medium text-blue-300 border border-blue-500/30 backdrop-blur-sm">{{ featuredPost.primary_tag.name }}</span>
+                  
                 </div>
                 <div class="group relative">
                   <h3 class="mt-4 text-3xl md:text-4xl font-semibold leading-tight text-white group-hover:text-blue-400 transition-colors">
@@ -150,7 +192,7 @@
             >
             <!-- Background Image & Overlay -->
             <div class="absolute inset-0 z-0">
-              <img v-if="post.feature_image" :src="post.feature_image" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img v-if="post.feature_image" :src="post.feature_image" :alt="post.title" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div v-else class="w-full h-full bg-zinc-900/80"></div>
               <!-- Dark Gradient Overlay -->
               <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/90 to-zinc-900/70"></div>
@@ -200,26 +242,32 @@
           </div>
         </Transition>
 
-        <!-- Pagination -->
-        <div v-if="totalPages > 1" class="flex justify-center mt-12 fadein-bot">
-          <div class="flex space-x-2">
+        <!-- Post Count & Pagination -->
+        <div class="flex items-center justify-between mt-12 fadein-bot" v-if="!searchQuery">
+          <p class="text-xs text-zinc-600">
+            Showing <span class="text-zinc-400 font-medium">{{ postsCountLabel }}</span>
+          </p>
+          <div v-if="totalPages > 1" class="flex items-center gap-4">
             <button 
               @click="currentPage > 1 && currentPage--"
               :disabled="currentPage === 1"
-              class="px-4 py-2 rounded-lg border border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="flex items-center gap-1 text-sm font-medium text-zinc-500 hover:text-blue-400 disabled:text-zinc-800 disabled:cursor-not-allowed transition-colors"
             >
-              Previous
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Prev
             </button>
-            <div class="flex space-x-1">
+            <div class="flex items-center gap-1.5">
               <button 
                 v-for="page in totalPages" 
                 :key="page"
                 @click="currentPage = page"
                 :class="[
-                  'w-10 h-10 rounded-lg border transition-colors flex items-center justify-center font-medium',
+                  'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
                   currentPage === page 
-                    ? 'bg-blue-500/20 border-blue-500/50 text-blue-400' 
-                    : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800 hover:text-white'
+                    ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]' 
+                    : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
                 ]"
               >
                 {{ page }}
@@ -228,9 +276,53 @@
             <button 
               @click="currentPage < totalPages && currentPage++"
               :disabled="currentPage === totalPages"
-              class="px-4 py-2 rounded-lg border border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              class="flex items-center gap-1 text-sm font-medium text-zinc-500 hover:text-blue-400 disabled:text-zinc-800 disabled:cursor-not-allowed transition-colors"
             >
               Next
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Search pagination -->
+        <div v-if="searchQuery && totalPages > 1" class="flex justify-center mt-12 fadein-bot">
+          <div class="flex items-center gap-4">
+            <button 
+              @click="currentPage > 1 && currentPage--"
+              :disabled="currentPage === 1"
+              class="flex items-center gap-1 text-sm font-medium text-zinc-500 hover:text-blue-400 disabled:text-zinc-800 disabled:cursor-not-allowed transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Prev
+            </button>
+            <div class="flex items-center gap-1.5">
+              <button 
+                v-for="page in totalPages" 
+                :key="page"
+                @click="currentPage = page"
+                :class="[
+                  'w-9 h-9 rounded-full transition-all duration-300 flex items-center justify-center text-sm font-medium',
+                  currentPage === page 
+                    ? 'bg-blue-500/10 border border-blue-500/30 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.1)]' 
+                    : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-900 border border-transparent'
+                ]"
+              >
+                {{ page }}
+              </button>
+            </div>
+            <button 
+              @click="currentPage < totalPages && currentPage++"
+              :disabled="currentPage === totalPages"
+              class="flex items-center gap-1 text-sm font-medium text-zinc-500 hover:text-blue-400 disabled:text-zinc-800 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
@@ -239,35 +331,57 @@
     </div>
 
     <!-- Tags Modal -->
-    <div v-if="showTagsModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" @click.self="showTagsModal = false">
-      <div class="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm transition-opacity" @click="showTagsModal = false"></div>
-      <div class="relative bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl transform transition-all fadein-bot">
-        <div class="p-6 border-b border-zinc-800 flex justify-between items-center">
-          <h3 class="text-lg font-semibold text-white">All Tags</h3>
-          <button @click="showTagsModal = false" class="text-zinc-500 hover:text-white transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
-        </div>
-        <div class="p-6 overflow-y-auto hide-scrollbar">
-          <div class="flex flex-wrap gap-2">
+    <Transition name="modal-fade">
+      <div
+        v-if="showTagsModal"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+        role="dialog"
+        aria-modal="true"
+        aria-label="All tags"
+        @click.self="showTagsModal = false"
+        @keydown.esc="showTagsModal = false"
+      >
+        <div class="absolute inset-0 bg-zinc-950/80 backdrop-blur-sm" @click="showTagsModal = false"></div>
+        <div
+          ref="tagsModal"
+          class="relative bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl transform transition-all fadein-bot"
+          tabindex="-1"
+          @keydown="trapFocus"
+        >
+          <div class="p-6 border-b border-zinc-800 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-white">All Tags</h3>
             <button
-              @click="toggleTag(null); showTagsModal = false"
-              :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+              ref="modalCloseBtn"
+              @click="showTagsModal = false"
+              class="text-zinc-500 hover:text-white transition-colors"
+              aria-label="Close tags modal"
             >
-              All
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <button
-              v-for="tag in sortedTags"
-              :key="tag.id"
-              @click="toggleTag(tag.slug); showTagsModal = false"
-              :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
-            >
-              {{ tag.name }} <span class="text-zinc-600 ml-1">{{ tag.count?.posts || 0 }}</span>
-            </button>
+          </div>
+          <div class="p-6 overflow-y-auto hide-scrollbar">
+            <div class="flex flex-wrap gap-2">
+              <button
+                @click="toggleTag(null); showTagsModal = false"
+                :aria-pressed="!activeTag"
+                :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+              >
+                All
+              </button>
+              <button
+                v-for="tag in sortedTags"
+                :key="tag.id"
+                @click="toggleTag(tag.slug); showTagsModal = false"
+                :aria-pressed="activeTag === tag.slug"
+                :class="['px-3 py-1.5 rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+              >
+                {{ tag.name }} <span class="text-zinc-400 ml-1">{{ tag.count?.posts || 0 }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -289,6 +403,7 @@ export default {
       tags: [],
       activeTag: null,
       showTagsModal: false,
+      parallaxY: 0,
     };
   },
   watch: {
@@ -305,11 +420,23 @@ export default {
     activeTag() {
       this.serverPage = 1;
       this.searchPage = 1;
-      // If serverPage is already 1, watcher won't trigger fetchPosts, so we call it manually
       if (this.serverPage === 1) {
         this.fetchPosts(1);
       }
-    }
+    },
+    showTagsModal(val) {
+      if (val) {
+        // Focus the modal container after it renders so Escape/Tab work
+        this.$nextTick(() => {
+          this.$refs.tagsModal?.focus();
+        });
+      }
+    },
+    '$route.query.tag'(newTag) {
+      if (newTag && newTag !== this.activeTag) {
+        this.activeTag = newTag;
+      }
+    },
   },
   computed: {
     sortedTags() {
@@ -381,12 +508,29 @@ export default {
         return Math.ceil(this.searchMatches.length / 6) || 1;
       }
       return this.apiTotalPages;
-    }
+    },
+    postsCountLabel() {
+      const page = this.serverPage;
+      if (this.apiTotalPages <= 1) {
+        return `${this.serverPosts.length} post${this.serverPosts.length !== 1 ? 's' : ''}`;
+      }
+      return `page ${page} of ${this.apiTotalPages}`;
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleParallax, { passive: true });
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.handleParallax);
   },
   async created() {
+    // Check for tag filter from route query (e.g. from ArticleView tag links)
+    if (this.$route.query.tag) {
+      this.activeTag = this.$route.query.tag;
+    }
     this.fetchTags();
-    this.fetchSearchIndex(); // Fetch lightweight search index in background
-    await this.fetchPosts(); // Fetch server-paginated posts for grid
+    this.fetchSearchIndex();
+    await this.fetchPosts();
   },
   methods: {
     async fetchTags() {
@@ -456,7 +600,52 @@ export default {
       }
       return 'just now';
     },
+    handleParallax() {
+      const img = this.$refs.featuredImg;
+      if (!img) return;
+      // Simple scroll-based parallax: card is always near the top
+      // so scrollY directly maps to upward image shift
+      this.parallaxY = Math.min(window.scrollY * 0.08, 35);
+    },
+    trapFocus(e) {
+      if (e.key !== 'Tab') return;
+      const modal = this.$refs.tagsModal;
+      if (!modal) return;
+      const focusable = Array.from(modal.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )).filter(el => !el.disabled);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    },
   },
 };
 </script>
+
+<style>
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+</style>
+
+
+
+
+
+
 

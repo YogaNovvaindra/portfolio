@@ -5,10 +5,18 @@
       <div class="h-full bg-blue-500 transition-all duration-150 ease-out" :style="{ width: readingProgress + '%' }"></div>
     </div>
     <!-- Full-Width Title Hero -->
-    <header v-if="!loading && !error && post" class="relative w-full h-[50vh] md:h-[75vh] flex items-end justify-center overflow-hidden title-reveal">
+    <!-- Skeleton Hero (shown while loading) -->
+    <div v-if="loading" class="relative w-full h-[40vh] md:h-[55vh] skeleton-shimmer flex items-end">
+      <div class="w-full px-4 pb-12 md:pb-20 max-w-5xl mx-auto">
+        <div class="h-8 w-2/3 mx-auto rounded mb-4 bg-zinc-800/80"></div>
+        <div class="h-8 w-1/2 mx-auto rounded bg-zinc-800/80"></div>
+      </div>
+    </div>
+
+    <header v-if="!loading && !error && post" class="relative w-full h-[40vh] md:h-[55vh] flex items-end justify-center overflow-hidden title-reveal">
       <!-- Background Image & Overlay -->
-      <div class="absolute inset-0 z-0">
-        <img v-if="post.feature_image" :src="post.feature_image" :alt="post.title" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 z-0 overflow-hidden">
+        <img v-if="post.feature_image" ref="heroImg" :src="post.feature_image" :alt="post.title" :style="{ transform: 'translateY(' + heroParallaxY + 'px) scale(1.1)' }" class="w-full h-full object-cover will-change-transform" />
         <div v-else class="w-full h-full bg-zinc-900/80"></div>
         <!-- Dark Gradient Overlay for Title -->
         <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent"></div>
@@ -22,10 +30,9 @@
       </div>
     </header>
 
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 max-w-6xl flex flex-col lg:flex-row gap-12 relative">
-      <div class="w-full lg:w-3/4 max-w-4xl mx-auto lg:mx-0">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 max-w-4xl">
       <!-- Back Button -->
-      <div class="mb-12 fadein-bot text-center md:text-left">
+      <div class="mb-12 fadein-bot text-left">
         <router-link to="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-blue-400 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -34,9 +41,47 @@
         </router-link>
       </div>
 
-      <!-- Loading/Error States -->
-      <div v-if="loading" class="flex justify-center items-center py-32 fadein-bot">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <!-- Skeleton Loading State -->
+      <div v-if="loading">
+        <!-- Meta skeleton -->
+        <div class="mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="h-3 w-16 rounded-full skeleton-shimmer"></div>
+            <div class="h-3 w-4 rounded skeleton-shimmer"></div>
+            <div class="h-3 w-24 rounded-full skeleton-shimmer"></div>
+          </div>
+          <!-- Excerpt skeleton -->
+          <div class="h-6 w-full rounded mb-3 skeleton-shimmer"></div>
+          <div class="h-6 w-5/6 rounded mb-3 skeleton-shimmer"></div>
+          <div class="h-6 w-3/4 rounded mb-10 skeleton-shimmer"></div>
+          <!-- Author skeleton -->
+          <div class="flex items-center gap-4">
+            <div class="h-14 w-14 rounded-full skeleton-shimmer"></div>
+            <div>
+              <div class="h-4 w-36 rounded mb-2 skeleton-shimmer"></div>
+              <div class="h-3 w-16 rounded skeleton-shimmer"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Body skeleton lines -->
+        <div class="space-y-3">
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-5/6 rounded skeleton-shimmer"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-4/5 rounded skeleton-shimmer"></div>
+          <div class="h-4 w-0 rounded mt-8"></div>
+          <div class="h-5 w-1/3 rounded skeleton-shimmer mt-8"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-3/4 rounded skeleton-shimmer"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-5/6 rounded skeleton-shimmer"></div>
+          <div class="h-5 w-1/4 rounded skeleton-shimmer mt-8"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-full rounded skeleton-shimmer"></div>
+          <div class="h-4 w-2/3 rounded skeleton-shimmer"></div>
+        </div>
       </div>
       <div v-else-if="error" class="text-center py-20 fadein-bot">
         <div class="inline-block bg-red-500/10 border border-red-500/20 rounded-xl px-6 py-4">
@@ -51,10 +96,42 @@
       <article v-else-if="post" class="fadein-bot">
         <!-- Post Meta Information Below Hero -->
         <div class="mb-16 text-left">
-          <div class="flex items-center justify-start gap-4 text-sm font-medium mb-8">
-            <span v-if="post.primary_tag" class="text-blue-400 uppercase tracking-widest text-xs">
+          <div class="flex items-center justify-start gap-4 text-sm font-medium mb-8 flex-wrap">
+            <div v-if="post.tags && post.tags.length > 0" class="flex items-center gap-2 flex-wrap">
+              <template v-if="!showAllTags">
+                <span class="inline-flex items-center gap-1.5 uppercase tracking-widest text-xs">
+                  <router-link
+                    :to="{ path: '/blog', query: { tag: (post.primary_tag || post.tags[0]).slug } }"
+                    class="text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                  >
+                    {{ (post.primary_tag || post.tags[0]).name }}
+                  </router-link>
+                  <button
+                    v-if="post.tags.length > 1"
+                    @click="showAllTags = true"
+                    class="text-zinc-500 font-bold opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
+                    :title="`View all ${post.tags.length} tags`"
+                  >+{{ post.tags.length - 1 }}</button>
+                </span>
+              </template>
+              <template v-else>
+                <span
+                  v-for="(tag, index) in post.tags"
+                  :key="tag.id"
+                  class="inline-flex items-center uppercase tracking-widest text-xs"
+                >
+                  <router-link
+                    :to="{ path: '/blog', query: { tag: tag.slug } }"
+                    class="text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                  >{{ tag.name }}</router-link>
+                  <span v-if="index < post.tags.length - 1" class="text-zinc-600 ml-2 mr-2">Â·</span>
+                </span>
+                <button @click="showAllTags = false" class="text-zinc-600 hover:text-zinc-400 transition-colors text-xs ml-1" title="Collapse">â†‘</button>
+              </template>
+            </div>
+            <router-link v-else-if="post.primary_tag" :to="{ path: '/blog', query: { tag: post.primary_tag.slug } }" class="text-blue-400 uppercase tracking-widest text-xs hover:text-blue-300 hover:underline transition-colors">
               {{ post.primary_tag.name }}
-            </span>
+            </router-link>
             <span class="text-zinc-700">|</span>
             <time :datetime="post.published_at" :title="formatDate(post.published_at)" class="text-zinc-500 uppercase tracking-widest text-xs cursor-help">
               {{ getRelativeTime(post.published_at) }}
@@ -114,7 +191,7 @@
         <footer class="mt-24 pt-12 border-t border-zinc-900 text-center fadein-bot">
           <p class="text-zinc-600 text-sm flex items-center justify-center gap-2">
             <span>&copy; {{ new Date().getFullYear() }} Yoga Novaindra</span>
-            <span class="text-zinc-800">•</span>
+            <span class="text-zinc-800">â€¢</span>
             <span class="flex items-center gap-1.5">
               Powered by 
               <a href="https://ghost.org" target="_blank" class="inline-flex items-center gap-1 font-medium text-zinc-400 hover:text-blue-400 transition-colors">
@@ -125,22 +202,43 @@
           </p>
         </footer>
       </article>
-      </div>
+    </div>
 
-      <!-- TOC Sidebar -->
-      <div v-if="post && toc.length > 0" class="hidden lg:block lg:w-1/4 relative">
-        <div class="sticky top-24 pt-4 fadein-bot">
-          <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-6">Table of Contents</h4>
-          <ul class="flex flex-col gap-4 text-sm border-l border-zinc-800">
-            <li v-for="item in toc" :key="item.id" :class="['-ml-[1px] border-l pl-4 transition-colors', item.level === 3 ? 'ml-2 border-transparent' : 'border-zinc-800 hover:border-blue-500']">
-              <a :href="`#${item.id}`" class="text-zinc-400 hover:text-blue-400 transition-colors line-clamp-2 leading-relaxed">
+    <!-- Floating TOC (fixed, minimal) -->
+    <Transition name="toc-float">
+      <aside
+        v-if="post && toc.length > 0 && readingProgress > 4"
+        class="hidden xl:block fixed right-8 2xl:right-12 top-1/2 -translate-y-1/2 z-40 overflow-y-auto hide-scrollbar"
+        style="max-height: calc(100vh - 10rem); width: 11rem;"
+        aria-label="Table of Contents"
+      >
+        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-4 pl-4">On this page</p>
+        <nav>
+          <ul class="flex flex-col gap-2 border-l border-zinc-800/80" role="list">
+            <li
+              v-for="item in toc"
+              :key="item.id"
+              :class="[
+                '-ml-[1px] border-l pl-4 transition-all duration-200',
+                item.level === 3 ? 'ml-3 border-transparent' : '',
+                item.level !== 3 && activeTocId === item.id ? 'border-blue-500' : '',
+                item.level !== 3 && activeTocId !== item.id ? 'border-transparent hover:border-zinc-700' : ''
+              ]"
+            >
+              <a
+                :href="`#${item.id}`"
+                :class="[
+                  'block text-xs leading-snug transition-colors duration-200 line-clamp-2',
+                  activeTocId === item.id ? 'text-blue-400 font-medium' : 'text-zinc-500 hover:text-zinc-300'
+                ]"
+              >
                 {{ item.text }}
               </a>
             </li>
           </ul>
-        </div>
-      </div>
-    </div>
+        </nav>
+      </aside>
+    </Transition>
   </div>
 </template>
 
@@ -159,14 +257,21 @@ export default {
       loading: true,
       error: null,
       readingProgress: 0,
-      toc: []
+      toc: [],
+      showAllTags: false,
+      activeTocId: null,
+      tocObserver: null,
+      heroParallaxY: 0,
     };
   },
   mounted() {
     window.addEventListener('scroll', this.updateProgress);
+    window.addEventListener('scroll', this.updateHeroParallax, { passive: true });
   },
   unmounted() {
     window.removeEventListener('scroll', this.updateProgress);
+    window.removeEventListener('scroll', this.updateHeroParallax);
+    if (this.tocObserver) this.tocObserver.disconnect();
   },
   watch: {
     '$route.params.slug': {
@@ -175,6 +280,9 @@ export default {
     }
   },
   methods: {
+    updateHeroParallax() {
+      this.heroParallaxY = Math.min(window.scrollY * 0.12, 60);
+    },
     async fetchPost() {
       this.loading = true;
       this.error = null;
@@ -279,7 +387,10 @@ export default {
         };
       });
 
-      // 2. Syntax Highlighting & Copy Button
+      // 2. Set up IntersectionObserver for active TOC highlight
+      this.setupTocObserver(headings);
+
+      // 3. Syntax Highlighting & Copy Button
       const blocks = article.querySelectorAll('pre code');
       blocks.forEach((block) => {
         hljs.highlightElement(block);
@@ -302,12 +413,50 @@ export default {
           pre.appendChild(btn);
         }
       });
-    }
+    },
+    setupTocObserver(headings) {
+      if (this.tocObserver) this.tocObserver.disconnect();
+      if (!headings || headings.length === 0) return;
+
+      const visibleHeadings = new Map();
+
+      this.tocObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            visibleHeadings.set(entry.target.id, entry.isIntersecting);
+          });
+          // Highlight the topmost currently-visible heading
+          const firstVisible = Array.from(headings).find(h => visibleHeadings.get(h.id));
+          if (firstVisible) {
+            this.activeTocId = firstVisible.id;
+          }
+        },
+        {
+          // -80px top accounts for fixed navbar; -55% bottom means only headings
+          // scrolled into the upper 45% of the viewport are considered "active"
+          rootMargin: '-80px 0px -55% 0px',
+          threshold: 0,
+        }
+      );
+
+      headings.forEach(h => this.tocObserver.observe(h));
+    },
   },
 };
 </script>
 
 <style>
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 /* Enhancing the typography from Ghost HTML */
 .prose {
   font-size: 1rem;
@@ -416,4 +565,21 @@ export default {
   border: 1px solid rgba(59, 130, 246, 0.2);
   font-family: "JetBrains Mono", monospace;
 }
+
+/* Floating TOC slide-in from right */
+.toc-float-enter-active,
+.toc-float-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.toc-float-enter-from,
+.toc-float-leave-to {
+  opacity: 0;
+  transform: translateX(1rem) translateY(-50%);
+}
+.toc-float-enter-to,
+.toc-float-leave-from {
+  opacity: 1;
+  transform: translateX(0) translateY(-50%);
+}
 </style>
+

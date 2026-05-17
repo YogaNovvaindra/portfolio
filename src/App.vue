@@ -6,7 +6,7 @@
   <!-- Bottom left subtle warmth -->
   <div class="fixed bottom-[-15%] left-[-10%] -z-10 pointer-events-none w-[400px] h-[400px] bg-blue-800/[0.05] blur-[120px] rounded-full"></div>
 
-  <div class="w-full flex flex-col relative pb-20 md:pb-0 min-h-screen">
+  <div :class="[ $route.name === 'articleDetail' ? 'pb-0' : 'pb-20' ]" class="w-full flex flex-col relative md:pb-0 min-h-screen">
     <nav class="w-full px-6 md:fixed top-0 z-[98] nav-bar">
       <div class="container mx-auto max-w-7xl flex flex-wrap items-center justify-between h-[60px]">
         <!-- Logo -->
@@ -72,22 +72,32 @@
     <button
       v-show="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-24 right-6 z-[99] bg-zinc-900 border border-zinc-700/60 text-zinc-400 hover:text-white hover:border-zinc-500 p-3 rounded-lg shadow-xl transition-all duration-200 md:bottom-8 md:right-8"
+      :class="$route.name === 'articleDetail' ? 'bottom-6' : 'bottom-20'"
+      class="fixed right-6 z-[99] flex items-center justify-center w-12 h-12 bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 hover:bg-zinc-800/50 hover:border-blue-500/50 text-zinc-400 hover:text-blue-400 rounded-full shadow-lg hover:shadow-blue-500/20 transition-all duration-300 md:bottom-8 md:right-8 group"
       title="Back to top"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 group-hover:-translate-y-1 transition-transform duration-300">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
       </svg>
     </button>
   </div>
 
-  <!-- Mobile footer nav -->
-  <footer class="block md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800/70 bg-[#0a0a0a]/95 backdrop-blur-sm">
-    <nav class="flex justify-around py-4 text-[11px] font-medium tracking-wide">
-      <router-link to="/" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Home</router-link>
-      <router-link to="/about" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">About</router-link>
-      <router-link to="/portfolio" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Portfolio</router-link>
-      <router-link to="/blog" class="mobile-nav-link text-zinc-500 hover:text-white transition-colors px-4 py-1">Blog</router-link>
+  <!-- Mobile Edge-to-Edge Navbar (Hidden on Article Detail View) -->
+  <footer v-if="$route.name !== 'articleDetail'" class="block md:hidden fixed bottom-0 left-0 right-0 z-50 nav-bar border-t-0 border-[rgba(255,255,255,0.05)] transition-all duration-300 shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
+    <div class="absolute top-0 left-0 right-0 h-[1px] bg-[rgba(255,255,255,0.05)]"></div>
+    <nav class="flex justify-around items-center h-12 text-xs font-medium tracking-wide">
+      <router-link to="/" class="mobile-nav-link flex-1 flex justify-center items-center h-full text-zinc-400 hover:text-white transition-colors relative">
+        Home
+      </router-link>
+      <router-link to="/about" class="mobile-nav-link flex-1 flex justify-center items-center h-full text-zinc-400 hover:text-white transition-colors relative">
+        About
+      </router-link>
+      <router-link to="/portfolio" class="mobile-nav-link flex-1 flex justify-center items-center h-full text-zinc-400 hover:text-white transition-colors relative">
+        Portfolio
+      </router-link>
+      <router-link to="/blog" class="mobile-nav-link flex-1 flex justify-center items-center h-full text-zinc-400 hover:text-white transition-colors relative">
+        Blog
+      </router-link>
     </nav>
   </footer>
 </template>
@@ -175,13 +185,41 @@ html {
 
 /* Active desktop nav link */
 nav a.nav-link.router-link-exact-active {
-  color: white !important;
-  background: rgba(255, 255, 255, 0.06);
+  color: #60a5fa !important;
+  background: transparent;
+  position: relative;
+}
+
+nav a.nav-link.router-link-exact-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background-color: #3b82f6;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.5);
 }
 
 /* Active mobile nav link */
 footer nav a.mobile-nav-link.router-link-exact-active {
-  color: white !important;
+  color: #60a5fa !important;
+  background: transparent;
+}
+
+footer nav a.mobile-nav-link.router-link-exact-active::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background-color: #3b82f6;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.6);
 }
 
 /* Legacy nav-fadein for nav items */
