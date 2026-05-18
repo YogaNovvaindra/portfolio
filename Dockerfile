@@ -3,9 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ARG GHOST_URL
 ARG GHOST_API
-RUN echo "VUE_APP_GHOST_URL=$GHOST_URL" >> .env && \
+RUN echo "VUE_APP_GHOST_URL=" >> .env && \
     echo "VUE_APP_GHOST_KEY=$GHOST_API" >> .env && \
     npm run build
 
