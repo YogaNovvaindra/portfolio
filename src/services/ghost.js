@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const GHOST_URL = process.env.VUE_APP_GHOST_URL || 'https://ygnv.my.id';
+const envUrl = process.env.VUE_APP_GHOST_URL;
+const GHOST_URL = envUrl !== undefined ? envUrl.replace(/\/$/, '') : 'https://ygnv.my.id';
 const GHOST_KEY = process.env.VUE_APP_GHOST_KEY || 'YOUR_API_KEY_HERE';
 
 const api = axios.create({

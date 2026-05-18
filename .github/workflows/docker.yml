@@ -42,7 +42,6 @@ jobs:
           push: true
           build-args: |
             GHOST_API=${{ secrets.VUE_APP_GHOST_KEY }}
-            GHOST_URL=${{ secrets.VUE_APP_GHOST_URL }}
           tags: |
             ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
             ghcr.io/yoganovvaindra/portfolio:v${{ steps.version.outputs.version }}
