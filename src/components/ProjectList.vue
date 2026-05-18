@@ -30,6 +30,7 @@ export default {
               :src="'/img/portfolio-' + item.imageUrl + '.webp'"
               :alt="item.name"
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               @error="$event.target.src = 'https://placehold.co/800x450/111111/333333?text=' + item.name"
             />

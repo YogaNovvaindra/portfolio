@@ -10,6 +10,8 @@
             <img
               src="/img/avatar2.webp"
               alt="Profile"
+              fetchpriority="high"
+              decoding="async"
               class="w-full h-full rounded-full object-cover ring-1 ring-white/10 shadow-xl"
             />
           </div>
@@ -87,6 +89,7 @@
                 <img
                   v-if="skill.icon"
                   :src="`https://cdn.simpleicons.org/${skill.icon}/60a5fa`"
+                  decoding="async"
                   class="w-5 h-5 group-hover:scale-110 transition-transform duration-300"
                   @error="handleImageError"
                 />
@@ -171,7 +174,7 @@
 
           <!-- Image Side -->
           <div class="w-full md:w-1/2 h-64 md:h-auto md:min-h-[450px] relative bg-zinc-950 flex items-center justify-center p-4 sm:p-8 overflow-hidden">
-            <img v-if="selectedCert.image" :src="'/img/cert-' + selectedCert.image + '.webp'" :alt="selectedCert.name" class="w-full h-full object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" />
+            <img v-if="selectedCert.image" :src="'/img/cert-' + selectedCert.image + '.webp'" :alt="selectedCert.name" loading="lazy" decoding="async" class="w-full h-full object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" />
             <div v-else class="flex flex-col items-center justify-center text-zinc-500">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mb-4 opacity-50"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
               <p>Image not available</p>

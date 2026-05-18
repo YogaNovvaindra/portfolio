@@ -18,7 +18,7 @@
     <header v-if="!loading && !error && post" class="relative w-full h-[35vh] md:h-[45vh] flex items-end justify-center overflow-hidden title-reveal">
       <!-- Background Image & Overlay -->
       <div class="absolute inset-0 z-0 overflow-hidden">
-        <img v-if="post.feature_image" ref="heroImg" :src="post.feature_image" :alt="post.title" :style="{ transform: 'translateY(' + heroParallaxY + 'px) scale(1.1)' }" class="w-full h-full object-cover will-change-transform" />
+        <img v-if="post.feature_image" ref="heroImg" :src="post.feature_image" :alt="post.title" :style="{ transform: 'translateY(' + heroParallaxY + 'px) scale(1.1)' }" fetchpriority="high" decoding="async" class="w-full h-full object-cover will-change-transform" />
         <div v-else class="w-full h-full bg-zinc-900/80"></div>
         <!-- Dark Gradient Overlay for Title -->
         <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent"></div>
@@ -144,7 +144,7 @@
           </p>
 
           <div class="flex items-center gap-4">
-            <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" class="h-14 w-14 rounded-full object-cover border-2 border-zinc-800" />
+            <img v-if="post.primary_author?.profile_image" :src="post.primary_author.profile_image" alt="" loading="lazy" decoding="async" class="h-14 w-14 rounded-full object-cover border-2 border-zinc-800" />
             <div v-else class="h-14 w-14 rounded-full bg-blue-500/20 flex items-center justify-center border-2 border-blue-500/30 text-blue-400 font-bold text-xl">
               Y
             </div>
@@ -180,6 +180,7 @@
                   :src="recent.feature_image"
                   :alt="recent.title"
                   loading="lazy"
+                  decoding="async"
                   @error="$event.target.style.display='none'"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                 />
@@ -532,6 +533,17 @@ export default {
             }, 2000);
           };
           pre.appendChild(btn);
+        }
+      });
+
+      // 4. Optimize dynamically inserted post images
+      const images = article.querySelectorAll('img');
+      images.forEach((img) => {
+        if (!img.hasAttribute('loading')) {
+          img.setAttribute('loading', 'lazy');
+        }
+        if (!img.hasAttribute('decoding')) {
+          img.setAttribute('decoding', 'async');
         }
       });
     },

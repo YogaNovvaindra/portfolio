@@ -123,7 +123,7 @@ export default {
                      <img 
                         :src="'/img/portfolio-' + activeProject.imageUrl + '.webp'" 
                         :alt="activeProject.name"
-                        class="w-full h-full object-cover object-top transition-all duration-1000 group-hover:scale-105"
+                        decoding="async" class="w-full h-full object-cover object-top transition-all duration-1000 group-hover:scale-105"
                         @error="$event.target.src = 'https://via.placeholder.com/800x600/1a1a1a/333333?text=Preview'"
                      />
                      <!-- Overlay Title -->

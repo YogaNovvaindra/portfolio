@@ -104,7 +104,7 @@
           <!-- Latest Article Card -->
           <router-link v-else-if="latestArticle" :to="`/blog/${latestArticle.slug}`" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm">
           <div class="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-zinc-800 border border-zinc-700/50">
-            <img v-if="latestArticle.feature_image" :src="latestArticle.feature_image" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+            <img v-if="latestArticle.feature_image" :src="latestArticle.feature_image" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
             <div v-else class="h-full w-full flex items-center justify-center text-zinc-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
             </div>
@@ -130,6 +130,8 @@
             alt="Yoga Novaindra"
             width="400"
             height="400"
+            fetchpriority="high"
+            decoding="async"
             class="w-56 h-56 md:w-72 md:h-72 lg:w-[340px] lg:h-[340px] rounded-full object-cover ring-2 ring-blue-500/20 shadow-2xl shadow-blue-500/10"
             src="/img/avatar.webp"
           />
