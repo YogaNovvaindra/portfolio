@@ -12,6 +12,26 @@ const api = axios.create({
   },
 });
 
+const deepCleanUrl = (obj) => {
+  if (obj === null || obj === undefined) return obj;
+  if (typeof obj === 'string') {
+    return obj.replaceAll('https://ygnv.my.id', '');
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(deepCleanUrl);
+  }
+  if (typeof obj === 'object') {
+    const cleaned = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        cleaned[key] = deepCleanUrl(obj[key]);
+      }
+    }
+    return cleaned;
+  }
+  return obj;
+};
+
 export default {
   async getPosts(limit = 'all', page = 1, filter = null) {
     try {
@@ -19,7 +39,7 @@ export default {
       if (filter) params.filter = filter;
 
       const response = await api.get('/posts/', { params });
-      return response.data;
+      return deepCleanUrl(response.data);
     } catch (error) {
       console.error('Error fetching Ghost posts:', error);
       throw error;
@@ -36,7 +56,7 @@ export default {
           include: 'authors,tags'
         },
       });
-      return response.data;
+      return deepCleanUrl(response.data);
     } catch (error) {
       console.error('Error fetching Ghost search index:', error);
       throw error;
@@ -55,7 +75,7 @@ export default {
       // Sort tags by post count descending
       let tags = response.data.tags || [];
       tags.sort((a, b) => (b.count?.posts || 0) - (a.count?.posts || 0));
-      return tags;
+      return deepCleanUrl(tags);
     } catch (error) {
       console.error('Error fetching Ghost tags:', error);
       throw error;
@@ -65,7 +85,7 @@ export default {
   async getPostBySlug(slug) {
     try {
       const response = await api.get(`/posts/slug/${slug}/`);
-      return response.data;
+      return deepCleanUrl(response.data);
     } catch (error) {
       console.error(`Error fetching Ghost post (${slug}):`, error);
       throw error;
