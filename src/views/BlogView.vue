@@ -1,22 +1,71 @@
 <template>
   <div class="min-h-screen py-24 px-4 md:px-8 relative">
     <div class="max-w-6xl mx-auto h-full relative">
-      <!-- Skeleton Loading State -->
-      <div v-if="loading">
-        <!-- Skeleton Hero -->
-        <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-8 md:mb-12">
-          <div class="xl:w-5/12 flex flex-col justify-center">
-            <div class="h-10 w-64 bg-zinc-800/60 rounded-xl mb-6 skeleton-shimmer"></div>
-            <div class="h-4 w-full bg-zinc-800/40 rounded mb-2 skeleton-shimmer"></div>
-            <div class="h-4 w-5/6 bg-zinc-800/40 rounded mb-8 skeleton-shimmer"></div>
-            <div class="h-12 w-full bg-zinc-800/40 rounded-xl mb-6 skeleton-shimmer"></div>
-            <div class="flex gap-2">
-              <div class="h-8 w-12 bg-zinc-800/40 rounded-full skeleton-shimmer"></div>
-              <div class="h-8 w-16 bg-zinc-800/40 rounded-full skeleton-shimmer"></div>
-              <div class="h-8 w-20 bg-zinc-800/40 rounded-full skeleton-shimmer"></div>
+      <!-- Hero Section: Always visible Header + Dynamic Featured Post -->
+      <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-8 md:mb-12">
+        <!-- Left Side: Header (Always Visible) -->
+        <div class="xl:w-5/12 flex flex-col justify-center text-left title-reveal">
+          <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 drop-shadow-sm">
+            Tech <span class="text-blue-500">Explorations</span><span class="text-blue-500">.</span>
+          </h1>
+          <p class="text-lg text-zinc-400 leading-relaxed mb-8">
+            A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
+          </p>
+          
+          <!-- Search Bar -->
+          <div class="relative w-full fadein-bot group" style="animation-delay: 200ms;">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-300 group-focus-within:text-blue-400 text-zinc-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <input 
+              v-model="searchQuery" 
+              type="text" 
+              placeholder="Search articles, or type # to filter by tag..." 
+              class="w-full bg-zinc-900/40 border border-white/5 focus:border-blue-500/30 focus:shadow-[0_0_30px_rgba(59,130,246,0.15)] focus:bg-zinc-900/60 text-white rounded-2xl pl-12 pr-4 py-3.5 placeholder-zinc-500 transition-all duration-300 outline-none backdrop-blur-sm"
+            >
+          </div>
+          
+          <!-- Tag Filters -->
+          <div class="mt-6 relative w-full h-9 md:h-7 overflow-hidden fadein-bot" style="animation-delay: 300ms;" v-if="tags && tags.length > 0">
+            <!-- Scrollable Track (hidden scrollbar) -->
+            <div class="flex gap-2 w-full pr-24 absolute inset-0 hide-scrollbar overflow-x-auto">
+              <button
+                @click="toggleTag(null)"
+                :aria-pressed="!activeTag"
+                :class="['flex-shrink-0 h-9 md:h-7 px-4 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+              >
+                All
+              </button>
+              <button
+                v-for="tag in sortedTags"
+                :key="tag.id"
+                @click="toggleTag(tag.slug)"
+                :aria-pressed="activeTag === tag.slug"
+                :class="['flex-shrink-0 h-9 md:h-7 px-4 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
+              >
+                {{ tag.name }}
+              </button>
+            </div>
+            
+            <!-- Absolute Gradient & More Button -->
+            <div class="absolute right-0 top-0 h-full flex items-center bg-gradient-to-l from-[#09090b] via-[#09090b] to-transparent pl-12 pointer-events-none">
+              <button
+                @click="showTagsModal = true"
+                class="pointer-events-auto h-9 md:h-7 px-4 rounded-full text-xs font-medium transition-colors border bg-zinc-900/90 border-zinc-700 text-zinc-300 hover:text-white hover:border-blue-500 hover:bg-zinc-800 inline-flex items-center justify-center gap-1 shadow-lg"
+              >
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                More
+              </button>
             </div>
           </div>
-          <div class="xl:w-7/12">
+        </div>
+
+        <!-- Right Side: Featured Post -->
+        <div class="xl:w-7/12">
+          <!-- Skeleton Featured -->
+          <div v-if="loading">
             <div class="min-h-[400px] rounded-3xl border border-white/5 bg-zinc-900/40 relative overflow-hidden flex flex-col justify-between">
               <div class="absolute inset-0 z-0 bg-zinc-900 skeleton-shimmer"></div>
               <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-zinc-900/40"></div>
@@ -34,106 +83,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- Skeleton Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 relative w-full">
-          <div v-for="n in 6" :key="n" class="group relative flex flex-col rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden">
-            <div class="relative w-full aspect-[16/9] bg-zinc-900 border-b border-white/5 skeleton-shimmer"></div>
-            <div class="p-6 sm:p-8 flex-1 flex flex-col relative z-10 w-full">
-              <div class="flex items-center gap-3 mb-4">
-                <div class="h-6 w-16 bg-zinc-800/80 rounded-md skeleton-shimmer"></div>
-                <div class="h-3 w-20 bg-zinc-800/80 rounded skeleton-shimmer"></div>
-              </div>
-              <div class="h-7 w-full bg-zinc-800/80 rounded mb-3 skeleton-shimmer"></div>
-              <div class="h-7 w-2/3 bg-zinc-800/80 rounded mb-6 skeleton-shimmer"></div>
-              <div class="mt-auto pt-6 border-t border-zinc-800/50">
-                <div class="h-5 w-32 bg-zinc-800/80 rounded skeleton-shimmer"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    <!-- Error State -->
-    <div v-else-if="error" class="text-center py-20 fadein-bot">
-      <div class="inline-block bg-red-500/10 border border-red-500/20 rounded-xl px-6 py-4">
-        <p class="text-red-400">{{ error }}</p>
-        <button @click="fetchPosts" class="mt-4 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium">
-          Try Again
-        </button>
-      </div>
-    </div>
-
-    <template v-else>
-      <!-- Empty State -->
-      <div v-if="serverPosts.length === 0" class="text-center py-20 fadein-bot">
-        <p class="text-zinc-500">No posts found.</p>
-      </div>
-
-      <template v-else>
-        <!-- Hero Section: Header + Featured Post -->
-        <div class="flex flex-col xl:flex-row gap-12 xl:gap-8 mb-8 md:mb-12">
-          <!-- Left Side: Header -->
-          <div class="xl:w-5/12 flex flex-col justify-center text-left title-reveal">
-            <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 drop-shadow-sm">
-              Tech <span class="text-blue-500">Explorations</span><span class="text-blue-500">.</span>
-            </h1>
-            <p class="text-lg text-zinc-400 leading-relaxed mb-8">
-              A collection of field notes, documentation, and practical guides on whatever I'm currently building or learning.
-            </p>
-            
-            <!-- Search Bar -->
-            <div class="relative w-full fadein-bot group" style="animation-delay: 200ms;">
-              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-300 group-focus-within:text-blue-400 text-zinc-500">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </div>
-              <input 
-                v-model="searchQuery" 
-                type="text" 
-                placeholder="Search articles, or type # to filter by tag..." 
-                class="w-full bg-zinc-900/40 border border-white/5 focus:border-blue-500/30 focus:shadow-[0_0_30px_rgba(59,130,246,0.15)] focus:bg-zinc-900/60 text-white rounded-2xl pl-12 pr-4 py-3.5 placeholder-zinc-500 transition-all duration-300 outline-none backdrop-blur-sm"
-              >
-            </div>
-            
-            <!-- Tag Filters -->
-            <div class="mt-6 relative w-full h-9 md:h-7 overflow-hidden fadein-bot" style="animation-delay: 300ms;" v-if="tags && tags.length > 0">
-              <!-- Scrollable Track (hidden scrollbar) -->
-              <div class="flex gap-2 w-full pr-24 absolute inset-0 hide-scrollbar overflow-x-auto">
-                <button
-                  @click="toggleTag(null)"
-                  :aria-pressed="!activeTag"
-                  :class="['flex-shrink-0 h-9 md:h-7 px-4 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', !activeTag ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
-                >
-                  All
-                </button>
-                <button
-                  v-for="tag in sortedTags"
-                  :key="tag.id"
-                  @click="toggleTag(tag.slug)"
-                  :aria-pressed="activeTag === tag.slug"
-                  :class="['flex-shrink-0 h-9 md:h-7 px-4 inline-flex items-center justify-center rounded-full text-xs font-medium transition-colors border', activeTag === tag.slug ? 'bg-blue-500/20 border-blue-500/50 text-blue-300' : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700']"
-                >
-                  {{ tag.name }}
-                </button>
-              </div>
-              
-              <!-- Absolute Gradient & More Button -->
-              <div class="absolute right-0 top-0 h-full flex items-center bg-gradient-to-l from-[#09090b] via-[#09090b] to-transparent pl-12 pointer-events-none">
-                <button
-                  @click="showTagsModal = true"
-                  class="pointer-events-auto h-9 md:h-7 px-4 rounded-full text-xs font-medium transition-colors border bg-zinc-900/90 border-zinc-700 text-zinc-300 hover:text-white hover:border-blue-500 hover:bg-zinc-800 inline-flex items-center justify-center gap-1 shadow-lg"
-                >
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                  More
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Side: Featured Post -->
-          <div class="xl:w-7/12 fadein-bot" style="animation-delay: 100ms;" v-if="featuredPost">
+          <!-- Actual Featured Post -->
+          <div v-else-if="featuredPost" class="fadein-bot" style="animation-delay: 100ms;">
             <article class="h-full group relative rounded-3xl border border-white/5 flex flex-col justify-between transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] overflow-hidden min-h-[400px]">
               <!-- Background Image & Overlay -->
               <div class="absolute inset-0 z-0 overflow-hidden">
@@ -177,6 +128,41 @@
               </div>
             </article>
           </div>
+        </div>
+      </div>
+
+      <!-- Skeleton Grid -->
+      <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 relative w-full">
+        <div v-for="n in 6" :key="n" class="group relative flex flex-col rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden">
+          <div class="relative w-full aspect-[16/9] bg-zinc-900 border-b border-white/5 skeleton-shimmer"></div>
+          <div class="p-6 sm:p-8 flex-1 flex flex-col relative z-10 w-full">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-6 w-16 bg-zinc-800/80 rounded-md skeleton-shimmer"></div>
+              <div class="h-3 w-20 bg-zinc-800/80 rounded skeleton-shimmer"></div>
+            </div>
+            <div class="h-7 w-full bg-zinc-800/80 rounded mb-3 skeleton-shimmer"></div>
+            <div class="h-7 w-2/3 bg-zinc-800/80 rounded mb-6 skeleton-shimmer"></div>
+            <div class="mt-auto pt-6 border-t border-zinc-800/50">
+              <div class="h-5 w-32 bg-zinc-800/80 rounded skeleton-shimmer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="text-center py-20 fadein-bot">
+        <div class="inline-block bg-red-500/10 border border-red-500/20 rounded-xl px-6 py-4">
+          <p class="text-red-400">{{ error }}</p>
+          <button @click="fetchPosts" class="mt-4 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors text-sm font-medium">
+            Try Again
+          </button>
+        </div>
+      </div>
+
+      <template v-else>
+        <!-- Empty State -->
+        <div v-if="serverPosts.length === 0 && !searchQuery" class="text-center py-20 fadein-bot">
+          <p class="text-zinc-500">No posts found.</p>
         </div>
 
         <!-- Empty Search State -->
@@ -333,7 +319,6 @@
           </div>
         </div>
       </template>
-    </template>
     </div>
 
     <!-- Tags Modal -->
