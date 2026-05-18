@@ -55,6 +55,8 @@ export default {
                 v-if="project.imageUrl"
                 :src="'/img/portfolio-' + project.imageUrl + '.webp'" 
                 :alt="project.name"
+                loading="lazy"
+                decoding="async"
                 class="w-full h-full object-cover"
                 @error="$event.target.src = 'https://placehold.co/800x600/111111/333333?text=' + project.name"
             />
