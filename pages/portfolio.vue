@@ -1,57 +1,3 @@
-<script>
-import data from '@/assets/data.json';
-import { setPageMeta } from '@/services/pageMeta';
-import ProjectList from '@/components/ProjectList.vue';
-import ProjectModal from '@/components/ProjectModal.vue';
-
-export default {
-    name: 'PortfolioView',
-    components: {
-        ProjectList,
-        ProjectModal,
-    },
-    data() {
-        return {
-            portfolio: data.portfolio,
-            isModalOpen: false,
-            selectedProject: {},
-            activeCategory: 'All',
-        };
-    },
-    computed: {
-        categories() {
-            const cats = ['All', ...new Set(this.portfolio.map(p => p.category).filter(Boolean))];
-            return cats;
-        },
-        filteredProjects() {
-            if (this.activeCategory === 'All') return this.portfolio;
-            return this.portfolio.filter(p => p.category === this.activeCategory);
-        },
-    },
-    mounted() {
-        setPageMeta({
-            title: 'Portfolio — Yoga Novaindra',
-            description: 'A collection of infrastructure, automation, and full-stack projects built by Yoga Novaindra — Kubernetes, GitOps, security, and more.',
-            url: 'https://yoganova.my.id/portfolio',
-        });
-    },
-    methods: {
-        openModal(project) {
-            this.selectedProject = project;
-            this.isModalOpen = true;
-            document.body.style.overflow = 'hidden';
-        },
-        closeModal() {
-            this.isModalOpen = false;
-            document.body.style.overflow = '';
-            setTimeout(() => {
-                this.selectedProject = {};
-            }, 300);
-        }
-    }
-};
-</script>
-
 <template>
   <div class="min-h-screen py-24 px-4 md:px-8 relative">
 
@@ -110,20 +56,52 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<script setup>
+import rawData from '~/assets/data.json'
 
+useSeoMeta({
+  title: 'Portfolio — Yoga Novaindra',
+  description: 'A collection of infrastructure, automation, and full-stack projects built by Yoga Novaindra — Kubernetes, GitOps, security, and more.',
+  ogTitle: 'Portfolio — Yoga Novaindra',
+  ogDescription: 'A collection of infrastructure, automation, and full-stack projects built by Yoga Novaindra.',
+  ogUrl: 'https://yoganova.my.id/portfolio',
+})
+
+const portfolio = rawData.portfolio
+const isModalOpen = ref(false)
+const selectedProject = ref({})
+const activeCategory = ref('All')
+
+const categories = computed(() => {
+  return ['All', ...new Set(portfolio.map(p => p.category).filter(Boolean))]
+})
+
+const filteredProjects = computed(() => {
+  if (activeCategory.value === 'All') return portfolio
+  return portfolio.filter(p => p.category === activeCategory.value)
+})
+
+function openModal(project) {
+  selectedProject.value = project
+  isModalOpen.value = true
+  document.body.style.overflow = 'hidden'
+}
+
+function closeModal() {
+  isModalOpen.value = false
+  document.body.style.overflow = ''
+  setTimeout(() => {
+    selectedProject.value = {}
+  }, 300)
+}
+</script>
+
+<style scoped>
 .animate-pulse-slow {
     animation: pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
-
 @keyframes pulse-glow {
-    0%, 100% {
-        opacity: 0.1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.2;
-        transform: scale(1.05);
-    }
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50%      { opacity: 0.2; transform: scale(1.05); }
 }
 </style>

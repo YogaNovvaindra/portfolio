@@ -41,7 +41,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
-            GHOST_API=${{ secrets.VUE_APP_GHOST_KEY }}
+            GHOST_KEY=${{ secrets.VUE_APP_GHOST_KEY }}
           tags: |
             ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
             ghcr.io/yoganovvaindra/portfolio:v${{ steps.version.outputs.version }}

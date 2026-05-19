@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Fonts (loaded in nuxt.config.ts app.head.link) ── */
+/* ── Reset ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Base ───────────────────────────────────────────── */
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #e4e4e7;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+@media (hover: hover) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3f3f3f; }
+}
+
+/* ── Utility: hidden scrollbar ──────────────────────── */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── Nav bar glass ──────────────────────────────────── */
+.nav-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ── Desktop nav active link ────────────────────────── */
+nav a.nav-link.router-link-exact-active {
+  color: #60a5fa !important;
+  background: transparent;
+  position: relative;
+}
+nav a.nav-link.router-link-exact-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background-color: #3b82f6;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.5);
+}
+
+/* ── Mobile nav active link ─────────────────────────── */
+footer nav a.mobile-nav-link.router-link-exact-active {
+  color: #60a5fa !important;
+}
+footer nav a.mobile-nav-link.router-link-exact-active::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background-color: #3b82f6;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.6);
+}
+
+/* ── Nav fade-in animations ─────────────────────────── */
+.nav-fadein {
+  opacity: 0;
+  animation: navFadeIn 0.4s ease-out forwards;
+}
+.fadein-1 { animation-delay: 70ms; }
+.fadein-2 { animation-delay: 140ms; }
+.fadein-3 { animation-delay: 210ms; }
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Page animations (from animations.css) ───────────── */
+@keyframes fadeInLeft {
+  0%   { opacity: 0; transform: translateX(-100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+  0%   { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translate3d(0, 100%, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes fadeInBot {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes titleReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in  { animation: fadeIn 0.3s ease-out forwards; }
+.fade-in-from-left { opacity: 0; animation: fadeInLeft 0.5s ease-out forwards; animation-delay: 500ms; }
+.fadein-right     { opacity: 0; animation: fadeInRight 0.5s ease-out forwards; animation-delay: 500ms; }
+.fade-in-links    { opacity: 0; animation: fadeIn 0.5s ease-out forwards; animation-delay: 700ms; }
+.fadein-left      { opacity: 0; animation: fadeInLeft 0.5s ease-out forwards; }
+.fadein-up        { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
+.fadein-bot       { opacity: 0; animation: fadeInBot 0.5s ease-out forwards; }
+.title-reveal     { animation: titleReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ── Vue transition helpers ─────────────────────────── */
+.fade-enter-active,
+.fade-leave-active  { transition: opacity 0.3s ease; }
+.fade-enter-from,
+.fade-leave-to      { opacity: 0; }
+
+/* ── Skeleton shimmer ───────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #18181b 25%, #27272a 50%, #18181b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
