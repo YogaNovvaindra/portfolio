@@ -22,7 +22,7 @@
           </h1>
 
           <div class="min-h-[1.8rem] flex items-center justify-center lg:justify-start">
-            <span class="text-base md:text-lg text-zinc-400 font-mono typewriter-text" ref="typewriter">{{ txt }}</span>
+            <span class="text-base md:text-lg text-zinc-400 font-mono typewriter-text">{{ txt }}</span>
           </div>
         </div>
 
@@ -33,20 +33,20 @@
 
         <!-- CTA Buttons -->
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-          <router-link
+          <NuxtLink
             to="/portfolio"
             class="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white text-sm font-semibold rounded-lg transition-colors duration-200 text-center shadow-[0_0_15px_rgba(59,130,246,0.3)] inline-flex items-center justify-center gap-2"
           >
             View Projects
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </router-link>
-          <router-link
+          </NuxtLink>
+          <NuxtLink
             to="/about"
             class="px-6 py-3 bg-transparent border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white text-sm font-semibold rounded-lg transition-all duration-200 text-center inline-flex items-center justify-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             About Me
-          </router-link>
+          </NuxtLink>
           <a
             href="/pdf/cv.pdf"
             download
@@ -92,7 +92,7 @@
             </a>
           </div>
 
-          <!-- Latest Article Card Skeleton -->
+          <!-- Latest Article Skeleton -->
           <div v-if="loadingArticle" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/20 border border-zinc-800/50 w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm animate-pulse h-[74px]">
             <div class="h-12 w-16 shrink-0 rounded-lg bg-zinc-800/50"></div>
             <div class="flex flex-col gap-2 flex-1 mt-0.5">
@@ -102,29 +102,26 @@
           </div>
 
           <!-- Latest Article Card -->
-          <router-link v-else-if="latestArticle" :to="`/blog/${latestArticle.slug}`" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm">
-          <div class="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-zinc-800 border border-zinc-700/50">
-            <img v-if="latestArticle.feature_image" :src="latestArticle.feature_image" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-            <div v-else class="h-full w-full flex items-center justify-center text-zinc-600">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          <NuxtLink v-else-if="latestArticle" :to="`/blog/${latestArticle.slug}`" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm">
+            <div class="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-zinc-800 border border-zinc-700/50">
+              <img v-if="latestArticle.feature_image" :src="latestArticle.feature_image" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+              <div v-else class="h-full w-full flex items-center justify-center text-zinc-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              </div>
             </div>
-          </div>
-          <div class="flex flex-col overflow-hidden text-left flex-1">
-            <span class="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Latest Article</span>
-            <span class="text-sm font-medium text-zinc-300 group-hover:text-blue-400 truncate transition-colors">{{ latestArticle.title }}</span>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 shrink-0 text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"><path d="m9 18 6-6-6-6"/></svg>
-        </router-link>
+            <div class="flex flex-col overflow-hidden text-left flex-1">
+              <span class="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Latest Article</span>
+              <span class="text-sm font-medium text-zinc-300 group-hover:text-blue-400 truncate transition-colors">{{ latestArticle.title }}</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 shrink-0 text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"><path d="m9 18 6-6-6-6"/></svg>
+          </NuxtLink>
         </div>
 
       </div>
 
       <!-- Hero Avatar -->
       <div class="relative title-reveal shrink-0" style="animation-delay: 0.15s">
-        <!-- Restrained glow behind avatar -->
         <div class="absolute inset-[-10%] bg-blue-600/10 blur-[60px] rounded-full"></div>
-
-        <!-- Avatar frame -->
         <div class="relative z-10">
           <img
             alt="Yoga Novaindra"
@@ -142,114 +139,94 @@
   </div>
 </template>
 
-<script>
-  import { setPageMeta } from '@/services/pageMeta';
-  import ghost from '@/services/ghost';
-  export default {
-    name: "HomeView",
-    data() {
-      return {
-        toRotate: [
-          "Cloud Infrastructure",
-          "Security Automation",
-          "Continuous Integration",
-          "Platform Engineering",
-        ],
-        period: 2000,
-        txt: "",
-        loopNum: 0,
-        isDeleting: false,
-        socialLinks: [
-          { name: 'Email', url: 'mailto:yoganovaindra@gmail.com', icon: 'MailIcon' },
-          { name: 'LinkedIn', url: 'https://www.linkedin.com/in/yoga-novaindra/', icon: 'LinkedinIcon' },
-          { name: 'GitHub', url: 'https://github.com/YogaNovvaindra', icon: 'GithubIcon' },
-          { name: 'Website', url: 'https://yoganova.my.id', icon: 'GlobeIcon' }
-        ],
-        latestArticle: null,
-        loadingArticle: true
-      };
-    },
-    mounted() {
-      setPageMeta({
-        title: 'Yoga Novaindra — DevSecOps Engineer',
-        description: 'Building automated, secure, and observable infrastructure — from bare-metal Kubernetes clusters to cloud-native platforms.',
-        url: 'https://yoganova.my.id/',
-      });
-      this.$nextTick(() => {
-        this.tick();
-      });
-      this.fetchLatestArticle();
-    },
-    methods: {
-      async fetchLatestArticle() {
-        this.loadingArticle = true;
-        try {
-          const data = await ghost.getPosts(1);
-          if (data && data.posts && data.posts.length > 0) {
-            this.latestArticle = data.posts[0];
-          }
-        } catch (error) {
-          console.error('Failed to fetch latest article:', error);
-        } finally {
-          this.loadingArticle = false;
-        }
-      },
-      tick() {
-        let i = this.loopNum % this.toRotate.length;
-        let fullTxt = this.toRotate[i];
+<script setup>
+// ── SSR OG meta tags (the whole point of migrating!) ─────────────
+useSeoMeta({
+  title: 'Yoga Novaindra — DevSecOps Engineer',
+  description: 'Building automated, secure, and observable infrastructure — from bare-metal Kubernetes clusters to cloud-native platforms.',
+  ogTitle: 'Yoga Novaindra — DevSecOps Engineer',
+  ogDescription: 'Building automated, secure, and observable infrastructure — from bare-metal Kubernetes clusters to cloud-native platforms.',
+  ogImage: 'https://yoganova.my.id/og-default.png',
+  ogUrl: 'https://yoganova.my.id/',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Yoga Novaindra — DevSecOps Engineer',
+  twitterDescription: 'Building automated, secure, and observable infrastructure — from bare-metal Kubernetes clusters to cloud-native platforms.',
+})
 
-        this.txt = this.isDeleting
-          ? fullTxt.substring(0, this.txt.length - 1)
-          : fullTxt.substring(0, this.txt.length + 1);
+// ── Typewriter ────────────────────────────────────────────────────
+const toRotate = ['Cloud Infrastructure', 'Security Automation', 'Continuous Integration', 'Platform Engineering']
+const txt = ref('')
+let loopNum = 0
+let isDeleting = false
+const period = 2000
+let timer = null
 
-        let delta = 100 - Math.random() * 50;
-        if (this.isDeleting) delta /= 2;
+function tick() {
+  const i = loopNum % toRotate.length
+  const fullTxt = toRotate[i]
+  txt.value = isDeleting
+    ? fullTxt.substring(0, txt.value.length - 1)
+    : fullTxt.substring(0, txt.value.length + 1)
 
-        if (!this.isDeleting && this.txt === fullTxt) {
-          delta = this.period;
-          this.isDeleting = true;
-        } else if (this.isDeleting && this.txt === "") {
-          this.isDeleting = false;
-          this.loopNum++;
-          delta = 400;
-        }
+  let delta = 100 - Math.random() * 50
+  if (isDeleting) delta /= 2
+  if (!isDeleting && txt.value === fullTxt) { delta = period; isDeleting = true }
+  else if (isDeleting && txt.value === '') { isDeleting = false; loopNum++; delta = 400 }
+  timer = setTimeout(tick, delta)
+}
 
-        setTimeout(() => this.tick(), delta);
-      },
-    }
-  };
+onMounted(() => tick())
+onUnmounted(() => clearTimeout(timer))
+
+// ── Social links ──────────────────────────────────────────────────
+const socialLinks = [
+  { name: 'Email',    url: 'mailto:yoganovaindra@gmail.com',              icon: 'MailIcon'    },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/yoga-novaindra/', icon: 'LinkedinIcon' },
+  { name: 'GitHub',   url: 'https://github.com/YogaNovvaindra',           icon: 'GithubIcon'  },
+  { name: 'Website',  url: 'https://yoganova.my.id',                      icon: 'GlobeIcon'   },
+]
+
+// ── Latest article (client-side, non-blocking) ───────────────────
+const latestArticle = ref(null)
+const loadingArticle = ref(true)
+
+onMounted(async () => {
+  try {
+    const data = await $fetch('/api/posts', { query: { limit: 1 } })
+    if (data?.posts?.length) latestArticle.value = data.posts[0]
+  } catch (e) {
+    console.error('Failed to fetch latest article:', e)
+  } finally {
+    loadingArticle.value = false
+  }
+})
 </script>
 
 <style scoped>
-/* Typewriter cursor — scoped to typewriter span only */
 .typewriter-text::after {
   content: '|';
   color: #60a5fa;
   animation: blink 1s step-end infinite;
   margin-left: 1px;
 }
-
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  50%       { opacity: 0; }
 }
-
 .wave {
   animation: wave-animation 2.5s infinite;
   transform-origin: 70% 70%;
   display: inline-block;
 }
-
 @keyframes wave-animation {
-  0%  { transform: rotate(0deg); }
+  0%  { transform: rotate(0deg);  }
   10% { transform: rotate(14deg); }
   20% { transform: rotate(-8deg); }
   30% { transform: rotate(14deg); }
   40% { transform: rotate(-4deg); }
   50% { transform: rotate(10deg); }
-  60% { transform: rotate(0deg); }
-  to  { transform: rotate(0deg); }
+  60% { transform: rotate(0deg);  }
+  to  { transform: rotate(0deg);  }
 }
-
 </style>
-
