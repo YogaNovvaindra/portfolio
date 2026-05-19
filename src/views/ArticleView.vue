@@ -125,9 +125,9 @@
                     :to="{ path: '/blog', query: { tag: tag.slug } }"
                     class="text-blue-400 hover:text-blue-300 hover:underline transition-colors"
                   >{{ tag.name }}</router-link>
-                  <span v-if="index < post.tags.length - 1" class="text-zinc-600 ml-2 mr-2">Â·</span>
+                  <span v-if="index < post.tags.length - 1" class="text-zinc-600 ml-2">&bull;</span>
                 </span>
-                <button @click="showAllTags = false" class="text-zinc-600 hover:text-zinc-400 transition-colors text-xs ml-1" title="Collapse">â†‘</button>
+                <button @click="showAllTags = false" class="text-zinc-500 hover:text-white transition-colors text-xs font-bold" title="Collapse">✕</button>
               </template>
             </div>
             <router-link v-else-if="post.primary_tag" :to="{ path: '/blog', query: { tag: post.primary_tag.slug } }" class="text-blue-400 uppercase tracking-widest text-xs hover:text-blue-300 hover:underline transition-colors">
