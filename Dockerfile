@@ -5,6 +5,11 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
+# Expose GHOST_KEY to the build environment
+ARG GHOST_KEY
+ENV GHOST_KEY=$GHOST_KEY
+ENV NUXT_GHOST_KEY=$GHOST_KEY
+
 # Build the Nuxt 3 application
 RUN npm run build
 
@@ -19,9 +24,10 @@ WORKDIR /app
 # Copy the server output from builder
 COPY --from=builder /app/.output ./
 
-# Set Environment Variables
+# Set Environment Variables for runtime
 ARG GHOST_KEY
 ENV GHOST_KEY=$GHOST_KEY
+ENV NUXT_GHOST_KEY=$GHOST_KEY
 ENV PORT=3000
 ENV NODE_ENV=production
 

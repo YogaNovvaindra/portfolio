@@ -24,8 +24,8 @@ function internalUrl(obj, ghostUrl) {
 
 export function useGhostApi() {
   const config = useRuntimeConfig()
-  const BASE = (config.public.ghostUrl || 'https://ygnv.my.id').replace(/\/$/, '')
-  const KEY = config.ghostKey || ''
+  const BASE = (config.public.ghostUrl || process.env.GHOST_URL || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id').replace(/\/$/, '')
+  const KEY = config.ghostKey || process.env.GHOST_KEY || process.env.NUXT_GHOST_KEY || ''
 
   const defaultParams = `key=${KEY}&include=tags,authors&formats=html`
 

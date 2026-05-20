@@ -4,10 +4,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
 
   runtimeConfig: {
-    ghostKey: process.env.GHOST_KEY,
+    ghostKey: process.env.GHOST_KEY || process.env.NUXT_GHOST_KEY,
     public: {
-      ghostUrl: process.env.GHOST_URL || 'https://ygnv.my.id',
-      siteUrl: process.env.SITE_URL || 'https://yoganova.my.id',
+      ghostUrl: process.env.GHOST_URL || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id',
+      siteUrl: process.env.SITE_URL || process.env.NUXT_PUBLIC_SITE_URL || 'https://yoganova.my.id',
     },
   },
 
