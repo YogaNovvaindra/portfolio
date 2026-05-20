@@ -2,7 +2,7 @@
   <div class="relative min-h-screen">
     <!-- Progress Bar (Client-only) -->
     <ClientOnly>
-      <div class="fixed top-0 left-0 h-1 bg-zinc-900/40 z-[99] w-full">
+      <div class="reading-progress-container fixed top-0 left-0 h-1 bg-zinc-900/40 z-[99] w-full md:hidden">
         <div class="h-full bg-blue-500 transition-all duration-150 ease-out shadow-[0_0_10px_rgba(59,130,246,0.6)]" :style="{ width: `${readingProgress}%` }"></div>
       </div>
     </ClientOnly>
@@ -110,45 +110,7 @@
           </div>
 
           <!-- More Stories Navigation -->
-          <div v-if="recentPosts && recentPosts.length > 0" class="mt-24 pt-16 border-t border-zinc-800/50 fadein-bot">
-            <div class="flex items-center justify-between mb-10">
-              <h2 class="text-2xl font-bold text-white tracking-tight">More from the blog</h2>
-              <NuxtLink to="/blog" class="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors">
-                View all posts &rarr;
-              </NuxtLink>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <NuxtLink 
-                v-for="recent in recentPosts" 
-                :key="recent.id" 
-                :to="`/blog/${recent.slug}`"
-                class="group block relative text-left"
-              >
-                <div class="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 transition-all duration-300 bg-zinc-900/50 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.1)]">
-                  <img
-                    v-if="recent.feature_image"
-                    :src="recent.feature_image"
-                    :alt="recent.title"
-                    loading="lazy"
-                    decoding="async"
-                    @error="$event.target.style.display='none'"
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                  />
-                  <!-- Fallback when no feature image -->
-                  <div v-else class="w-full h-full bg-zinc-900/80 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-700"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                  </div>
-                  <div class="absolute inset-0 bg-gradient-to-t from-[#09090b]/60 to-transparent"></div>
-                </div>
-                <h3 class="text-xl font-bold text-zinc-100 group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
-                  {{ recent.title }}
-                </h3>
-                <p class="mt-3 text-sm text-zinc-500 line-clamp-2">
-                  {{ recent.custom_excerpt || recent.excerpt }}
-                </p>
-              </NuxtLink>
-            </div>
-          </div>
+          <BlogRelatedPosts :posts="relatedPosts" class="fadein-bot" />
 
           <!-- Article Footer -->
           <footer class="mt-24 pt-12 border-t border-zinc-900 text-center fadein-bot">
@@ -171,7 +133,7 @@
       <Transition name="share-float">
         <div
           v-if="post && readingProgress > 4"
-          class="fixed bottom-[5.5rem] md:bottom-[6.5rem] right-6 md:right-8 z-40 flex flex-col-reverse items-center gap-3"
+          class="fixed bottom-[5.5rem] md:bottom-[6.5rem] right-6 md:right-8 z-50 flex flex-col-reverse items-center gap-3"
           aria-label="Share article"
         >
         <!-- Main Share Toggle Button -->
@@ -275,23 +237,54 @@
 const route = useRoute()
 const nuxtApp = useNuxtApp()
 
-// Fetch post and recent posts during SSR
+// Fetch post and tag-related posts during SSR with fallback
 const { data: pageData } = await useAsyncData(
   `post-page-${route.params.slug}`,
   async () => {
-    const [postRes, postsRes] = await Promise.all([
-      $fetch(`/api/post/${route.params.slug}`),
-      $fetch('/api/posts', { query: { limit: 3 } })
-    ])
-    return { post: postRes?.posts?.[0], recent: postsRes?.posts || [] }
+    const postRes = await $fetch(`/api/post/${route.params.slug}`)
+    const post = postRes?.posts?.[0]
+    if (!post) {
+      return { post: null, related: [] }
+    }
+
+    let related = []
+    const primaryTagSlug = post.primary_tag?.slug || post.tags?.[0]?.slug
+    if (primaryTagSlug) {
+      try {
+        const tagPostsRes = await $fetch('/api/posts', {
+          query: {
+            limit: 4,
+            filter: `tag:${primaryTagSlug}+id:-${post.id}`
+          }
+        })
+        related = (tagPostsRes?.posts || []).filter(p => p.id !== post.id).slice(0, 3)
+      } catch (err) {
+        console.error('Failed to fetch tag-related posts', err)
+      }
+    }
+
+    // Fallback if we have fewer than 3 posts
+    if (related.length < 3) {
+      try {
+        const recentRes = await $fetch('/api/posts', { query: { limit: 5 } })
+        const recent = (recentRes?.posts || []).filter(p => p.id !== post.id)
+        for (const p of recent) {
+          if (related.length >= 3) break
+          if (!related.some(r => r.id === p.id)) {
+            related.push(p)
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch fallback posts', err)
+      }
+    }
+
+    return { post, related }
   }
 )
 
 const post = computed(() => pageData.value?.post)
-const recentPosts = computed(() => {
-  const all = pageData.value?.recent || []
-  return all.filter(p => p.id !== post.value?.id).slice(0, 2)
-})
+const relatedPosts = computed(() => pageData.value?.related || [])
 
 if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: 'Post Not Found' })
@@ -428,6 +421,11 @@ onUnmounted(() => {
 })
 
 function handleScroll() {
+  // Collapse share panel on scroll to keep reading distraction-free
+  if (showShare.value) {
+    showShare.value = false
+  }
+
   // Parallax
   parallaxY.value = Math.min(window.scrollY * 0.15, 60)
   
@@ -650,5 +648,12 @@ async function copyLink() {
 .share-float-leave-from {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Progress Bar: hide on desktop/tablet where fixed navbar is active */
+@media (min-width: 768px) {
+  .reading-progress-container {
+    display: none !important;
+  }
 }
 </style>
