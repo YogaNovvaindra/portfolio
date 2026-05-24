@@ -30,23 +30,36 @@ export function useGhostApi(event = null) {
   const defaultParams = `key=${KEY}&include=tags,authors&formats=html`
   const traceId = event?.context?.traceId || null
 
+  function logGhostRequest(level, message, operation, url, meta = {}) {
+    logger[level](message, traceId, {
+      event: 'ghost.request',
+      source: 'ghost',
+      operation,
+      method: 'GET',
+      url,
+      direction: 'outbound',
+      ...meta
+    })
+  }
+
   async function getPosts(limit = 'all', page = 1, filter = null) {
     let url = `${BASE}/ghost/api/content/posts/?${defaultParams}&limit=${limit}&page=${page}`
     if (filter) url += `&filter=${encodeURIComponent(filter)}`
     
     // Mask API key in logs to prevent secret leakage in standard output!
     const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
-    logger.info(`[GHOST CALL] ---> GET ${loggedUrl}`, traceId)
+    logGhostRequest('info', 'request started', 'getPosts', loggedUrl)
     
     const startTime = performance.now()
     try {
       const data = await $fetch(url)
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.info(`[GHOST CALL] <--- GET ${loggedUrl} 200 (${duration}ms)`, traceId, { durationMs: parseFloat(duration) })
+      logGhostRequest('info', 'request completed', 'getPosts', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       return internalUrl(data, BASE)
     } catch (err) {
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.error(`[GHOST CALL] <--- GET ${loggedUrl} ERROR (${duration}ms) - ${err.message}`, traceId, { 
+      logGhostRequest('error', 'request failed', 'getPosts', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
         durationMs: parseFloat(duration),
         error: err.toString() 
       })
@@ -57,17 +70,18 @@ export function useGhostApi(event = null) {
   async function getPostBySlug(slug) {
     const url = `${BASE}/ghost/api/content/posts/slug/${slug}/?${defaultParams}`
     const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
-    logger.info(`[GHOST CALL] ---> GET ${loggedUrl}`, traceId)
+    logGhostRequest('info', 'request started', 'getPostBySlug', loggedUrl)
     
     const startTime = performance.now()
     try {
       const data = await $fetch(url)
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.info(`[GHOST CALL] <--- GET ${loggedUrl} 200 (${duration}ms)`, traceId, { durationMs: parseFloat(duration) })
+      logGhostRequest('info', 'request completed', 'getPostBySlug', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       return internalUrl(data, BASE)
     } catch (err) {
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.error(`[GHOST CALL] <--- GET ${loggedUrl} ERROR (${duration}ms) - ${err.message}`, traceId, { 
+      logGhostRequest('error', 'request failed', 'getPostBySlug', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
         durationMs: parseFloat(duration),
         error: err.toString() 
       })
@@ -79,17 +93,18 @@ export function useGhostApi(event = null) {
     const fields = 'id,title,slug,custom_excerpt,excerpt,published_at,feature_image,primary_author'
     const url = `${BASE}/ghost/api/content/posts/?key=${KEY}&limit=all&fields=${fields}&include=authors,tags`
     const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
-    logger.info(`[GHOST CALL] ---> GET ${loggedUrl}`, traceId)
+    logGhostRequest('info', 'request started', 'getSearchIndex', loggedUrl)
     
     const startTime = performance.now()
     try {
       const data = await $fetch(url)
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.info(`[GHOST CALL] <--- GET ${loggedUrl} 200 (${duration}ms)`, traceId, { durationMs: parseFloat(duration) })
+      logGhostRequest('info', 'request completed', 'getSearchIndex', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       return internalUrl(data, BASE)
     } catch (err) {
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.error(`[GHOST CALL] <--- GET ${loggedUrl} ERROR (${duration}ms) - ${err.message}`, traceId, { 
+      logGhostRequest('error', 'request failed', 'getSearchIndex', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
         durationMs: parseFloat(duration),
         error: err.toString() 
       })
@@ -100,13 +115,13 @@ export function useGhostApi(event = null) {
   async function getTags() {
     const url = `${BASE}/ghost/api/content/tags/?key=${KEY}&limit=all&include=count.posts&filter=visibility:public`
     const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
-    logger.info(`[GHOST CALL] ---> GET ${loggedUrl}`, traceId)
+    logGhostRequest('info', 'request started', 'getTags', loggedUrl)
     
     const startTime = performance.now()
     try {
       const data = await $fetch(url)
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.info(`[GHOST CALL] <--- GET ${loggedUrl} 200 (${duration}ms)`, traceId, { durationMs: parseFloat(duration) })
+      logGhostRequest('info', 'request completed', 'getTags', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       
       const tags = (data?.tags || []).sort(
         (a, b) => (b.count?.posts || 0) - (a.count?.posts || 0)
@@ -114,7 +129,8 @@ export function useGhostApi(event = null) {
       return internalUrl(tags, BASE)
     } catch (err) {
       const duration = (performance.now() - startTime).toFixed(2)
-      logger.error(`[GHOST CALL] <--- GET ${loggedUrl} ERROR (${duration}ms) - ${err.message}`, traceId, { 
+      logGhostRequest('error', 'request failed', 'getTags', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
         durationMs: parseFloat(duration),
         error: err.toString() 
       })

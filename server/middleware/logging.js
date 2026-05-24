@@ -16,6 +16,7 @@ export default defineEventHandler((event) => {
 
   const method = req.method || 'GET'
   const url = req.url || '/'
+  const path = url.split('?')[0] || '/'
   
   // Categorize static files to prevent log spam in local terminals, but still log them at DEBUG/info levels
   const isStatic = url.startsWith('/_nuxt/') || 
@@ -28,19 +29,21 @@ export default defineEventHandler((event) => {
   const userAgent = req.headers['user-agent'] || 'unknown'
 
   // Log the incoming request
-  const logPrefix = isStatic ? '[STATIC]' : '[ROUTE]'
-  const incomingMsg = `${logPrefix} ---> ${method} ${url}`
   const incomingMeta = {
+    event: 'http.request',
+    source: isStatic ? 'static' : 'route',
     ip: clientIp,
     userAgent,
-    type: isStatic ? 'static' : 'route',
-    direction: 'inbound'
+    direction: 'inbound',
+    method,
+    path,
+    url
   }
 
   if (isStatic) {
-    logger.debug(incomingMsg, traceId, incomingMeta)
+    logger.debug('request received', traceId, incomingMeta)
   } else {
-    logger.info(incomingMsg, traceId, incomingMeta)
+    logger.info('request received', traceId, incomingMeta)
   }
 
   // 4. Hook into standard response lifecycle completion to log final outcome and latency
@@ -55,18 +58,21 @@ export default defineEventHandler((event) => {
       level = 'warn'
     }
 
-    const outgoingMsg = `${logPrefix} <--- ${method} ${url} ${statusCode} (${duration}ms)`
     const outgoingMeta = {
+      event: 'http.response',
+      source: isStatic ? 'static' : 'route',
       statusCode,
       durationMs: parseFloat(duration),
-      type: isStatic ? 'static' : 'route',
-      direction: 'outbound'
+      direction: 'outbound',
+      method,
+      path,
+      url
     }
 
     if (isStatic) {
-      logger.debug(outgoingMsg, traceId, outgoingMeta)
+      logger.debug('request completed', traceId, outgoingMeta)
     } else {
-      logger[level](outgoingMsg, traceId, outgoingMeta)
+      logger[level]('request completed', traceId, outgoingMeta)
     }
   })
 })
