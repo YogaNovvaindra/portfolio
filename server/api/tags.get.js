@@ -1,4 +1,4 @@
-export default defineEventHandler(async () => {
-  const { getTags } = useGhostApi()
+export default defineEventHandler(async (event) => {
+  const { getTags } = useGhostApi(event)
   return await getTags()
 })
