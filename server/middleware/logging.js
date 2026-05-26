@@ -5,18 +5,18 @@ export default defineEventHandler((event) => {
   const req = event.node.req
   const res = event.node.res
 
-  // Prefer incoming trace/correlation headers when present
   const headers = req.headers || {}
+
+  function extractTraceparentFromHeaders(h) {
+    if (!h) return null
+    if (h['traceparent']) return h['traceparent']
+    return null
+  }
 
   function extractTraceIdFromHeaders(h) {
     if (!h) return null
-    // W3C Trace Context
-    if (h['traceparent']) return h['traceparent']
-    // Common app-level correlation ids
     if (h['x-request-id']) return h['x-request-id']
     if (h['x-correlation-id']) return h['x-correlation-id']
-    // Cloudflare edge id as a useful fallback
-    if (h['cf-ray']) return `cf:${h['cf-ray']}`
     return null
   }
 
@@ -29,39 +29,37 @@ export default defineEventHandler((event) => {
     return null
   }
 
-  // 1. Use incoming trace header when available, otherwise generate UUID
-  const incomingTrace = extractTraceIdFromHeaders(headers)
-  const traceId = incomingTrace || crypto.randomUUID()
+  const traceparent = extractTraceparentFromHeaders(headers) || undefined
+  const incomingTraceId = extractTraceIdFromHeaders(headers)
+  const traceId = incomingTraceId || crypto.randomUUID()
+  const cfRay = headers['cf-ray'] || undefined
 
-  // 2. Attach to request context so downstream handlers/utilities can read it
   event.context.traceId = traceId
+  event.context.traceparent = traceparent
+  event.context.cfRay = cfRay
 
-  // 3. Inject X-Trace-ID into response headers for client transparency
   res.setHeader('X-Trace-ID', traceId)
 
   const method = req.method || 'GET'
   const url = req.url || '/'
   const path = url.split('?')[0] || '/'
   
-  // Categorize static files to prevent log spam in local terminals, but still log them at DEBUG/info levels
   const isStatic = url.startsWith('/_nuxt/') || 
                    url.startsWith('/favicon.ico') || 
                    url.startsWith('/__nuxt') ||
                    /\.(png|jpe?g|gif|svg|webp|css|js|woff2?|ico|json)$/i.test(url.split('?')[0])
 
-  // Determine client IP preferring Cloudflare headers
   const headerIp = extractClientIpFromHeaders(headers)
   const clientIp = headerIp || getRequestIP(event, { xForwardedFor: true }) || 'unknown'
   const userAgent = (req.headers && (req.headers['user-agent'] || req.headers['User-Agent'])) || 'unknown'
-  const cfRay = headers['cf-ray'] || undefined
 
-  // Log the incoming request
   const incomingMeta = {
     event: 'http.request',
     source: isStatic ? 'static' : 'route',
     ip: clientIp,
     userAgent,
     cfRay,
+    traceparent,
     direction: 'inbound',
     method,
     path,
@@ -74,7 +72,6 @@ export default defineEventHandler((event) => {
     logger.info('request received', traceId, incomingMeta)
   }
 
-  // 4. Hook into standard response lifecycle completion to log final outcome and latency
   res.on('finish', () => {
     const duration = (performance.now() - startTime).toFixed(2)
     const statusCode = res.statusCode || 200
@@ -96,7 +93,9 @@ export default defineEventHandler((event) => {
       path,
       url,
       ip: clientIp,
-      userAgent
+      userAgent,
+      cfRay,
+      traceparent
     }
 
     if (isStatic) {

@@ -23,6 +23,8 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     direction,
     ip,
     userAgent,
+    traceparent,
+    cfRay,
     error,
     ...rest
   } = meta || {}
@@ -45,6 +47,8 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     direction: direction || undefined,
     ip: ip || undefined,
     userAgent: userAgent || undefined,
+    traceparent: traceparent || undefined,
+    cfRay: cfRay || undefined,
     error: error || undefined
   }
 

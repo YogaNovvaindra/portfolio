@@ -29,8 +29,19 @@ export function useGhostApi(event = null) {
 
   const defaultParams = `key=${KEY}&include=tags,authors&formats=html`
   const traceId = event?.context?.traceId || null
+  const traceparent = event?.context?.traceparent || null
+  const cfRay = event?.context?.cfRay || null
 
-  const fetchOptions = traceId ? { headers: { 'x-request-id': traceId, 'x-correlation-id': traceId, 'traceparent': traceId } } : {}
+  const fetchHeaders = {}
+  if (traceId) {
+    fetchHeaders['x-request-id'] = traceId
+    fetchHeaders['x-correlation-id'] = traceId
+  }
+  if (traceparent) {
+    fetchHeaders.traceparent = traceparent
+  }
+
+  const fetchOptions = Object.keys(fetchHeaders).length ? { headers: fetchHeaders } : {}
 
   function logGhostRequest(level, message, operation, url, meta = {}) {
     logger[level](message, traceId, {
@@ -40,6 +51,8 @@ export function useGhostApi(event = null) {
       method: 'GET',
       url,
       direction: 'outbound',
+      traceparent: traceparent || undefined,
+      cfRay: cfRay || undefined,
       ...meta
     })
   }
