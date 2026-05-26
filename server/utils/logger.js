@@ -7,13 +7,50 @@
  * Excellent for Docker container log parsing by fluentd, promtail, datadog-agent, etc.
  */
 function formatJsonLog(level, message, traceId, meta = {}) {
-  return JSON.stringify({
+  // Standardized top-level fields for all logs. Put any extras under `meta`.
+  const service = process.env.SERVICE_NAME || 'portfolio'
+  const env = process.env.NODE_ENV || 'development'
+
+  const {
+    event,
+    source,
+    operation,
+    method,
+    path,
+    url,
+    statusCode,
+    durationMs,
+    direction,
+    ip,
+    userAgent,
+    error,
+    ...rest
+  } = meta || {}
+
+  const payload = {
     timestamp: new Date().toISOString(),
+    service,
+    env,
     level: level.toUpperCase(),
     traceId: traceId || undefined,
-    message,
-    ...meta
-  })
+    message: message || undefined,
+    event: event || undefined,
+    source: source || undefined,
+    operation: operation || undefined,
+    method: method || undefined,
+    path: path || undefined,
+    url: url || undefined,
+    statusCode: statusCode || undefined,
+    durationMs: durationMs || undefined,
+    direction: direction || undefined,
+    ip: ip || undefined,
+    userAgent: userAgent || undefined,
+    error: error || undefined
+  }
+
+  if (Object.keys(rest).length) payload.meta = rest
+
+  return JSON.stringify(payload)
 }
 
 /**

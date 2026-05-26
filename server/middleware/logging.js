@@ -5,8 +5,33 @@ export default defineEventHandler((event) => {
   const req = event.node.req
   const res = event.node.res
 
-  // 1. Generate standard UUID trace ID for tracing correlation
-  const traceId = crypto.randomUUID()
+  // Prefer incoming trace/correlation headers when present
+  const headers = req.headers || {}
+
+  function extractTraceIdFromHeaders(h) {
+    if (!h) return null
+    // W3C Trace Context
+    if (h['traceparent']) return h['traceparent']
+    // Common app-level correlation ids
+    if (h['x-request-id']) return h['x-request-id']
+    if (h['x-correlation-id']) return h['x-correlation-id']
+    // Cloudflare edge id as a useful fallback
+    if (h['cf-ray']) return `cf:${h['cf-ray']}`
+    return null
+  }
+
+  function extractClientIpFromHeaders(h) {
+    if (!h) return null
+    if (h['cf-connecting-ip']) return h['cf-connecting-ip']
+    if (h['true-client-ip']) return h['true-client-ip']
+    const xff = h['x-forwarded-for'] || h['x-forwarded']
+    if (xff) return xff.split(',')[0].trim()
+    return null
+  }
+
+  // 1. Use incoming trace header when available, otherwise generate UUID
+  const incomingTrace = extractTraceIdFromHeaders(headers)
+  const traceId = incomingTrace || crypto.randomUUID()
 
   // 2. Attach to request context so downstream handlers/utilities can read it
   event.context.traceId = traceId
@@ -24,9 +49,11 @@ export default defineEventHandler((event) => {
                    url.startsWith('/__nuxt') ||
                    /\.(png|jpe?g|gif|svg|webp|css|js|woff2?|ico|json)$/i.test(url.split('?')[0])
 
-  // Nitro's built-in getRequestIP automatically parses true IPs behind proxies (X-Forwarded-For, Cloudflare, etc.)
-  const clientIp = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
-  const userAgent = req.headers['user-agent'] || 'unknown'
+  // Determine client IP preferring Cloudflare headers
+  const headerIp = extractClientIpFromHeaders(headers)
+  const clientIp = headerIp || getRequestIP(event, { xForwardedFor: true }) || 'unknown'
+  const userAgent = (req.headers && (req.headers['user-agent'] || req.headers['User-Agent'])) || 'unknown'
+  const cfRay = headers['cf-ray'] || undefined
 
   // Log the incoming request
   const incomingMeta = {
@@ -34,6 +61,7 @@ export default defineEventHandler((event) => {
     source: isStatic ? 'static' : 'route',
     ip: clientIp,
     userAgent,
+    cfRay,
     direction: 'inbound',
     method,
     path,
@@ -66,7 +94,9 @@ export default defineEventHandler((event) => {
       direction: 'outbound',
       method,
       path,
-      url
+      url,
+      ip: clientIp,
+      userAgent
     }
 
     if (isStatic) {

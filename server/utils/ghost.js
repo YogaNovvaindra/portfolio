@@ -30,6 +30,8 @@ export function useGhostApi(event = null) {
   const defaultParams = `key=${KEY}&include=tags,authors&formats=html`
   const traceId = event?.context?.traceId || null
 
+  const fetchOptions = traceId ? { headers: { 'x-request-id': traceId, 'x-correlation-id': traceId, 'traceparent': traceId } } : {}
+
   function logGhostRequest(level, message, operation, url, meta = {}) {
     logger[level](message, traceId, {
       event: 'ghost.request',
@@ -52,7 +54,7 @@ export function useGhostApi(event = null) {
     
     const startTime = performance.now()
     try {
-      const data = await $fetch(url)
+      const data = await $fetch(url, fetchOptions)
       const duration = (performance.now() - startTime).toFixed(2)
       logGhostRequest('info', 'request completed', 'getPosts', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       return internalUrl(data, BASE)
@@ -74,7 +76,7 @@ export function useGhostApi(event = null) {
     
     const startTime = performance.now()
     try {
-      const data = await $fetch(url)
+      const data = await $fetch(url, fetchOptions)
       const duration = (performance.now() - startTime).toFixed(2)
       logGhostRequest('info', 'request completed', 'getPostBySlug', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       return internalUrl(data, BASE)
@@ -97,7 +99,7 @@ export function useGhostApi(event = null) {
     
     const startTime = performance.now()
     try {
-      const data = await $fetch(url)
+      const data = await $fetch(url, fetchOptions)
       const duration = (performance.now() - startTime).toFixed(2)
       logGhostRequest('info', 'request completed', 'getSearchIndex', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       return internalUrl(data, BASE)
@@ -119,7 +121,7 @@ export function useGhostApi(event = null) {
     
     const startTime = performance.now()
     try {
-      const data = await $fetch(url)
+      const data = await $fetch(url, fetchOptions)
       const duration = (performance.now() - startTime).toFixed(2)
       logGhostRequest('info', 'request completed', 'getTags', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
       
