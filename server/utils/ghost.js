@@ -22,41 +22,124 @@ function internalUrl(obj, ghostUrl) {
   return obj
 }
 
-export function useGhostApi() {
+export function useGhostApi(event = null) {
   const config = useRuntimeConfig()
   const BASE = (config.public.ghostUrl || process.env.GHOST_URL || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id').replace(/\/$/, '')
   const KEY = config.ghostKey || process.env.GHOST_KEY || process.env.NUXT_GHOST_KEY || ''
 
   const defaultParams = `key=${KEY}&include=tags,authors&formats=html`
+  const traceId = event?.context?.traceId || null
+
+  const fetchOptions = traceId ? { headers: { 'x-request-id': traceId, 'x-correlation-id': traceId, 'traceparent': traceId } } : {}
+
+  function logGhostRequest(level, message, operation, url, meta = {}) {
+    logger[level](message, traceId, {
+      event: 'ghost.request',
+      source: 'ghost',
+      operation,
+      method: 'GET',
+      url,
+      direction: 'outbound',
+      ...meta
+    })
+  }
 
   async function getPosts(limit = 'all', page = 1, filter = null) {
     let url = `${BASE}/ghost/api/content/posts/?${defaultParams}&limit=${limit}&page=${page}`
     if (filter) url += `&filter=${encodeURIComponent(filter)}`
-    const data = await $fetch(url)
-    return internalUrl(data, BASE)
+    
+    // Mask API key in logs to prevent secret leakage in standard output!
+    const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
+    logGhostRequest('info', 'request started', 'getPosts', loggedUrl)
+    
+    const startTime = performance.now()
+    try {
+      const data = await $fetch(url, fetchOptions)
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('info', 'request completed', 'getPosts', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
+      return internalUrl(data, BASE)
+    } catch (err) {
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('error', 'request failed', 'getPosts', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
+        durationMs: parseFloat(duration),
+        error: err.toString() 
+      })
+      throw err
+    }
   }
 
   async function getPostBySlug(slug) {
     const url = `${BASE}/ghost/api/content/posts/slug/${slug}/?${defaultParams}`
-    const data = await $fetch(url)
-    return internalUrl(data, BASE)
+    const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
+    logGhostRequest('info', 'request started', 'getPostBySlug', loggedUrl)
+    
+    const startTime = performance.now()
+    try {
+      const data = await $fetch(url, fetchOptions)
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('info', 'request completed', 'getPostBySlug', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
+      return internalUrl(data, BASE)
+    } catch (err) {
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('error', 'request failed', 'getPostBySlug', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
+        durationMs: parseFloat(duration),
+        error: err.toString() 
+      })
+      throw err
+    }
   }
 
   async function getSearchIndex() {
     const fields = 'id,title,slug,custom_excerpt,excerpt,published_at,feature_image,primary_author'
     const url = `${BASE}/ghost/api/content/posts/?key=${KEY}&limit=all&fields=${fields}&include=authors,tags`
-    const data = await $fetch(url)
-    return internalUrl(data, BASE)
+    const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
+    logGhostRequest('info', 'request started', 'getSearchIndex', loggedUrl)
+    
+    const startTime = performance.now()
+    try {
+      const data = await $fetch(url, fetchOptions)
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('info', 'request completed', 'getSearchIndex', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
+      return internalUrl(data, BASE)
+    } catch (err) {
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('error', 'request failed', 'getSearchIndex', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
+        durationMs: parseFloat(duration),
+        error: err.toString() 
+      })
+      throw err
+    }
   }
 
   async function getTags() {
     const url = `${BASE}/ghost/api/content/tags/?key=${KEY}&limit=all&include=count.posts&filter=visibility:public`
-    const data = await $fetch(url)
-    const tags = (data?.tags || []).sort(
-      (a, b) => (b.count?.posts || 0) - (a.count?.posts || 0)
-    )
-    return internalUrl(tags, BASE)
+    const loggedUrl = url.replace(`key=${KEY}`, 'key=[REDACTED]')
+    logGhostRequest('info', 'request started', 'getTags', loggedUrl)
+    
+    const startTime = performance.now()
+    try {
+      const data = await $fetch(url, fetchOptions)
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('info', 'request completed', 'getTags', loggedUrl, { statusCode: 200, durationMs: parseFloat(duration) })
+      
+      const tags = (data?.tags || []).sort(
+        (a, b) => (b.count?.posts || 0) - (a.count?.posts || 0)
+      )
+      return internalUrl(tags, BASE)
+    } catch (err) {
+      const duration = (performance.now() - startTime).toFixed(2)
+      logGhostRequest('error', 'request failed', 'getTags', loggedUrl, { 
+        statusCode: err?.response?.status || err?.statusCode || 500,
+        durationMs: parseFloat(duration),
+        error: err.toString() 
+      })
+      throw err
+    }
   }
 
   return { getPosts, getPostBySlug, getSearchIndex, getTags }
 }
+

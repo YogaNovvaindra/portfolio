@@ -1,4 +1,4 @@
-export default defineEventHandler(async () => {
-  const { getSearchIndex } = useGhostApi()
+export default defineEventHandler(async (event) => {
+  const { getSearchIndex } = useGhostApi(event)
   return await getSearchIndex()
 })

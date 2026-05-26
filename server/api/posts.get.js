@@ -4,6 +4,6 @@ export default defineEventHandler(async (event) => {
   const page = query.page || 1
   const filter = query.filter || null
   
-  const { getPosts } = useGhostApi()
+  const { getPosts } = useGhostApi(event)
   return await getPosts(limit, page, filter)
 })
