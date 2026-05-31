@@ -214,6 +214,24 @@
 const route = useRoute()
 const router = useRouter()
 
+function buildBlogQuery(page) {
+  const nextQuery = {}
+  if (searchQuery.value) nextQuery.q = searchQuery.value
+  if (activeTag.value) nextQuery.tag = activeTag.value
+  if (page > 1) nextQuery.page = String(page)
+  return nextQuery
+}
+
+function readBlogQuery(query) {
+  const rawPage = Array.isArray(query.page) ? query.page[0] : query.page
+  const page = Number(rawPage || 1)
+  return {
+    search: typeof query.q === 'string' ? query.q : '',
+    tag: typeof query.tag === 'string' ? query.tag : null,
+    page: Number.isFinite(page) && page > 0 ? page : 1,
+  }
+}
+
 useSeoMeta({
   title: 'Blog — Yoga Novaindra',
   description: 'Field notes, documentation, and practical guides on DevSecOps, Kubernetes, security, and cloud infrastructure.',
@@ -221,14 +239,44 @@ useSeoMeta({
 })
 
 const searchQuery = ref('')
-const serverPage = ref(1)
-const searchPage = ref(1)
-const activeTag = ref(route.query.tag || null)
+const initialQuery = readBlogQuery(route.query)
+const serverPage = ref(initialQuery.page)
+const searchPage = ref(initialQuery.page)
+const activeTag = ref(initialQuery.tag)
 const showTagsModal = ref(false)
 // parallax/featured removed
 const searchIndex = ref([])
 const tags = ref([])
 const tagsLoading = ref(true)
+const syncingRoute = ref(false)
+
+watch(
+  () => route.query,
+  (query) => {
+    const next = readBlogQuery(query)
+    syncingRoute.value = true
+    searchQuery.value = next.search
+    activeTag.value = next.tag
+    serverPage.value = next.page
+    searchPage.value = next.page
+    nextTick(() => {
+      syncingRoute.value = false
+    })
+  },
+  { immediate: true }
+)
+
+watch(searchQuery, (value) => {
+  if (syncingRoute.value) return
+  searchPage.value = 1
+  router.replace({ query: { ...buildBlogQuery(1), q: value || undefined } })
+})
+
+watch(activeTag, (value) => {
+  if (syncingRoute.value) return
+  serverPage.value = 1
+  router.push({ query: { ...buildBlogQuery(1), tag: value || undefined } })
+})
 
 // Fetch tags client-side (non-blocking)
 onMounted(async () => {
@@ -253,7 +301,7 @@ onUnmounted(() => {
 const { data: posts, pending, error, refresh } = await useAsyncData(
   `blog-posts-${serverPage.value}-${activeTag.value}`,
   () => {
-    const query = { limit: 7, page: serverPage.value }
+    const query = { limit: 6, page: serverPage.value }
     if (activeTag.value) query.filter = `tag:${activeTag.value}`
     return $fetch('/api/posts', { query })
   },
@@ -379,9 +427,7 @@ const remainingPosts = computed(() => {
     const start = (searchPage.value - 1) * 6
     return searchResults.value.slice(start, start + 6)
   }
-  const all = posts.value?.posts || []
-  const start = (serverPage.value - 1) * 6
-  return all.slice(start, start + 6)
+  return posts.value?.posts || []
 })
 
 const totalPages = computed(() => {
@@ -392,8 +438,10 @@ const totalPages = computed(() => {
 const currentPage = computed({
   get: () => searchQuery.value ? searchPage.value : serverPage.value,
   set: (v) => {
-    if (searchQuery.value) searchPage.value = v
-    else serverPage.value = v
+    const page = Number(v) > 0 ? Number(v) : 1
+    if (searchQuery.value) searchPage.value = page
+    else serverPage.value = page
+    router.push({ query: buildBlogQuery(page) })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 })
@@ -411,8 +459,6 @@ const windowedPages = computed(() => {
 
 function toggleTag(slug) {
   activeTag.value = activeTag.value === slug ? null : slug
-  serverPage.value = 1
-  router.push({ query: activeTag.value ? { tag: activeTag.value } : {} })
 }
 
 function formatDate(dateString) {
