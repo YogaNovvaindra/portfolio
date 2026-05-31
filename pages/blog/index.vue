@@ -133,8 +133,8 @@
 
         <!-- Blog Posts Grid -->
         <Transition name="fade" mode="out-in" appear>
-          <div :key="currentPage + '-' + searchQuery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 relative w-full mt-4 md:mt-6" v-if="remainingPosts.length > 0">
-            <article v-for="(post, index) in remainingPosts" :key="post.id" :style="{ animationDelay: `${index * 70}ms` }" class="group relative flex flex-col rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] fadein-bot">
+          <div :key="currentPage + '-' + searchQuery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start relative w-full mt-4 md:mt-6" v-if="remainingPosts.length > 0">
+            <article v-for="(post, index) in remainingPosts" :key="post.id" :style="{ animationDelay: `${index * 70}ms` }" class="group relative flex h-fit flex-col self-start rounded-3xl bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] fadein-bot">
               <div class="relative w-full aspect-[16/9] overflow-hidden bg-zinc-900 border-b border-white/5">
                 <img v-if="post.feature_image" :src="post.feature_image" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
                 <div v-else class="w-full h-full bg-zinc-800/50 flex items-center justify-center">
@@ -142,7 +142,7 @@
                 </div>
               </div>
 
-              <div class="p-6 sm:p-8 flex-1 flex flex-col relative z-10 w-full">
+              <div class="p-5 sm:p-6 flex flex-col relative z-10 w-full">
                 <div class="flex items-center gap-3 text-xs text-zinc-500 font-medium mb-4 flex-wrap">
                   <span v-if="post.primary_tag" class="text-blue-400 bg-blue-500/10 px-2 py-1 rounded-md border border-blue-500/20">{{ post.primary_tag.name }}</span>
                   <time 
@@ -158,9 +158,8 @@
                 <h3 class="text-xl font-bold leading-snug text-white group-hover:text-blue-400 transition-colors mb-3">
                   <NuxtLink :to="`/blog/${post.slug}`"><span class="absolute inset-0"></span>{{ post.title }}</NuxtLink>
                 </h3>
-                <p class="text-sm leading-relaxed text-zinc-400 line-clamp-2 mb-6">{{ post.custom_excerpt || post.excerpt }}</p>
-                <div class="mt-auto"></div>
-                <NuxtLink :to="`/blog/${post.slug}`" class="relative z-20 inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 group-hover:text-blue-400 transition-colors pt-5 border-t border-zinc-800/50 w-full">
+                <p class="text-sm leading-relaxed text-zinc-400 line-clamp-2 mb-4">{{ post.custom_excerpt || post.excerpt }}</p>
+                <NuxtLink :to="`/blog/${post.slug}`" class="relative z-20 inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 group-hover:text-blue-400 transition-colors pt-3 border-t border-zinc-800/50 w-full">
                   Read article <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                 </NuxtLink>
               </div>
