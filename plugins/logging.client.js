@@ -3,6 +3,15 @@
 
 export default defineNuxtPlugin(() => {
   const router = useRouter()
+  const config = useRuntimeConfig()
+  const version = config.public?.appVersion || 'unknown'
+
+  // Log startup version in browser console for premium aesthetics & observability
+  console.log(
+    `%c[SYSTEM]%c Running Portfolio v${version}`,
+    'color: #10b981; font-weight: bold; background: rgba(16, 185, 129, 0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;',
+    'color: #a1a1aa; font-weight: 500;'
+  )
 
   router.afterEach((to, from) => {
     const fromPath = from?.fullPath && from.fullPath !== '/' ? from.fullPath : 'Initial Entry'

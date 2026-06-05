@@ -2,6 +2,8 @@
 // Auto-imported in Nitro server context.
 // Outputs to standard stdout/stderr, ideal for Docker logs consumption.
 
+let appVersion = null
+
 /**
  * Formats a log line as single-line structured JSON to stdout/stderr.
  * Excellent for Docker container log parsing by fluentd, promtail, datadog-agent, etc.
@@ -10,6 +12,15 @@ function formatJsonLog(level, message, traceId, meta = {}) {
   // Standardized top-level fields for all logs. Put any extras under `meta`.
   const service = process.env.SERVICE_NAME || 'portfolio'
   const env = process.env.NODE_ENV || 'development'
+
+  if (!appVersion) {
+    try {
+      const config = useRuntimeConfig()
+      appVersion = config.public?.appVersion || 'unknown'
+    } catch (e) {
+      // ignore - config might not be initialized yet
+    }
+  }
 
   const {
     event,
@@ -33,6 +44,7 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     timestamp: new Date().toISOString(),
     service,
     env,
+    version: appVersion || undefined,
     level: level.toUpperCase(),
     traceId: traceId || undefined,
     message: message || undefined,

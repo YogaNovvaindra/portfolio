@@ -1,3 +1,15 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+// Read version from package.json
+let appVersion = '0.0.1'
+try {
+  const pkg = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf8'))
+  appVersion = pkg.version
+} catch (e) {
+  appVersion = process.env.npm_package_version || '0.0.1'
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -6,6 +18,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     ghostKey: process.env.GHOST_KEY || process.env.NUXT_GHOST_KEY,
     public: {
+      appVersion,
       ghostUrl: process.env.GHOST_URL || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id',
       siteUrl: process.env.SITE_URL || process.env.NUXT_PUBLIC_SITE_URL || 'https://yoganova.my.id',
     },
