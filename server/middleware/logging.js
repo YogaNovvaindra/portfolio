@@ -53,10 +53,13 @@ export default defineEventHandler((event) => {
   const clientIp = headerIp || getRequestIP(event, { xForwardedFor: true }) || 'unknown'
   const userAgent = (req.headers && (req.headers['user-agent'] || req.headers['User-Agent'])) || 'unknown'
 
+  const host = headers['host'] || undefined
+
   const incomingMeta = {
     event: 'http.request',
     source: isStatic ? 'static' : 'route',
     ip: clientIp,
+    host,
     userAgent,
     cfRay,
     traceparent,
@@ -70,6 +73,19 @@ export default defineEventHandler((event) => {
     logger.debug('request received', traceId, incomingMeta)
   } else {
     logger.info('request received', traceId, incomingMeta)
+  }
+
+  // Intercept write/end to count actual bytes sent (works for chunked/streaming too)
+  let responseBytes = 0
+  const origWrite = res.write.bind(res)
+  const origEnd = res.end.bind(res)
+  res.write = (chunk, ...args) => {
+    if (chunk) responseBytes += Buffer.byteLength(chunk)
+    return origWrite(chunk, ...args)
+  }
+  res.end = (chunk, ...args) => {
+    if (chunk) responseBytes += Buffer.byteLength(chunk)
+    return origEnd(chunk, ...args)
   }
 
   res.on('finish', () => {
@@ -88,10 +104,12 @@ export default defineEventHandler((event) => {
       source: isStatic ? 'static' : 'route',
       statusCode,
       durationMs: parseFloat(duration),
+      responseBytes,
       direction: 'outbound',
       method,
       path,
       url,
+      host,
       ip: clientIp,
       userAgent,
       cfRay,
