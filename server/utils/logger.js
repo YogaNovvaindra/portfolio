@@ -31,6 +31,7 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     url,
     host,
     statusCode,
+    statusMessage,
     durationMs,
     responseBytes,
     direction,
@@ -39,6 +40,11 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     traceparent,
     cfRay,
     error,
+    // page.view / page.error specific fields
+    page,
+    from,
+    title,
+    referrer,
     ...rest
   } = meta || {}
 
@@ -58,6 +64,7 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     path: path || undefined,
     url: url || undefined,
     statusCode: statusCode || undefined,
+    statusMessage: statusMessage || undefined,
     durationMs: durationMs || undefined,
     responseBytes: responseBytes || undefined,
     direction: direction || undefined,
@@ -65,7 +72,12 @@ function formatJsonLog(level, message, traceId, meta = {}) {
     userAgent: userAgent || undefined,
     traceparent: traceparent || undefined,
     cfRay: cfRay || undefined,
-    error: error || undefined
+    error: error || undefined,
+    // page.view / page.error specific fields
+    page: page || undefined,
+    from: from || undefined,
+    title: title || undefined,
+    referrer: referrer || undefined,
   }
 
   if (Object.keys(rest).length) payload.meta = rest

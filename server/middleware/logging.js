@@ -38,10 +38,18 @@ export default defineEventHandler((event) => {
   const url = req.url || '/'
   const path = url.split('?')[0] || '/'
 
+  // ── Suppress internal Nuxt routes ────────────────────────────────────────
+  // /__nuxt_error is Nuxt's internal SSR mechanism for rendering error.vue.
+  // Its URL contains a full URL-encoded stack trace — extremely noisy and not
+  // a real user request. The actual 404/500 is already logged on the original
+  // request path, and the client sends a page.error beacon via /api/pageview.
+  if (path.startsWith('/__nuxt_error') || path.startsWith('/__nuxt_island')) {
+    return
+  }
+
   const isStatic =
     url.startsWith('/_nuxt/') ||
     url.startsWith('/favicon.ico') ||
-    url.startsWith('/__nuxt') ||
     /\.(png|jpe?g|gif|svg|webp|css|js|woff2?|ico|json)$/i.test(url.split('?')[0])
 
   const headerIp = extractClientIpFromHeaders(headers)

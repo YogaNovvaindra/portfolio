@@ -105,4 +105,28 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+
+  // ── Pre-bundle highlight.js language modules ──────────────────────────────
+  // Vite discovers these at runtime from plugins/highlight.client.js.
+  // Pre-bundling avoids the "new dependencies discovered" reload in dev.
+  vite: {
+    optimizeDeps: {
+      include: [
+        'highlight.js/lib/core',
+        'highlight.js/lib/languages/javascript',
+        'highlight.js/lib/languages/typescript',
+        'highlight.js/lib/languages/bash',
+        'highlight.js/lib/languages/yaml',
+        'highlight.js/lib/languages/json',
+        'highlight.js/lib/languages/dockerfile',
+        'highlight.js/lib/languages/nginx',
+        'highlight.js/lib/languages/go',
+        'highlight.js/lib/languages/python',
+        'highlight.js/lib/languages/xml',
+        'highlight.js/lib/languages/css',
+        'highlight.js/lib/languages/sql',
+        'highlight.js/lib/languages/ini',
+      ],
+    },
+  },
 })
