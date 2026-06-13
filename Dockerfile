@@ -21,11 +21,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 
 WORKDIR /app
 
-# Install production dependencies so runtime-required packages (e.g. @opentelemetry)
-# are available via Node's module resolution (createRequire walks up to /app/node_modules)
-COPY package*.json ./
-RUN npm ci --omit=dev --ignore-scripts
-
 # Copy the server output from builder
 COPY --from=builder /app/.output ./
 
