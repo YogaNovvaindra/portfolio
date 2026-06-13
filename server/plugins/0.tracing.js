@@ -1,4 +1,4 @@
-// OpenTelemetry tracing — enabled only when OTLP_ENABLE=1
+// OpenTelemetry tracing — enabled only when OTLP_ENABLE=true
 // OTLP endpoint is read from OTLP_EXPORTER_ENDPOINT
 //
 // Uses createRequire to force native CJS require() for all @opentelemetry
@@ -7,7 +7,8 @@ import { createRequire } from 'node:module'
 
 const _require = createRequire(import.meta.url)
 
-const ENABLED = process.env.OTLP_ENABLE === '1' || process.env.OTLP_ENABLE === 'true'
+// Only enabled when OTLP_ENABLE=true
+const ENABLED = process.env.OTLP_ENABLE === 'true'
 
 export default defineNitroPlugin((nitroApp) => {
   if (!ENABLED) return
