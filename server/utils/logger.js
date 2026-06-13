@@ -10,7 +10,7 @@ let appVersion = null
  */
 function formatJsonLog(level, message, traceId, meta = {}) {
   // Standardized top-level fields for all logs. Put any extras under `meta`.
-  const service = process.env.SERVICE_NAME || 'portfolio'
+  const service = process.env.OTLP_SERVICE_NAME || 'portfolio'
   const env = process.env.NODE_ENV || 'development'
 
   if (!appVersion) {
