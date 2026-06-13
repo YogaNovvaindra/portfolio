@@ -1,4 +1,9 @@
 import crypto from 'node:crypto'
+import { createRequire } from 'node:module'
+
+const _require = createRequire(import.meta.url)
+const { SpanStatusCode } = _require('@opentelemetry/api')
+
 
 export default defineEventHandler((event) => {
   const startTime = performance.now()
@@ -31,29 +36,59 @@ export default defineEventHandler((event) => {
 
   const traceparent = extractTraceparentFromHeaders(headers) || undefined
   const incomingTraceId = extractTraceIdFromHeaders(headers)
-  const traceId = incomingTraceId || crypto.randomUUID()
   const cfRay = headers['cf-ray'] || undefined
+
+  const method = req.method || 'GET'
+  const url = req.url || '/'
+  const path = url.split('?')[0] || '/'
+
+  const isStatic =
+    url.startsWith('/_nuxt/') ||
+    url.startsWith('/favicon.ico') ||
+    url.startsWith('/__nuxt') ||
+    /\.(png|jpe?g|gif|svg|webp|css|js|woff2?|ico|json)$/i.test(url.split('?')[0])
+
+  const headerIp = extractClientIpFromHeaders(headers)
+  const clientIp = headerIp || getRequestIP(event, { xForwardedFor: true }) || 'unknown'
+  const userAgent =
+    (req.headers && (req.headers['user-agent'] || req.headers['User-Agent'])) || 'unknown'
+
+  const host = headers['host'] || undefined
+
+  // ── OpenTelemetry span — created FIRST so its trace ID drives the log traceId
+  // getTracer() auto-imported from server/utils/tracer.js; null when OTLP disabled
+  let span = null
+  try {
+    const tracer = getTracer()
+    if (tracer) {
+      span = tracer.startSpan(`${method} ${path}`, {
+        attributes: {
+          'http.method': method,
+          'http.url': url,
+          'http.target': path,
+          'http.host': host || '',
+          'http.user_agent': userAgent,
+          'net.peer.ip': clientIp,
+          'cf.ray': cfRay || '',
+        },
+      })
+      event.context.otelSpan = span
+    }
+  } catch (_) {
+    // OTEL not available / disabled — silently skip
+  }
+
+  // Use the OTEL span's own trace ID so Loki + Tempo share the same ID.
+  // Falls back to incoming header ID or a new UUID when OTEL is off.
+  const otelTraceId = span?.spanContext?.()?.traceId || null
+  // Always 32-char lowercase hex (W3C TraceContext format) — same whether OTLP on or off
+  const traceId = otelTraceId || incomingTraceId || crypto.randomBytes(16).toString('hex')
 
   event.context.traceId = traceId
   event.context.traceparent = traceparent
   event.context.cfRay = cfRay
 
   res.setHeader('X-Trace-ID', traceId)
-
-  const method = req.method || 'GET'
-  const url = req.url || '/'
-  const path = url.split('?')[0] || '/'
-  
-  const isStatic = url.startsWith('/_nuxt/') || 
-                   url.startsWith('/favicon.ico') || 
-                   url.startsWith('/__nuxt') ||
-                   /\.(png|jpe?g|gif|svg|webp|css|js|woff2?|ico|json)$/i.test(url.split('?')[0])
-
-  const headerIp = extractClientIpFromHeaders(headers)
-  const clientIp = headerIp || getRequestIP(event, { xForwardedFor: true }) || 'unknown'
-  const userAgent = (req.headers && (req.headers['user-agent'] || req.headers['User-Agent'])) || 'unknown'
-
-  const host = headers['host'] || undefined
 
   const incomingMeta = {
     event: 'http.request',
@@ -66,7 +101,7 @@ export default defineEventHandler((event) => {
     direction: 'inbound',
     method,
     path,
-    url
+    url,
   }
 
   if (isStatic) {
@@ -113,13 +148,26 @@ export default defineEventHandler((event) => {
       ip: clientIp,
       userAgent,
       cfRay,
-      traceparent
+      traceparent,
     }
 
     if (isStatic) {
       logger.debug('request completed', traceId, outgoingMeta)
     } else {
       logger[level]('request completed', traceId, outgoingMeta)
+    }
+
+    // ── Finish OTEL span ────────────────────────────────────────────────────
+    if (span) {
+      span.setAttributes({
+        'http.status_code': statusCode,
+        'http.response_content_length': responseBytes,
+        'http.duration_ms': parseFloat(duration),
+      })
+      if (statusCode >= 500) {
+        span.setStatus({ code: SpanStatusCode.ERROR })
+      }
+      span.end()
     }
   })
 })
