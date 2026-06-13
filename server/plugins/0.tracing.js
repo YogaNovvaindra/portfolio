@@ -3,20 +3,16 @@
 //
 // Uses createRequire to force native CJS require() for all @opentelemetry
 // packages — avoids ESM/CJS interop issues with Nitro's bundler.
-import { createRequire } from 'node:module'
-
-const _require = createRequire(import.meta.url)
+import { NodeSDK } from '@opentelemetry/sdk-node'
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http'
+import { resourceFromAttributes } from '@opentelemetry/resources'
+import { trace } from '@opentelemetry/api'
 
 // Only enabled when OTLP_ENABLE=true
 const ENABLED = process.env.OTLP_ENABLE === 'true'
 
 export default defineNitroPlugin((nitroApp) => {
   if (!ENABLED) return
-
-  const { NodeSDK }           = _require('@opentelemetry/sdk-node')
-  const { OTLPTraceExporter }  = _require('@opentelemetry/exporter-trace-otlp-http')
-  const { resourceFromAttributes } = _require('@opentelemetry/resources')
-  const { trace }              = _require('@opentelemetry/api')
 
   const endpoint =
     process.env.OTLP_EXPORTER_ENDPOINT || 'http://localhost:4318/v1/traces'
