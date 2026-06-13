@@ -50,9 +50,9 @@ function formatJsonLog(level, message, traceId, meta = {}) {
 
   const payload = {
     timestamp: new Date().toISOString(),
-    service,
-    env,
-    version: appVersion || undefined,
+    'service.name': service,
+    'deployment.environment': env,
+    'service.version': appVersion || undefined,
     level: level.toUpperCase(),
     traceId: traceId || undefined,
     message: message || undefined,

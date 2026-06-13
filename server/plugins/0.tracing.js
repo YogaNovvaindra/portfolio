@@ -19,10 +19,18 @@ export default defineNitroPlugin((nitroApp) => {
 
   const exporter = new OTLPTraceExporter({ url: endpoint })
 
+  let appVersion = process.env.npm_package_version || 'unknown'
+  try {
+    const config = useRuntimeConfig()
+    appVersion = config.public?.appVersion || appVersion
+  } catch (e) {
+    // ignore
+  }
+
   const sdk = new NodeSDK({
     resource: resourceFromAttributes({
       'service.name': process.env.OTLP_SERVICE_NAME || 'portfolio',
-      'service.version': process.env.npm_package_version || 'unknown',
+      'service.version': appVersion,
       'deployment.environment': process.env.NODE_ENV || 'development',
     }),
     traceExporter: exporter,
