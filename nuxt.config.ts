@@ -70,7 +70,7 @@ export default defineNuxtConfig({
     // runtime via CJS require(). Marking them external ensures Nitro copies
     // them into .output/server/node_modules/ so they are available in prod.
     externals: {
-      external: [
+      traceInclude: [
         '@opentelemetry/api',
         '@opentelemetry/sdk-node',
         '@opentelemetry/exporter-trace-otlp-http',
