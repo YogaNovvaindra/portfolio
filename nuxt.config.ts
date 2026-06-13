@@ -71,11 +71,11 @@ export default defineNuxtConfig({
     // them into .output/server/node_modules/ so they are available in prod.
     externals: {
       traceInclude: [
-        '@opentelemetry/api',
-        '@opentelemetry/sdk-node',
-        '@opentelemetry/exporter-trace-otlp-http',
-        '@opentelemetry/resources',
-        '@opentelemetry/semantic-conventions',
+        'node_modules/@opentelemetry/api',
+        'node_modules/@opentelemetry/sdk-node',
+        'node_modules/@opentelemetry/exporter-trace-otlp-http',
+        'node_modules/@opentelemetry/resources',
+        'node_modules/@opentelemetry/semantic-conventions',
       ],
     },
     routeRules: {
