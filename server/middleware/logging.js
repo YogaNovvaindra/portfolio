@@ -2,7 +2,8 @@ import crypto from 'node:crypto'
 import { createRequire } from 'node:module'
 
 const _require = createRequire(import.meta.url)
-const { SpanStatusCode } = _require('@opentelemetry/api')
+// SpanStatusCode is lazy-loaded only when a span is active (OTLP enabled)
+let _SpanStatusCode = null
 
 
 export default defineEventHandler((event) => {
@@ -159,13 +160,16 @@ export default defineEventHandler((event) => {
 
     // ── Finish OTEL span ────────────────────────────────────────────────────
     if (span) {
+      if (!_SpanStatusCode) {
+        _SpanStatusCode = _require('@opentelemetry/api').SpanStatusCode
+      }
       span.setAttributes({
         'http.status_code': statusCode,
         'http.response_content_length': responseBytes,
         'http.duration_ms': parseFloat(duration),
       })
       if (statusCode >= 500) {
-        span.setStatus({ code: SpanStatusCode.ERROR })
+        span.setStatus({ code: _SpanStatusCode.ERROR })
       }
       span.end()
     }
