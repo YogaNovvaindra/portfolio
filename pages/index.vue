@@ -93,7 +93,7 @@
           </div>
 
           <!-- Latest Article Skeleton -->
-          <div v-if="loadingArticle" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/20 border border-zinc-800/50 w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm animate-pulse h-[74px]">
+          <div v-if="pending" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/20 border border-zinc-800/50 w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm animate-pulse h-[74px]">
             <div class="h-12 w-16 shrink-0 rounded-lg bg-zinc-800/50"></div>
             <div class="flex flex-col gap-2 flex-1 mt-0.5">
               <div class="h-2.5 w-24 bg-zinc-800/50 rounded-full"></div>
@@ -102,16 +102,16 @@
           </div>
 
           <!-- Latest Article Card -->
-          <NuxtLink v-else-if="latestArticle" :to="`/blog/${latestArticle.slug}`" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm">
+          <NuxtLink v-else-if="recentPost" :to="`/blog/${recentPost.slug}`" class="flex items-center gap-4 p-3 pr-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group w-full max-w-[400px] mx-auto lg:mx-0 backdrop-blur-sm">
             <div class="h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-zinc-800 border border-zinc-700/50">
-              <img v-if="latestArticle.feature_image" :src="latestArticle.feature_image" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+              <img v-if="recentPost.feature_image" :src="recentPost.feature_image" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
               <div v-else class="h-full w-full flex items-center justify-center text-zinc-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
               </div>
             </div>
             <div class="flex flex-col overflow-hidden text-left flex-1">
               <span class="text-[10px] font-bold text-blue-500 uppercase tracking-wider mb-0.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Latest Article</span>
-              <span class="text-sm font-medium text-zinc-300 group-hover:text-blue-400 truncate transition-colors">{{ latestArticle.title }}</span>
+              <span class="text-sm font-medium text-zinc-300 group-hover:text-blue-400 truncate transition-colors">{{ recentPost.title }}</span>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 shrink-0 text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all"><path d="m9 18 6-6-6-6"/></svg>
           </NuxtLink>
@@ -187,18 +187,14 @@ const socialLinks = [
   { name: 'Website',  url: 'https://yoganova.my.id',                      icon: 'GlobeIcon'   },
 ]
 
-// ── Latest article (client-side, non-blocking) ───────────────────
-const latestArticle = ref(null)
-const loadingArticle = ref(true)
-
-onMounted(async () => {
+// ── Latest article (SSR + Hydration) ─────────────────────────────
+const { data: recentPost, pending } = await useAsyncData('recent-post', async () => {
   try {
-    const data = await $fetch('/api/posts', { query: { limit: 1 } })
-    if (data?.posts?.length) latestArticle.value = data.posts[0]
+    const data = await useRequestFetch()('/api/posts', { query: { limit: 1 } })
+    return data?.posts?.[0] || null
   } catch (e) {
     console.error('Failed to fetch latest article:', e)
-  } finally {
-    loadingArticle.value = false
+    return null
   }
 })
 </script>

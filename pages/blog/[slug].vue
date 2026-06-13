@@ -241,7 +241,7 @@ const nuxtApp = useNuxtApp()
 const { data: pageData } = await useAsyncData(
   `post-page-${route.params.slug}`,
   async () => {
-    const postRes = await $fetch(`/api/post/${route.params.slug}`)
+    const postRes = await useRequestFetch()(`/api/post/${route.params.slug}`)
     const post = postRes?.posts?.[0]
     if (!post) {
       return { post: null, related: [] }
@@ -251,7 +251,7 @@ const { data: pageData } = await useAsyncData(
     const primaryTagSlug = post.primary_tag?.slug || post.tags?.[0]?.slug
     if (primaryTagSlug) {
       try {
-        const tagPostsRes = await $fetch('/api/posts', {
+        const tagPostsRes = await useRequestFetch()('/api/posts', {
           query: {
             limit: 4,
             filter: `tag:${primaryTagSlug}+id:-${post.id}`
@@ -266,7 +266,7 @@ const { data: pageData } = await useAsyncData(
     // Fallback if we have fewer than 3 posts
     if (related.length < 3) {
       try {
-        const recentRes = await $fetch('/api/posts', { query: { limit: 5 } })
+        const recentRes = await useRequestFetch()('/api/posts', { query: { limit: 5 } })
         const recent = (recentRes?.posts || []).filter(p => p.id !== post.id)
         for (const p of recent) {
           if (related.length >= 3) break

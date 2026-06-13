@@ -92,6 +92,18 @@ export default defineEventHandler((event) => {
   event.context.traceparent = traceparent
   event.context.cfRay = cfRay
 
+  // ── Auto-forward Trace Context for internal useRequestFetch() ──────────
+  // By mutating req.headers, Nuxt's useRequestFetch() will automatically
+  // forward these trace headers to any internal SSR API calls.
+  req.headers['x-request-id'] = traceId
+  if (span) {
+    const ctx = span.spanContext()
+    const flags = ctx.traceFlags.toString(16).padStart(2, '0')
+    req.headers['traceparent'] = `00-${ctx.traceId}-${ctx.spanId}-${flags}`
+  } else if (!req.headers['traceparent']) {
+    req.headers['traceparent'] = `00-${traceId}-0000000000000000-01`
+  }
+
   res.setHeader('X-Trace-ID', traceId)
 
   const incomingMeta = {

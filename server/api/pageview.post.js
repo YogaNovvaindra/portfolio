@@ -4,6 +4,8 @@
  * This ensures /about, /portfolio, /blog, /blog/[slug], and all Vue Router routes
  * — including 404/error pages — appear in server traces with a standardized shape.
  */
+import { trace, context } from '@opentelemetry/api'
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event).catch(() => ({}))
 
@@ -25,9 +27,29 @@ export default defineEventHandler(async (event) => {
     undefined
 
   const pagePath = page || 'unknown'
+  const eventName = isError ? 'page.error' : 'page.view'
+
+  // ── Create an explicit child span in Tempo for the page view ──────────
+  try {
+    const tracer = typeof getTracer !== 'undefined' ? getTracer() : null
+    const parentSpan = event.context.otelSpan
+    if (tracer && parentSpan) {
+      const ctx = trace.setSpan(context.active(), parentSpan)
+      const viewSpan = tracer.startSpan(eventName, {
+        attributes: {
+          'page.path': pagePath,
+          'page.title': title || '',
+          'page.referrer': referrer || '',
+          'page.from': from || '',
+          'http.status_code': statusCode || undefined
+        }
+      }, ctx)
+      viewSpan.end() // Instant span just to mark the event in the waterfall
+    }
+  } catch (_) {}
 
   logger.info(isError ? 'error page view' : 'page view', event, {
-    event: isError ? 'page.error' : 'page.view',
+    event: eventName,
     source: 'client',
     direction: 'inbound',
     method: 'GET',           // SPA navigations are logical GETs from user perspective

@@ -303,7 +303,7 @@ const { data: posts, pending, error, refresh } = await useAsyncData(
   () => {
     const query = { limit: 6, page: serverPage.value }
     if (activeTag.value) query.filter = `tag:${activeTag.value}`
-    return $fetch('/api/posts', { query })
+    return useRequestFetch()('/api/posts', { query })
   },
   { 
     watch: [serverPage, activeTag],
