@@ -65,6 +65,19 @@ export default defineNuxtConfig({
   // /ghost/api/ → http://ghost.services:2368/ghost/api/
   // /content/   → http://ghost.services:2368/content/
   nitro: {
+    // ── Externalize @opentelemetry packages ──────────────────────────────────
+    // createRequire() in 0.tracing.js bypasses the bundler and loads these at
+    // runtime via CJS require(). Marking them external ensures Nitro copies
+    // them into .output/server/node_modules/ so they are available in prod.
+    externals: {
+      external: [
+        '@opentelemetry/api',
+        '@opentelemetry/sdk-node',
+        '@opentelemetry/exporter-trace-otlp-http',
+        '@opentelemetry/resources',
+        '@opentelemetry/semantic-conventions',
+      ],
+    },
     routeRules: {
       '/ghost/api/**': {
         proxy: `${process.env.GHOST_URL || 'http://ghost.services:2368'}/ghost/api/**`,
