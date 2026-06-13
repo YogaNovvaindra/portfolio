@@ -34,6 +34,9 @@ export default defineEventHandler(async (event) => {
     const tracer = typeof getTracer !== 'undefined' ? getTracer() : null
     const parentSpan = event.context.otelSpan
     if (tracer && parentSpan) {
+      // Update the parent span name to show the actual page path instead of POST /api/pageview
+      parentSpan.updateName(`PAGEVIEW ${pagePath}`)
+      
       const ctx = trace.setSpan(context.active(), parentSpan)
       const viewSpan = tracer.startSpan(eventName, {
         attributes: {
