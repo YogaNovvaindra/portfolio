@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -10,17 +11,20 @@ try {
   appVersion = process.env.npm_package_version || '0.0.1'
 }
 
+const ghostUrl = process.env.NUXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'https://ygnv.my.id'
+const ghostKey = process.env.NUXT_GHOST_KEY || process.env.GHOST_KEY || ''
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
   compatibilityDate: '2024-11-01',
 
   runtimeConfig: {
-    ghostKey: process.env.GHOST_KEY || process.env.NUXT_GHOST_KEY,
+    ghostKey,
     public: {
       appVersion,
-      ghostUrl: process.env.GHOST_URL || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id',
-      siteUrl: process.env.SITE_URL || process.env.NUXT_PUBLIC_SITE_URL || 'https://yoganova.my.id',
+      ghostUrl,
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://yoganova.my.id',
     },
   },
 
@@ -80,13 +84,13 @@ export default defineNuxtConfig({
     },
     routeRules: {
       '/ghost/api/**': {
-        proxy: `${process.env.GHOST_URL || 'http://ghost.services:2368'}/ghost/api/**`,
+        proxy: `${process.env.NUXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'http://ghost.services:2368'}/ghost/api/**`,
         headers: {
           Host: 'ygnv.my.id',
         },
       },
       '/content/**': {
-        proxy: `${process.env.GHOST_URL || 'http://ghost.services:2368'}/content/**`,
+        proxy: `${process.env.NUXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'http://ghost.services:2368'}/content/**`,
         headers: {
           Host: 'ygnv.my.id',
         },
