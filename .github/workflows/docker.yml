@@ -45,7 +45,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
-            NUXT_PUBLIC_GHOST_URL=${{ 'http://ghost.services.svc.cluster.local:2368' }}
+            NUXT_PUBLIC_GHOST_URL=${{ 'http://ghost.services.svc.cluster.local:8080' }}
             NUXT_GHOST_KEY=${{ secrets.VUE_APP_GHOST_KEY }}
           tags: |
             ghcr.io/yoganovvaindra/portfolio:${{ steps.sha.outputs.sha_short }}
