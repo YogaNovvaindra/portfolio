@@ -11,8 +11,8 @@ try {
   appVersion = process.env.npm_package_version || '0.0.1'
 }
 
-const ghostUrl = process.env.NUXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'https://ygnv.my.id'
-const ghostKey = process.env.NUXT_GHOST_KEY || process.env.GHOST_KEY || ''
+const ghostUrl = process.env.NUXT_PUBLIC_GHOST_URL || 'http://ghost.services:2368'
+const ghostKey = process.env.NUXT_GHOST_KEY || ''
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -84,13 +84,13 @@ export default defineNuxtConfig({
     },
     routeRules: {
       '/ghost/api/**': {
-        proxy: `${process.env.NUXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'http://ghost.services:2368'}/ghost/api/**`,
+        proxy: `${process.env.NUXT_PUBLIC_GHOST_URL || 'http://ghost.services:2368'}/ghost/api/**`,
         headers: {
           Host: 'ygnv.my.id',
         },
       },
       '/content/**': {
-        proxy: `${process.env.NUXT_PUBLIC_GHOST_URL || process.env.GHOST_URL || 'http://ghost.services:2368'}/content/**`,
+        proxy: `${process.env.NUXT_PUBLIC_GHOST_URL || 'http://ghost.services:2368'}/content/**`,
         headers: {
           Host: 'ygnv.my.id',
         },

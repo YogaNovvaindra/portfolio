@@ -1,32 +1,34 @@
 # Portfolio & Blog Website
 
-This repository contains the source code for my personal portfolio and technical blog.  
+This repository contains the source code for my personal portfolio and technical blog.
 It showcases my projects and skills as a DevOps Engineer, with a fully integrated custom frontend pulling posts from a Headless Ghost CMS.
 
 ## 🚀 Tech Stack
 
-- **Framework**: Vue.js 3.5.25
-- **Routing**: Vue Router 4.6.3
+- **Framework**: Nuxt 4.4.7
+- **Rendering**: Vue 3.5.25 + Nitro server
 - **Styling**: Tailwind CSS 3.4.18
-- **HTTP Client**: Axios 1.13.2
 - **CMS**: Ghost Content API (Headless)
-- **Build Tool**: Vue CLI 5.0.9
+- **Build Tool**: Nuxt CLI / Vite
 
 ## 🔐 Environment Variables
 
-To run the application locally or build it via Docker, you must provide your Ghost API credentials.
-Create a `.env` file in the root of the project:
+Create a `.env` file in the project root with your Ghost API configuration:
 
 ```env
 # .env
-VUE_APP_GHOST_URL=https://ygnv.my.id
-VUE_APP_GHOST_KEY=your_ghost_content_api_key_here
+NUXT_PUBLIC_GHOST_URL=http://localhost:8080
+NUXT_GHOST_KEY=your_ghost_content_api_key_here
 ```
+
+Notes:
+- `NUXT_PUBLIC_GHOST_URL` is used for the public runtime config and browser-facing API base URL.
+- `NUXT_GHOST_KEY` is the Ghost Content API key used by the server-side fetches.
 
 ## 📋 Prerequisites
 
 - Node.js (LTS version recommended)
-- npm or yarn
+- npm
 
 ## 🛠️ Installation
 
@@ -38,61 +40,59 @@ npm install
 
 ### Start development server
 ```bash
-npm run serve
+npm run dev
 ```
-The app will be available at `http://localhost:8080`
+The app will be available at `http://localhost:3000` by default in Nuxt.
 
 ### Build for production
 ```bash
 npm run build
 ```
-The production-ready files will be in the `dist/` directory.
-
-### Lint and fix files
-```bash
-npm run lint
-```
+The production-ready server bundle is generated in the `.output/` directory.
 
 ## 🐳 Docker Deployment
 
-This project includes Docker support for containerized deployment, utilizing a multi-stage Nginx build.
+This project includes Docker support for containerized deployment with a Nuxt production build.
 
 ### Build Docker image
-Because the Vue app is compiled into static files, environment variables must be passed as `build-args` during the build step:
+Environment variables are passed as build args and exposed to the Nuxt runtime configuration:
 
 ```bash
 docker build \
-  --build-arg VUE_APP_GHOST_URL=https://ygnv.my.id \
-  --build-arg VUE_APP_GHOST_KEY=your_ghost_content_api_key_here \
+  --build-arg NUXT_PUBLIC_GHOST_URL=https://ygnv.my.id \
+  --build-arg NUXT_GHOST_KEY=your_ghost_content_api_key_here \
   -t portfolio:latest .
 ```
 
 ### Run container
 ```bash
-docker run -p 80:80 portfolio:latest
+docker run -p 3000:3000 portfolio:latest
 ```
 
 ## 📁 Project Structure
 
 ```text
 portfolio/
-├── public/          # Static assets
-├── src/
-│   ├── assets/      # CSS, tokens, and data.json
-│   ├── components/  # Reusable Vue components
-│   ├── router/      # Vue Router configuration
-│   ├── services/    # API integrations (Ghost CMS)
-│   ├── views/       # Page components (Home, Portfolio, Blog)
-│   └── main.js      # Application entry point
-├── .github/         # GitHub Actions workflows for CI/CD
-├── Dockerfile       # Multi-stage Docker build
-└── default.conf     # Nginx routing configuration
+├── app.vue
+├── assets/          # Global styles and static assets
+├── components/      # Reusable Vue components
+├── pages/           # Nuxt page routes
+├── plugins/         # Client-side plugins
+├── public/          # Static public directory
+├── server/          # Nitro server routes, middleware, and utilities
+├── services/        # App-level service logic
+├── src/             # Legacy or compatibility code
+├── Dockerfile       # Multi-stage Nuxt Docker build
+├── nuxt.config.ts   # Nuxt runtime config and route proxies
+├── package.json     # Scripts and app dependencies
+├── .env             # Local runtime environment variables
+└── README.md        # Project documentation
 ```
 
 ## 🔄 CI/CD
 
-The project uses GitHub Actions for automated Docker builds and pushes to the GitHub Container Registry (`ghcr.io`) upon pushing to the `main` branch. 
-*Note: Make sure `VUE_APP_GHOST_URL` and `VUE_APP_GHOST_KEY` are added to your GitHub Actions Secrets to ensure the automated build has access to the CMS.*
+The project uses GitHub Actions for automated Docker builds and publishing. 
+*Note: Make sure `NUXT_PUBLIC_GHOST_URL` and `NUXT_GHOST_KEY` are added to your GitHub Actions secrets so the build has access to the CMS.*
 
 ## 📄 License
 

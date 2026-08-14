@@ -28,8 +28,8 @@ function internalUrl(obj, ghostUrl) {
 
 export function useGhostApi(event) {
   const config = useRuntimeConfig()
-  const BASE = (config.public.ghostUrl || process.env.GHOST_URL || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id').replace(/\/$/, '')
-  const KEY = config.ghostKey || process.env.GHOST_KEY || process.env.NUXT_GHOST_KEY || ''
+  const BASE = (config.public.ghostUrl || process.env.NUXT_PUBLIC_GHOST_URL || 'https://ygnv.my.id').replace(/\/$/, '')
+  const KEY = config.ghostKey || process.env.NUXT_GHOST_KEY || ''
   
   // Extract traceId and parent span from event context set by tracing middleware
   const traceId = event?.context?.traceId || 'unknown'
